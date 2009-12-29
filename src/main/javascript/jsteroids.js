@@ -99,9 +99,9 @@ jsteroids.LASER = new twodee.Polygon([
 /** The particle polygon. @private @type {twodee.Polygon} */
 jsteroids.PARTICLE = new twodee.Polygon([
     new twodee.Vector(0, -5),
-    new twodee.Vector(1, 0),
+    new twodee.Vector(1, 2),
     new twodee.Vector(0, 5),
-    new twodee.Vector(-1, 0)
+    new twodee.Vector(-1, 2)
 ]);    
 
 /** The spaceship bounds. @private @type {twodee.Polygon} */

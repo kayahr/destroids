@@ -84,6 +84,12 @@ jsteroids.Game.prototype.levelLabel = null;
 /** The game-state label. @private @type {HTMLElement} */
 jsteroids.Game.prototype.stateLabel = null;
 
+/** The shield label. @private @type {HTMLElement} */
+jsteroids.Game.prototype.shieldLabel = null;
+
+/** The hull label. @private @type {HTMLElement} */
+jsteroids.Game.prototype.hullLabel = null;
+
 /** The number of remaining asteroids. @private @type {Number} */
 jsteroids.Game.prototype.asteroids = 0;
 
@@ -96,7 +102,8 @@ jsteroids.Game.prototype.gameOver = false;
 
 jsteroids.Game.prototype.init = function()
 {
-    var container, canvas, s, scene, rootNode, scoreLabel, levelLabel;
+    var container, canvas, s, scene, rootNode, scoreLabel, levelLabel,
+        shieldLabel, hullLabel;
     
     // Try to get container reference
     this.container = container = document.getElementById(this.containerId);
@@ -140,6 +147,28 @@ jsteroids.Game.prototype.init = function()
     s.color = "#0f0";
     container.appendChild(levelLabel);
     
+    // Create the shield label
+    this.shieldLabel = shieldLabel = document.createElement("div");
+    s = shieldLabel.style;
+    s.position = "absolute";
+    s.left = s.bottom = "8px";
+    s.fontFamily = "sans-serif";
+    s.fontWeight = "bold";
+    s.fontSize = "12px";
+    s.color = "#0f0";
+    container.appendChild(shieldLabel);
+    
+    // Create the shield label
+    this.hullLabel = hullLabel = document.createElement("div");
+    s = hullLabel.style;
+    s.position = "absolute";
+    s.right = s.bottom = "8px";
+    s.fontFamily = "sans-serif";
+    s.fontWeight = "bold";
+    s.fontSize = "12px";
+    s.color = "#0f0";
+    container.appendChild(hullLabel);
+
     // Create the game state label
     this.stateLabel = stateLabel = document.createElement("span");
     s = stateLabel.style;
@@ -205,6 +234,7 @@ jsteroids.Game.prototype.reset = function()
     // Create the spaceship
     spaceship = this.spaceship = new jsteroids.Spaceship(this);
     rootNode.appendChild(spaceship);
+    this.updateShipState();
 
     // Reset score to 0
     this.setScore(0);
@@ -428,24 +458,33 @@ jsteroids.Game.prototype.handleKeyUp = function(event)
  * 
  * @param {twodee.SceneNode} node
  *            The node at which position an explosion should be triggered
+ * @param {Boolean} large
+ *            Set to true to trigger a large explosion
  */
 
-jsteroids.Game.prototype.explode = function(node)
+jsteroids.Game.prototype.explode = function(node, large)
 {
-    var i, particle, transform, heading;
+    var i, particle, transform, heading, velocity;
     
-    for (i = 10; i >= 0; i--)
+    for (i = (large ? 50 : 10); i >= 0; i--)
     {
         heading = Math.random() * Math.PI * 2;
         particle = new twodee.PolygonNode(jsteroids.PARTICLE);
         transform = node.getTransform();
         particle.getTransform().translate(transform.m02, transform.m12).
             rotate(heading);
-        particle.setFillStyle("#fff");
+        particle.setFillStyle(large ? "orange" : "white");
+        if (large) particle.getTransform().scale(2);
         physics = new twodee.Physics();
         particle.setPhysics(physics);
-        physics.getVelocity().set(0, 150 + Math.random() * 100).rotate(heading);
-        physics.setLifetime(1);
+        velocity = physics.getVelocity();
+        if (large)
+            velocity.set(0, 15 + Math.random() * 50);
+        else
+            velocity.set(0, 150 + Math.random() * 100);
+        velocity.rotate(heading);
+        physics.setLifetime(large ? 5 : 1);
+        physics.setDecay(large ? 4 : 0.5);
         this.rootNode.appendChild(particle);
     }
 };
@@ -563,4 +602,15 @@ jsteroids.Game.prototype.showStateLabel = function()
 jsteroids.Game.prototype.hideStateLabel = function()
 {
     this.stateLabel.style.color = "rgba(255, 255, 128, 0)"; 
+};
+
+
+/**
+ * Updates the space ship state displays.
+ */
+
+jsteroids.Game.prototype.updateShipState = function()
+{    
+    this.shieldLabel.innerHTML = "Shield: " + this.spaceship.getShield() + " %";
+    this.hullLabel.innerHTML = "Hull: " + this.spaceship.getHull() + " %";
 };

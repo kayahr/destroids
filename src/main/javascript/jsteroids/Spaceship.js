@@ -99,6 +99,12 @@ jsteroids.Spaceship.prototype.fireRate = 4;
 /** If ship is currently yawing. @private @type {Boolean} */
 jsteroids.Spaceship.prototype.yawing = false;
 
+/** The shield strength in percent. @private @type {Number} */
+jsteroids.Spaceship.prototype.shield = 100;
+
+/** The hull strength in percent. @private @type {Number} */
+jsteroids.Spaceship.prototype.hull = 100;
+
 
 /**
  * Starts thrust forward.
@@ -106,7 +112,7 @@ jsteroids.Spaceship.prototype.yawing = false;
 
 jsteroids.Spaceship.prototype.startThrust = function()
 {
-    this.thrust = jsteroids.Spaceship.THRUST;
+    this.thrust = jsteroids.Spaceship.THRUST * this.hull / 100;
     this.mainThrust.enable();
 };
 
@@ -128,7 +134,7 @@ jsteroids.Spaceship.prototype.stopThrust = function()
 
 jsteroids.Spaceship.prototype.yawLeft = function()
 {
-    this.physics.setSpinAcceleration(-jsteroids.Spaceship.YAW);
+    this.physics.setSpinAcceleration(-jsteroids.Spaceship.YAW * this.hull / 100);
     this.yawing = true;
 };
 
@@ -139,7 +145,7 @@ jsteroids.Spaceship.prototype.yawLeft = function()
 
 jsteroids.Spaceship.prototype.yawRight = function()
 {
-    this.physics.setSpinAcceleration(jsteroids.Spaceship.YAW);
+    this.physics.setSpinAcceleration(jsteroids.Spaceship.YAW * this.hull / 100);
     this.yawing = true;
 };
 
@@ -214,7 +220,7 @@ jsteroids.Spaceship.prototype.update = function(delta)
     if (this.laserFiring)
     {
         now = new Date().getTime();
-        if (this.lastLaserFire + 1000 / this.fireRate < now)
+        if (this.lastLaserFire + 1000 / (this.fireRate * this.hull / 100) < now)
         {
             this.fireLaser();
             this.lastLaserFire = now;
@@ -231,7 +237,8 @@ jsteroids.Spaceship.prototype.update = function(delta)
         {
             if (Math.abs(spin) * 180 / Math.PI > 1)
                 physics.setSpinAcceleration(Math.min(
-                    jsteroids.Spaceship.YAW, -spin * 5));
+                    jsteroids.Spaceship.YAW * this.hull / 100, Math.abs(spin) * 5) *
+                    (spin < 0 ? 1 : -1));
             else
             {
                physics.setSpin(0);
@@ -280,6 +287,7 @@ jsteroids.Spaceship.prototype.animateMainThrust = function()
 {
     var orig, xDelta, yDelta;
    
+    this.mainThrust.setOpacity(this.thrust / jsteroids.Spaceship.THRUST);
     orig = jsteroids.MAIN_THRUST.getVertex(0);
     xDelta = 1 - Math.random() * 2; 
     yDelta = 2 - Math.random() * 4;
@@ -345,11 +353,57 @@ jsteroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
 
 jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
 {
+    var descendant;
     if (collider instanceof jsteroids.Asteroid)
     {
-        spaceship.destroy();
-        collider.destroy();
+        collider.destroy(true);
+        descendant = collider.getDescendant();
+        this.addDamage(100 / (descendant * descendant));
     }
+};
+
+
+/**
+ * Adds damage to the ship.
+ * 
+ * @param {Number} damage
+ *            The damage to add
+ */
+
+jsteroids.Spaceship.prototype.addDamage = function(damage)
+{
+    var restDamage;
+    
+    damage = parseInt(damage);
+    restDamage = parseInt(Math.max(0, damage - this.shield) / 2);
+    this.shield = Math.max(0, this.shield - damage);
+    this.hull = Math.max(0, this.hull - restDamage);
+    this.game.updateShipState();
+    if (!this.hull) spaceship.destroy();
+};
+
+
+/**
+ * Returns the current shield strength.
+ * 
+ * @return {Number} The current shield strength
+ */
+
+jsteroids.Spaceship.prototype.getShield = function()
+{
+    return this.shield;
+};
+
+
+/**
+ * Returns the current hull strength.
+ * 
+ * @return {Number} The current hull strength
+ */
+
+jsteroids.Spaceship.prototype.getHull = function()
+{
+    return this.hull;
 };
 
 
@@ -360,7 +414,7 @@ jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
 jsteroids.Spaceship.prototype.destroy = function()
 {
     // Trigger an explosion at the location of the asteroid
-    this.game.explode(this);
+    this.game.explode(this, true);
 
     // Remove the spaceship
     this.remove();
