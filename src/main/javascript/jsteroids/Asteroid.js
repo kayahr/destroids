@@ -142,7 +142,7 @@ jsteroids.Asteroid.prototype.destroy = function()
     this.game.explode(this);
     
     // Score points for the asteroid
-    this.game.addScore(this.ancestor);
+    this.game.addScore(20 + (this.ancestor - 1) * 30);
 
     // If ancestor level is not low enough then spawn new asteroids.
     if (this.ancestor < 2)
