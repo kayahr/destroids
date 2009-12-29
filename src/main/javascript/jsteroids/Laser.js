@@ -30,7 +30,7 @@ jsteroids.Laser = function(game)
     
     // Set the Lasers physics model
     physics = new twodee.Physics();
-    physics.setLifetime(0.6);
+    physics.setLifetime(0.75);
     physics.setDecay(0.2);
     this.setPhysics(physics);
     

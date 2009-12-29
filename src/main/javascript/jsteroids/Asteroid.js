@@ -26,7 +26,7 @@
 
 jsteroids.Asteroid = function(game, parentAsteroid)
 {
-    var type, image, heading, minSpeed, maxSpeed, xRadius, yRadius, radius,
+    var type, image, heading, speed, xRadius, yRadius, radius,
         astXRadius, astYRadius, bounds, bbox, level, transform;    
     
     this.game = game;
@@ -58,10 +58,8 @@ jsteroids.Asteroid = function(game, parentAsteroid)
     
     // Calculate a random heading and a level-specific speed
     heading = 22.5 + Math.random() * 45 + parseInt(Math.random() * 4) * 90;
-    minSpeed = 25 + level * 3;
-    maxSpeed = 40 + level * 3;
-    physics.getVelocity().set(minSpeed + Math.random() * (maxSpeed - minSpeed),
-        0).rotate(heading * Math.PI / 180);
+    speed = 25 * this.ancestor + level * 3;
+    physics.getVelocity().set(speed, 0).rotate(heading * Math.PI / 180);
     
     // Calculate a random spin
     physics.setSpin((25 + Math.random() * 45) * Math.PI / 180 *
