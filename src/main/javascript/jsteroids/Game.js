@@ -329,7 +329,8 @@ jsteroids.Game.prototype.setLevel = function(level)
     // Create the asteroids
     this.asteroids = 0;
     asteroids = 2 + parseInt(level / 3);
-    while (asteroids--) this.addAsteroid();
+    while (asteroids--)
+        this.rootNode.appendChild(new jsteroids.Asteroid(this));
 };
 
 
@@ -481,9 +482,8 @@ jsteroids.Game.prototype.setScore = function(score)
  * Adds a new asteroid.
  */
 
-jsteroids.Game.prototype.addAsteroid = function(parentAsteroid)
+jsteroids.Game.prototype.addAsteroid = function()
 {
-    this.rootNode.appendChild(new jsteroids.Asteroid(this, parentAsteroid));
     this.asteroids++;
 };
 

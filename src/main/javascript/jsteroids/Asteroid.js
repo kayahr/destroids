@@ -19,17 +19,22 @@
  * @param {jsteroids.Asteroid} parentAsteroid
  *            The parent asteroid if this asteroid is created from a destroyed
  *            parent asteroid
+ * @param {Number} subId
+ *            The sub id if asteroid is spawned from a parent asteroid. Must
+ *            be between 0 and 3. This number is used to calculate the initial
+ *            position (relative to the parent asteroid) and the heading.
  * 
  * @constructor
  * @class An asteroid
  */
 
-jsteroids.Asteroid = function(game, parentAsteroid)
+jsteroids.Asteroid = function(game, parentAsteroid, subId)
 {
-    var type, image, heading, speed, xRadius, yRadius, radius,
+    var type, image, heading, speed, xRadius, yRadius, radius, tmp,
         astXRadius, astYRadius, bounds, bbox, level, transform;    
     
     this.game = game;
+    game.addAsteroid();
     level = game.getLevel();
     
     // Set the ancestor level
@@ -56,10 +61,31 @@ jsteroids.Asteroid = function(game, parentAsteroid)
     this.xRadius = astXRadius = bbox.getWidth() / 2;
     this.yRadius = astYRadius = bbox.getHeight() / 2;
     
-    // Calculate a random heading and a level-specific speed
-    heading = 22.5 + Math.random() * 45 + parseInt(Math.random() * 4) * 90;
+    if (parentAsteroid)
+    {
+        // Calclate a heading based on the parent asteroid heading and the
+        // sub id
+        heading = (45 + Math.random() * 45) * subId -
+            parentAsteroid.getPhysics().getVelocity().
+            getAngle(new twodee.Vector(0, 1)) * 180 / Math.PI;
+    }
+    else
+    {
+        // Calculate a random heading
+        heading = 22.5 + Math.random() * 45 + parseInt(Math.random() * 4) * 90;
+    }
+    
+    // Make sure the heading is a good one (To prevent the asteroid moving
+    // constantly in the void)
+    tmp = (heading % 360 + 360) % 90;
+    if (tmp < 22.5) heading += (22.5 - tmp);
+    if (tmp > 90 - 22.5) heading -= tmp - (90 - 22.5);    
+    
+    // Calculate a level (and ancestor) specific speed
     speed = 25 * this.ancestor + level * 3;
-    physics.getVelocity().set(speed, 0).rotate(heading * Math.PI / 180);
+    
+    // Calculate and apply the velocity vector
+    physics.getVelocity().set(0, speed).rotate(heading * Math.PI / 180);
     
     // Calculate a random spin
     physics.setSpin((25 + Math.random() * 45) * Math.PI / 180 *
@@ -68,7 +94,10 @@ jsteroids.Asteroid = function(game, parentAsteroid)
     // Calculate a random start position
     if (parentAsteroid)
     {
-        transform.setTransform(parentAsteroid.getTransform());
+        offset = new twodee.Vector(0, 8).rotate(Math.PI / 2 * subId);
+        transform.setTransform(parentAsteroid.getTransform()).translate(
+                offset.x, offset.y);
+                
     }
     else
     {
@@ -145,7 +174,7 @@ jsteroids.Asteroid.prototype.destroy = function()
     // If ancestor level is not low enough then spawn new asteroids.
     if (this.ancestor < 2)
         for (i = 0; i < 4; i++)
-            this.game.addAsteroid(this);
+            this.parentNode.appendChild(new jsteroids.Asteroid(this.game, this, i));
     
     // Remove the asteroid
     this.game.removeAsteroid();
