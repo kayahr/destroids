@@ -58,8 +58,8 @@ jsteroids.Asteroid = function(game, parentAsteroid)
     
     // Calculate a random heading and a level-specific speed
     heading = 22.5 + Math.random() * 45 + parseInt(Math.random() * 4) * 90;
-    minSpeed = 25 + level * 5;
-    maxSpeed = 50 + level * 5;
+    minSpeed = 25 + level * 3;
+    maxSpeed = 40 + level * 3;
     physics.getVelocity().set(minSpeed + Math.random() * (maxSpeed - minSpeed),
         0).rotate(heading * Math.PI / 180);
     

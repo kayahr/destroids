@@ -52,7 +52,7 @@ jsteroids.Spaceship = function(game)
     
     // Setup the spaceship physics
     physics = new twodee.Physics();
-    physics.setMaxVelocity(250);
+    physics.setMaxVelocity(200);
     physics.setMaxSpin(200 * Math.PI / 180);
     physics.setMinSpin(-200 * Math.PI / 180);
     this.setPhysics(physics);
@@ -67,7 +67,7 @@ twodee.inherit(jsteroids.Spaceship, twodee.ImageNode);
 jsteroids.Spaceship.YAW = 400 * Math.PI / 180;
 
 /** The thrust. @private @final @type {Number} */
-jsteroids.Spaceship.THRUST = 300;
+jsteroids.Spaceship.THRUST = 250;
 
 /** The game. @private @type {jsteroids.Game} */
 jsteroids.Spaceship.prototype.game = null; 
@@ -94,7 +94,7 @@ jsteroids.Spaceship.prototype.laserFiring = false;
 jsteroids.Spaceship.prototype.lastLaserFire = 0;
 
 /** The fire rate (shots per second). @private @type {Number} */
-jsteroids.Spaceship.prototype.fireRate = 5;
+jsteroids.Spaceship.prototype.fireRate = 4;
 
 /** If ship is currently yawing. @private @type {Boolean} */
 jsteroids.Spaceship.prototype.yawing = false;
@@ -176,6 +176,27 @@ jsteroids.Spaceship.prototype.stopFireLaser = function()
 
 
 /**
+ * Fires the laser cannon.
+ * 
+ * @private
+ */
+
+jsteroids.Spaceship.prototype.fireLaser = function()
+{
+    var laser, transform, speed, bbox;
+    
+    speed = jsteroids.Spaceship.THRUST * 1.2;
+    bbox = this.getBounds().getBoundingBox();
+    laser = new jsteroids.Laser(this.game);
+    transform = this.getTransform();
+    laser.getTransform().setTransform(transform).translate(0, -24);
+    laser.getPhysics().getVelocity().set(0, -speed).
+        rotate(transform.getRotationAngle()).add(this.physics.getVelocity());
+    this.parentNode.appendChild(laser);
+};
+
+
+/**
  * @see twodee.PolygonNode#update
  * 
  * @param {Number} delta
@@ -195,7 +216,7 @@ jsteroids.Spaceship.prototype.update = function(delta)
         now = new Date().getTime();
         if (this.lastLaserFire + 1000 / this.fireRate < now)
         {
-            this.game.fireLaser();
+            this.fireLaser();
             this.lastLaserFire = now;
         }
     }

@@ -423,28 +423,6 @@ jsteroids.Game.prototype.handleKeyUp = function(event)
 
 
 /**
- * Fires the laser cannon.
- * 
- * @private
- */
-
-jsteroids.Game.prototype.fireLaser = function()
-{
-    var laser, transform, speed, bbox, spaceship;
-    
-    speed = jsteroids.Spaceship.THRUST * 2;
-    spaceship = this.spaceship;
-    bbox = spaceship.getBounds().getBoundingBox();
-    laser = new jsteroids.Laser(this);
-    transform = this.spaceship.getTransform();
-    laser.getTransform().setTransform(transform).translate(0, -32);
-    laser.getPhysics().getVelocity().set(0, -speed).
-        rotate(transform.getRotationAngle());
-    this.rootNode.appendChild(laser);
-};
-
-
-/**
  * Triggers an explosion at the position of the specified node.
  * 
  * @param {twodee.SceneNode} node
@@ -465,7 +443,7 @@ jsteroids.Game.prototype.explode = function(node)
         particle.setFillStyle("#fff");
         physics = new twodee.Physics();
         particle.setPhysics(physics);
-        physics.getVelocity().set(0, 200).rotate(heading);
+        physics.getVelocity().set(0, 150 + Math.random() * 100).rotate(heading);
         physics.setLifetime(1);
         this.rootNode.appendChild(particle);
     }
@@ -557,9 +535,10 @@ jsteroids.Game.prototype.endGame = function()
 jsteroids.Game.prototype.newGame = function()
 {
     this.gameOver = true;
-    this.stateLabel.innerHTML = "Version 0.0.1<br />Public Alpha<br /><br>Use K, L and A to steer the ship, Q to fire";
-    this.showStateLabel();
-    this.reset.bind(this).delay(5);
+//    this.stateLabel.innerHTML = "Version 0.0.1<br />Public Alpha<br /><br>Use K, L and A to steer the ship, Q to fire";
+  //  this.showStateLabel();
+    //this.reset.bind(this).delay(5);
+    this.reset();
 };
 
 
