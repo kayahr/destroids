@@ -124,3 +124,21 @@ jsteroids.UFO_BOUNDS = new twodee.Polygon([
     new twodee.Vector(25 - 24, 15 - 8),
     new twodee.Vector(22 - 24, 15 - 8)
 ]);
+
+/** The game title. @type {String} */
+jsteroids.msgTitle = "JSteroids"
+
+/** The game version. @type {String} */
+jsteroids.msgVersion = "1.0.0-SNAPSHOT"
+
+/** The copyright message. @type {String} */ 
+jsteroids.msgCopyright = "Copyright © 2009 "
+    
+/** The copyright holder URL. @type {String} */
+jsteroids.msgCopyrightHolderURL = "http://www.ailis.de/~k/";
+
+/** The copyright holder. @type {String} */
+jsteroids.msgCopyrightHolder = "Klaus Reimer";
+
+/** The intro start message. @type {String} */
+jsteroids.msgIntroStart = "Press any key or click to start game";

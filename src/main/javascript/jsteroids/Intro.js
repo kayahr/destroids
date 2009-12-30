@@ -45,32 +45,32 @@ jsteroids.Intro = function(game)
     s = e.style;
     s.fontFamily = "serif";
     s.fontSize = "25px";
-    e.appendChild(document.createTextNode("JSteroids"));
+    e.appendChild(document.createTextNode(jsteroids.msgTitle));
     root.appendChild(e);
     
     e = document.createElement("div");
     s = e.style;
     s.fontSize = "12px";
     s.marginBottom = "1em";
-    e.appendChild(document.createTextNode("Version 0.0.4"));
+    e.appendChild(document.createTextNode(jsteroids.msgVersion));
     root.appendChild(e);
     
     e = document.createElement("div");
     s = e.style;
     s.marginBottom = "3em";
-    e.appendChild(document.createTextNode("Copyright © 2009 "));
+    e.appendChild(document.createTextNode(jsteroids.msgCopyright));
     link = document.createElement("a");
     s = link.style;
     s.color = "inherit";
     s.position = "relative";
     s.zIndex = 100;
-    link.href = "http://www.ailis.de/~k/";
-    link.appendChild(document.createTextNode("Klaus Reimer"));
+    link.href = jsteroids.msgCopyrightHolderURL;
+    link.appendChild(document.createTextNode(jsteroids.msgCopyrightHolder));
     e.appendChild(link);
     root.appendChild(e);
     
     e = document.createElement("div");
-    e.appendChild(document.createTextNode("Press any key or click to start game"));
+    e.appendChild(document.createTextNode(jsteroids.msgIntroStart));
     root.appendChild(e);
 };
 
