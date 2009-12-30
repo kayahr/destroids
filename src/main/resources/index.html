@@ -11,6 +11,17 @@
     /* <![CDATA[ */
     
     game = new jsteroids.Game("output");
+
+    function switchOrientation()
+    {
+        var e, tmp;
+        
+        e = document.getElementById("output");
+        tmp = e.style.width;
+        e.style.width = e.style.height;
+        e.style.height = tmp;
+        game.resize();
+    }
     
     /* ]]> */
     </script>    
@@ -21,6 +32,7 @@
       <br />
       <button onclick="game.start()">Start</button>
       <button onclick="game.stop()">Stop</button>
+      <button onclick="switchOrientation()">Switch orientation</button>
     </div>
   </body>
 </html>

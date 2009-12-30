@@ -114,3 +114,13 @@ jsteroids.SPACESHIP_BOUNDS = new twodee.Polygon([
     new twodee.Vector( -4,  17),
     new twodee.Vector(-11,  13)
 ]);
+
+/** The UFO bounds. @private @type {twodee.Polygon} */
+jsteroids.UFO_BOUNDS = new twodee.Polygon([
+    new twodee.Vector( 0 - 24,  8 - 8),
+    new twodee.Vector(22 - 24,  0 - 8),
+    new twodee.Vector(25 - 24,  0 - 8),
+    new twodee.Vector(47 - 24,  8 - 8),
+    new twodee.Vector(25 - 24, 15 - 8),
+    new twodee.Vector(22 - 24, 15 - 8)
+]);

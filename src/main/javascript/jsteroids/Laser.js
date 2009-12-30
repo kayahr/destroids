@@ -16,22 +16,27 @@
  * 
  * @param {jsteroids.Game} game
  *            The game
+ * @param {Boolean} alien
+ *            Set to true if this is an alien laser
  * 
  * @constructor
- * @class An Laser
+ * @class A Laser
  */
 
-jsteroids.Laser = function(game)
+jsteroids.Laser = function(game, alien)
 {
     this.game = game;
     
     twodee.PolygonNode.call(this, jsteroids.LASER);
-    this.setFillStyle("orange");
+    this.setFillStyle(alien ? "#4f4" : "orange");
+
+    // Remember that this is an alien laser
+    if (alien) this.alien = true;
     
     // Set the Lasers physics model
     physics = new twodee.Physics();
-    physics.setLifetime(0.75);
-    physics.setDecay(0.2);
+    physics.setLifetime(alien ? 2 : 0.75);
+    physics.setDecay(alien ? 0.5 : 0.2);
     this.setPhysics(physics);
     
     // Enable collision detection
@@ -44,7 +49,10 @@ twodee.inherit(jsteroids.Laser, twodee.PolygonNode);
 jsteroids.Laser.prototype.jsonClassName = "jsteroid.Laser";
 
 /** The game. @private @type {jsteroids.Game} */
-jsteroids.Laser.prototype.game = null; 
+jsteroids.Laser.prototype.game = null;
+
+/** If this is an alien laser. @private @type {Boolean} */
+jsteroids.Laser.prototype.alien = false;
 
 
 /**
@@ -61,7 +69,28 @@ jsteroids.Laser.prototype.handleCollide = function(laser, collider)
     if (collider instanceof jsteroids.Asteroid)
     {
         laser.remove();
-        collider.destroy();
+        if (this.alien)
+        {
+            collider.getParentNode().appendChild(
+                new jsteroids.Asteroid(this.game, collider.isSmall()));
+            collider.destroy(true);
+        }
+        else
+            collider.destroy();
+    }
+    
+    else if (collider instanceof jsteroids.Ufo && !this.alien)
+    {
+        this.game.explode(laser, 3);
+        laser.remove();
+        collider.addDamage(100);
+    }
+
+    else if (collider instanceof jsteroids.Spaceship && this.alien)
+    {
+        this.game.explode(laser, 3);
+        laser.remove();
+        collider.addDamage(75);
     }
 };
 

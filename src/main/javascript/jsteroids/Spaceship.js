@@ -345,7 +345,7 @@ jsteroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
 /**
  * Handles collision.
  * 
- * @param {jsteroids.Laser} spaceship
+ * @param {jsteroids.Spaceship} spaceship
  *            The spaceship
  * @param {twodee.SceneNode} collider
  *            The node the spaceship collided with
@@ -353,12 +353,16 @@ jsteroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
 
 jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
 {
-    var descendant;
     if (collider instanceof jsteroids.Asteroid)
     {
         collider.destroy(true);
-        descendant = collider.getDescendant();
-        this.addDamage(100 / (descendant * descendant));
+        this.addDamage(100 / (collider.isSmall() ? 4 : 1));
+    }
+
+    else if (collider instanceof jsteroids.Ufo)
+    {
+        collider.destroy();
+        this.addDamage(100);
     }
 };
 
@@ -379,7 +383,7 @@ jsteroids.Spaceship.prototype.addDamage = function(damage)
     this.shield = Math.max(0, this.shield - damage);
     this.hull = Math.max(0, this.hull - restDamage);
     this.game.updateShipState();
-    if (!this.hull) spaceship.destroy();
+    if (!this.hull) this.destroy();
 };
 
 
@@ -414,7 +418,7 @@ jsteroids.Spaceship.prototype.getHull = function()
 jsteroids.Spaceship.prototype.destroy = function()
 {
     // Trigger an explosion at the location of the asteroid
-    this.game.explode(this, true);
+    this.game.explode(this, 1);
 
     // Remove the spaceship
     this.remove();

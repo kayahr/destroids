@@ -28,7 +28,7 @@
  * @class An asteroid
  */
 
-jsteroids.Asteroid = function(game, parentAsteroid, subId)
+jsteroids.Asteroid = function(game, small, parentAsteroid, subId)
 {
     var type, image, heading, speed, xRadius, yRadius, radius, tmp,
         astXRadius, astYRadius, bounds, bbox, level, transform;    
@@ -37,8 +37,8 @@ jsteroids.Asteroid = function(game, parentAsteroid, subId)
     game.addAsteroid();
     level = game.getLevel();
     
-    // Set the descendant level
-    if (parentAsteroid) this.descendant = parentAsteroid.descendant + 1;
+    // Remember that this is a small asteroid
+    if (small) this.small = small;
     
     // Determine the asteroid type
     type = parseInt(Math.random() * jsteroids.asteroids); 
@@ -81,8 +81,8 @@ jsteroids.Asteroid = function(game, parentAsteroid, subId)
     if (tmp < 22.5) heading += (22.5 - tmp);
     if (tmp > 90 - 22.5) heading -= tmp - (90 - 22.5);    
     
-    // Calculate a level (and descendant) specific speed
-    speed = 25 * this.descendant + level * 5;
+    // Calculate a level (and size) specific speed
+    speed = 25 + (small ? 50 : 0) + level * 5;
     
     // Calculate and apply the velocity vector
     physics.getVelocity().set(0, speed).rotate(heading * Math.PI / 180);
@@ -96,8 +96,7 @@ jsteroids.Asteroid = function(game, parentAsteroid, subId)
     {
         offset = new twodee.Vector(0, 8).rotate(Math.PI / 2 * subId);
         transform.setTransform(parentAsteroid.getTransform()).translate(
-                offset.x, offset.y);
-                
+                offset.x, offset.y);                
     }
     else
     {
@@ -108,8 +107,8 @@ jsteroids.Asteroid = function(game, parentAsteroid, subId)
             translate(radius, 0);
     }
     
-    // Scale the asteroid according to its descendant level
-    transform.scale(1 / this.descendant);
+    // Scale the asteroid down if this is small asteroid
+    if (small) transform.scale(0.5);
     
     // Enable collision detection
     this.setCollidable(true);
@@ -128,20 +127,19 @@ jsteroids.Asteroid.prototype.xRadius = null;
 /** The y radius of the asteroid. @private @type {Number} */
 jsteroids.Asteroid.prototype.yRadius = null;
 
-/** The descendant level. @private @type {Number} */
-jsteroids.Asteroid.prototype.descendant = 1;
+/** If this is a small asteroid. @private @type {Number} */
+jsteroids.Asteroid.prototype.small = false;
 
 
 /**
- * Returns the descendent level. This is one for the large asteroid and
- * 2 for the smaller asteroid.
+ * Checks if this is a small asteroid.
  * 
- * @return {Number} The descendant level 
+ * @return {Boolean} True if this is a small asteroid, false if not 
  */
 
-jsteroids.Asteroid.prototype.getDescendant = function()
+jsteroids.Asteroid.prototype.isSmall = function()
 {
-    return this.descendant;
+    return this.small;
 };
 
 
@@ -180,17 +178,21 @@ jsteroids.Asteroid.prototype.update = function(delta)
 jsteroids.Asteroid.prototype.destroy = function(noDescendants)
 {
     var i;
+    
+    // If already destroyed then do nothing
+    if (!this.parentNode) return;
 
     // Trigger an explosion at the location of the asteroid
     this.game.explode(this);
     
     // Score points for the asteroid
-    this.game.addScore(20 + (this.descendant - 1) * 30);
+    this.game.addScore(20 + (this.small ? 30 : 0));
 
-    // If descendant level is not low enough then spawn new asteroids.
-    if (!noDescendants && this.descendant < 2)
+    // If its a large asteroid then spawn new asteroids.
+    if (!noDescendants && !this.small)
         for (i = 0; i < 4; i++)
-            this.parentNode.appendChild(new jsteroids.Asteroid(this.game, this, i));
+            this.parentNode.appendChild(new jsteroids.Asteroid(
+                this.game, true, this, i));
     
     // Remove the asteroid
     this.game.removeAsteroid();

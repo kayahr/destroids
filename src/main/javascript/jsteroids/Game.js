@@ -75,26 +75,21 @@ jsteroids.Game.prototype.spaceship = null;
 /** The score. @private @type {Number} */
 jsteroids.Game.prototype.score = 0;
 
-/** The score label. @private @type {HTMLElement} */
-jsteroids.Game.prototype.scoreLabel = null;
-
-/** The level label. @private @type {HTMLElement} */
-jsteroids.Game.prototype.levelLabel = null;
-
 /** The game-state label. @private @type {HTMLElement} */
 jsteroids.Game.prototype.stateLabel = null;
-
-/** The shield label. @private @type {HTMLElement} */
-jsteroids.Game.prototype.shieldLabel = null;
-
-/** The hull label. @private @type {HTMLElement} */
-jsteroids.Game.prototype.hullLabel = null;
 
 /** The number of remaining asteroids. @private @type {Number} */
 jsteroids.Game.prototype.asteroids = 0;
 
 /** If game is over. @private @type {Boolean} */
-jsteroids.Game.prototype.gameOver = false;
+jsteroids.Game.prototype.gameOver = true;
+
+/** The intro. @private @type {jsteroids.Intro} */
+jsteroids.Game.prototype.intro = null;
+
+/** The hud. @private @type {jsteroids.Hud} */
+jsteroids.Game.prototype.hud = null;
+
 
 /**
  * Initializes the game.
@@ -102,8 +97,7 @@ jsteroids.Game.prototype.gameOver = false;
 
 jsteroids.Game.prototype.init = function()
 {
-    var container, canvas, s, scene, rootNode, scoreLabel, levelLabel,
-        shieldLabel, hullLabel;
+    var container, canvas, s, scene, rootNode, intro, hud;
     
     // Try to get container reference
     this.container = container = document.getElementById(this.containerId);
@@ -125,49 +119,6 @@ jsteroids.Game.prototype.init = function()
 
     container.appendChild(canvas);
 
-    // Create the score label
-    this.scoreLabel = scoreLabel = document.createElement("div");
-    s = scoreLabel.style;
-    s.position = "absolute";
-    s.top = s.right = "5px";
-    s.fontFamily = "sans-serif";
-    s.fontWeight = "bold";
-    s.fontSize = "12px";
-    s.color = "#0f0";
-    container.appendChild(scoreLabel);
-    
-    // Create the level label
-    this.levelLabel = levelLabel = document.createElement("div");
-    s = levelLabel.style;
-    s.position = "absolute";
-    s.left = s.top = "8px";
-    s.fontFamily = "sans-serif";
-    s.fontWeight = "bold";
-    s.fontSize = "12px";
-    s.color = "#0f0";
-    container.appendChild(levelLabel);
-    
-    // Create the shield label
-    this.shieldLabel = shieldLabel = document.createElement("div");
-    s = shieldLabel.style;
-    s.position = "absolute";
-    s.left = s.bottom = "8px";
-    s.fontFamily = "sans-serif";
-    s.fontWeight = "bold";
-    s.fontSize = "12px";
-    s.color = "#0f0";
-    container.appendChild(shieldLabel);
-    
-    // Create the shield label
-    this.hullLabel = hullLabel = document.createElement("div");
-    s = hullLabel.style;
-    s.position = "absolute";
-    s.right = s.bottom = "8px";
-    s.fontFamily = "sans-serif";
-    s.fontWeight = "bold";
-    s.fontSize = "12px";
-    s.color = "#0f0";
-    container.appendChild(hullLabel);
 
     // Create the game state label
     this.stateLabel = stateLabel = document.createElement("span");
@@ -180,9 +131,17 @@ jsteroids.Game.prototype.init = function()
     s.fontWeight = "bold";
     s.fontSize = "30px";
     s.color = "rgba(255, 255, 128, 0)";
-    s.webkitTransition = "color .5s ease-in-out";
-
+    s.transition = s.oTransition = s.MozTransition = s.webkitTransition =
+        "color .5s ease-in-out";
     container.appendChild(stateLabel);
+    
+    // Create the intro
+    intro = this.intro = new jsteroids.Intro(this);
+    container.appendChild(intro.getElement());
+    
+    // Create the HUD
+    hud = this.hud = new jsteroids.Hud(this);
+    container.appendChild(hud.getElement());
     
     // Correct container positioning if needed
     if (canvas.offsetParent != container)
@@ -202,12 +161,14 @@ jsteroids.Game.prototype.init = function()
     // Create keyboard listeners
     this.keyDownHandler = this.handleKeyDown.bindAsEventListener(this);
     this.keyUpHandler = this.handleKeyUp.bindAsEventListener(this);
+    this.mouseDownHandler = this.handleMouseDown.bindAsEventListener(this);
+    this.mouseUpHandler = this.handleMouseUp.bindAsEventListener(this);
     
     // Initialize the game size
     this.resize();
     
-    // Reset the game
-    this.newGame();
+    // Start game with intro
+    this.startIntro();
     
     // Mark game as initialized
     this.initialized = true;
@@ -225,7 +186,6 @@ jsteroids.Game.prototype.reset = function()
 {
     var rootNode;
     
-    this.hideStateLabel();
     rootNode = this.rootNode;
 
     // Remove all stuff from the scene
@@ -238,11 +198,13 @@ jsteroids.Game.prototype.reset = function()
 
     // Reset score to 0
     this.setScore(0);
-    
-    // Initialize the game to level 1
-    this.setLevel(1);
-    
+
     this.gameOver = false;
+    
+    this.hud.open();
+
+    // Initialize the game to level 1
+    this.setLevel(1);    
 };
 
 
@@ -287,12 +249,17 @@ jsteroids.Game.prototype.start = function()
     // Do nothing if game is not initialized yet
     if (!this.initialized) return;
     
+    // Resume the scene (if it was paused)
+    this.scene.resume();
+
     // Start the game thread
     this.timer = window.setInterval(this.run.bind(this), 1);
 
     // Install keyboard handlers
     window.addEventListener("keydown", this.keyDownHandler, false);     
     window.addEventListener("keyup", this.keyUpHandler, false);     
+    window.addEventListener("mousedown", this.mouseDownHandler, false);     
+    window.addEventListener("mouseup", this.mouseUpHandler, false);     
 };
 
 
@@ -305,9 +272,14 @@ jsteroids.Game.prototype.stop = function()
     // Uninstall keyboard handlers
     window.removeEventListener("keydown", this.keyDownHandler, false);     
     window.removeEventListener("keyup", this.keyUpHandler, false);     
+    window.removeEventListener("mousedown", this.mouseDownHandler, false);     
+    window.removeEventListener("mouseup", this.mouseUpHandler, false);     
 
     // Stop game thread
     window.clearTimeout(this.timer);
+    
+    // Pause the scene
+    this.scene.pause();
 };
 
 
@@ -344,7 +316,7 @@ jsteroids.Game.prototype.setLevel = function(level)
     
     this.hideStateLabel();
 
-    this.levelLabel.innerHTML = "Level: " + level;
+    this.hud.setLevel(level);
 
     rootNode = this.rootNode;
     
@@ -427,6 +399,12 @@ jsteroids.Game.prototype.handleKeyDown = function(event)
  
 jsteroids.Game.prototype.handleKeyUp = function(event)
 {
+    if (this.gameOver)
+    {
+        if (this.intro.isOpen()) this.newGame();
+        return;
+    }
+
     switch (event.keyCode)
     {
         case 65: // A
@@ -454,37 +432,95 @@ jsteroids.Game.prototype.handleKeyUp = function(event)
 
 
 /**
+ * Handles the mouse down event.
+ * 
+ * @param {Event} event
+ *            The mouse down event
+ * @private
+ */
+ 
+jsteroids.Game.prototype.handleMouseDown = function(event)
+{
+    if (this.gameOver && this.intro.isOpen()) this.newGame();
+};
+
+
+/**
+ * Handles the mouse up event.
+ * 
+ * @param {Event} event
+ *            The mouse up event
+ * @private
+ */
+ 
+jsteroids.Game.prototype.handleMouseUp = function(event)
+{
+    // Empty
+};
+
+    
+/**
  * Triggers an explosion at the position of the specified node.
  * 
  * @param {twodee.SceneNode} node
  *            The node at which position an explosion should be triggered
- * @param {Boolean} large
- *            Set to true to trigger a large explosion
+ * @param {Number} type
+ *            The explosion type. 0 is normal, 1 is player ship, 2 is alien
+ *            ship, 3 is a small hit explosion
  */
 
-jsteroids.Game.prototype.explode = function(node, large)
+jsteroids.Game.prototype.explode = function(node, type)
 {
-    var i, particle, transform, heading, velocity;
+    var i, particle, transform, heading, velocity, partTransform;
     
-    for (i = (large ? 50 : 10); i >= 0; i--)
+    for (i = (type == 1 ? 50 : 10); i >= 0; i--)
     {
         heading = Math.random() * Math.PI * 2;
         particle = new twodee.PolygonNode(jsteroids.PARTICLE);
         transform = node.getTransform();
-        particle.getTransform().translate(transform.m02, transform.m12).
-            rotate(heading);
-        particle.setFillStyle(large ? "orange" : "white");
-        if (large) particle.getTransform().scale(2);
+        partTransform = particle.getTransform();
+        partTransform.translate(transform.m02, transform.m12).
+            rotate(heading);        
         physics = new twodee.Physics();
         particle.setPhysics(physics);
         velocity = physics.getVelocity();
-        if (large)
-            velocity.set(0, 15 + Math.random() * 50);
-        else
-            velocity.set(0, 150 + Math.random() * 100);
+        switch (type)
+        {
+            // A large space ship explosion
+            case 1:
+                particle.setFillStyle("orange");
+                partTransform.scale(1.5);
+                velocity.set(0, 15 + Math.random() * 50);
+                physics.setLifetime(5);
+                physics.setDecay(4);
+                break;
+                
+            // A medium explosion of alien ufo
+            case 2:
+                particle.setFillStyle("yellow");
+                partTransform.scale(1.5);
+                velocity.set(0, 15 + Math.random() * 25);
+                physics.setLifetime(2);
+                physics.setDecay(1);
+                break;
+                
+            // A small hit-explosion
+            case 3:
+                particle.setFillStyle("#ccc");
+                velocity.set(0, 50 + Math.random() * 50);
+                physics.setLifetime(0.25);
+                physics.setDecay(0.25);
+                break;
+   
+            // The default asteroid explosion
+            default:
+                velocity.set(0, 75 + Math.random() * 75);
+                particle.setFillStyle("white");
+                physics.setLifetime(0.5);
+                physics.setDecay(0.25);
+                    
+        }
         velocity.rotate(heading);
-        physics.setLifetime(large ? 5 : 1);
-        physics.setDecay(large ? 4 : 0.5);
         this.rootNode.appendChild(particle);
     }
 };
@@ -513,7 +549,7 @@ jsteroids.Game.prototype.addScore = function(points)
 jsteroids.Game.prototype.setScore = function(score)
 {
     this.score = score;
-    this.scoreLabel.innerHTML = "Score: " + score;
+    this.hud.setScore(score);
 };
 
 
@@ -523,6 +559,8 @@ jsteroids.Game.prototype.setScore = function(score)
 
 jsteroids.Game.prototype.addAsteroid = function()
 {
+    if (this.gameOver) return;
+    
     this.asteroids++;
 };
 
@@ -534,8 +572,14 @@ jsteroids.Game.prototype.addAsteroid = function()
 
 jsteroids.Game.prototype.removeAsteroid = function()
 {
+    if (this.gameOver) return;
+    
     this.asteroids--;
-    if (!this.asteroids) this.completeLevel();
+    if (!this.asteroids)
+        this.completeLevel();
+    else
+        if (!parseInt(Math.random() * 25 - Math.max(20, this.level)))
+            this.newUFO();
 };
 
 
@@ -563,7 +607,8 @@ jsteroids.Game.prototype.endGame = function()
     this.gameOver = true;
     this.stateLabel.innerHTML = "Game Over";
     this.showStateLabel();
-    this.reset.bind(this).delay(5);
+    this.startIntro.bind(this).delay(5);
+    this.hud.close();
 };
 
 
@@ -573,11 +618,63 @@ jsteroids.Game.prototype.endGame = function()
 
 jsteroids.Game.prototype.newGame = function()
 {
-    this.gameOver = true;
-//    this.stateLabel.innerHTML = "Version 0.0.1<br />Public Alpha<br /><br>Use K, L and A to steer the ship, Q to fire";
-  //  this.showStateLabel();
-    //this.reset.bind(this).delay(5);
-    this.reset();
+    this.destroyAll();
+    this.intro.close();
+    this.stateLabel.innerHTML = "Prepare for Level 1";
+    this.showStateLabel();
+    this.reset.bind(this).delay(2);
+};
+
+
+/**
+ * Creates a new UFO.
+ */
+
+jsteroids.Game.prototype.newUFO = function()
+{
+    this.rootNode.appendChild(new jsteroids.Ufo(this));
+};
+
+
+/**
+ * Destroys all destroyable items.
+ */
+
+jsteroids.Game.prototype.destroyAll = function()
+{
+    var node, next;
+    
+    node = this.rootNode.getFirstChild();
+    while (node)
+    {
+        next = node.getNextSibling();
+        if (node.destroy) node.destroy();
+        node = next;
+    }
+};
+
+
+/**
+ * Plays a simple intro which is used as a background for the main menu.
+ */
+
+jsteroids.Game.prototype.startIntro = function()
+{
+    var i;
+    
+    this.hideStateLabel();
+
+    // Create some asteroids
+    for (i = this.asteroids; i < 5; i++)
+    {
+        this.rootNode.appendChild(new jsteroids.Asteroid(this));
+    }
+    
+    // Create a new UFO
+    this.newUFO();
+    
+    // Display the intro screen
+    this.intro.open();
 };
 
 
@@ -589,7 +686,7 @@ jsteroids.Game.prototype.newGame = function()
 
 jsteroids.Game.prototype.showStateLabel = function()
 {
-    this.stateLabel.style.color = "rgba(255, 255, 128, 1)"; 
+    this.stateLabel.style.color = "rgba(255, 255, 128, 0.75)"; 
 };
 
 
@@ -611,6 +708,21 @@ jsteroids.Game.prototype.hideStateLabel = function()
 
 jsteroids.Game.prototype.updateShipState = function()
 {    
-    this.shieldLabel.innerHTML = "Shield: " + this.spaceship.getShield() + " %";
-    this.hullLabel.innerHTML = "Hull: " + this.spaceship.getHull() + " %";
+    this.hud.setShield(this.spaceship.getShield());
+    this.hud.setHull(this.spaceship.getHull());
+};
+
+
+/**
+ * Rotates the screen by the specified angle. This should be called when
+ * the output size has been changed from vertical to horizontal layout and
+ * vice versa.
+ * 
+ * @param {Number} angle
+ *            The rotation angle in degree
+ */
+
+jsteroids.Game.prototype.rotate = function(angle)
+{
+    this.rootNode.getTransform().rotate(angle * Math.PI / 180);    
 };
