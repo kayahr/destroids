@@ -46,7 +46,7 @@ jsteroids.Game.prototype.containerId = null;
 jsteroids.Game.prototype.container = null;
 
 /** The canvas element. @private @type {HTMLCanvasElement} */
-jsteroids.Game.prototype.container = null;
+jsteroids.Game.prototype.canvas = null;
 
 /** The game canvas width. @private @type {Number} */
 jsteroids.Game.prototype.width = null;
@@ -258,8 +258,8 @@ jsteroids.Game.prototype.start = function()
     // Install keyboard handlers
     window.addEventListener("keydown", this.keyDownHandler, false);     
     window.addEventListener("keyup", this.keyUpHandler, false);     
-    window.addEventListener("mousedown", this.mouseDownHandler, false);     
-    window.addEventListener("mouseup", this.mouseUpHandler, false);     
+    this.container.addEventListener("mousedown", this.mouseDownHandler, false);     
+    this.container.addEventListener("mouseup", this.mouseUpHandler, false);     
 };
 
 
@@ -272,8 +272,8 @@ jsteroids.Game.prototype.stop = function()
     // Uninstall keyboard handlers
     window.removeEventListener("keydown", this.keyDownHandler, false);     
     window.removeEventListener("keyup", this.keyUpHandler, false);     
-    window.removeEventListener("mousedown", this.mouseDownHandler, false);     
-    window.removeEventListener("mouseup", this.mouseUpHandler, false);     
+    this.container.removeEventListener("mousedown", this.mouseDownHandler, false);     
+    this.container.removeEventListener("mouseup", this.mouseUpHandler, false);     
 
     // Stop game thread
     window.clearTimeout(this.timer);
@@ -399,12 +399,8 @@ jsteroids.Game.prototype.handleKeyDown = function(event)
  
 jsteroids.Game.prototype.handleKeyUp = function(event)
 {
-    if (this.gameOver)
-    {
-        if (this.intro.isOpen()) this.newGame();
-        return;
-    }
-
+    if (this.gameOver) return;
+    
     switch (event.keyCode)
     {
         case 65: // A

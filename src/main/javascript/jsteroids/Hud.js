@@ -29,7 +29,7 @@ jsteroids.Hud = function(game)
     s.left = s.top = s.right = s.bottom = 0;
     s.opacity = 0;
     s.color = "#0f0";
-    s.fontSize = "9px";
+    s.fontSize = "12px";
     s.fontFamily = "sans-serif";
     s.transition = s.oTransition = s.MozTransition = s.webkitTransition =
         "color 0.5s ease-in-out, opacity 0.5s ease-in-out";
@@ -37,21 +37,16 @@ jsteroids.Hud = function(game)
     // Create the shield box
     box = document.createElement("div");
     s = box.style;    
-    s.background = "rgba(0, 255, 0, 0.2)";
     s.position = "absolute";
     s.left = s.bottom = 0;
-    s.border = "solid rgba(0, 255, 0, 0.5)";
-    s.borderWidth = "1px 1px 0 0";
-    s.borderRadius = s.oBorderRadius = s.webkitBorderRadius = s.MozBorderRadius =
-        "0 8px 0 0";
-    s.padding = "4px";
+    s.padding = "8px";
     root.appendChild(box);
     box.appendChild(document.createTextNode("Shield: "));
     value = this.shieldElement = document.createElement("span");
     s = value.style;
     s.fontFamily = "monospace";
     s.fontWeight = "bold";
-    s.fontSize = "12px";
+    s.fontSize = "15px";
     value.appendChild(document.createTextNode("100"));
     box.appendChild(value);
     box.appendChild(document.createTextNode(" %"));
@@ -59,21 +54,16 @@ jsteroids.Hud = function(game)
     // Create the hull box
     box = document.createElement("div");
     s = box.style;    
-    s.background = "rgba(0, 255, 0, 0.2)";
     s.position = "absolute";
     s.right = s.bottom = 0;
-    s.border = "solid rgba(0, 255, 0, 0.5)";
-    s.borderWidth = "1px 0 0 1px";
-    s.borderRadius = s.oBorderRadius = s.webkitBorderRadius = s.MozBorderRadius =
-        "8px 0 0 0";
-    s.padding = "4px";
+    s.padding = "7px";
     root.appendChild(box);
     box.appendChild(document.createTextNode("Hull: "));
     value = this.hullElement = document.createElement("span");
     s = value.style;
     s.fontFamily = "monospace";
     s.fontWeight = "bold";
-    s.fontSize = "12px";
+    s.fontSize = "15px";
     value.appendChild(document.createTextNode("100"));
     box.appendChild(value);
     box.appendChild(document.createTextNode(" %"));
@@ -81,42 +71,32 @@ jsteroids.Hud = function(game)
     // Create the level box
     box = document.createElement("div");
     s = box.style;    
-    s.background = "rgba(0, 255, 0, 0.2)";
     s.position = "absolute";
     s.left = s.top = 0;
-    s.border = "solid rgba(0, 255, 0, 0.5)";
-    s.borderWidth = "0 1px 1px 0";
-    s.borderRadius = s.oBorderRadius = s.webkitBorderRadius = s.MozBorderRadius =
-        "0 0 8px 0";
-    s.padding = "4px";
+    s.padding = "8px";
     root.appendChild(box);
     box.appendChild(document.createTextNode("Level: "));
     value = this.levelElement = document.createElement("span");
     s = value.style;
     s.fontFamily = "monospace";
     s.fontWeight = "bold";
-    s.fontSize = "12px";
+    s.fontSize = "15px";
     value.appendChild(document.createTextNode("1"));
     box.appendChild(value);
 
     // Create the score box
     box = document.createElement("div");
     s = box.style;    
-    s.background = "rgba(0, 255, 0, 0.2)";
     s.position = "absolute";
     s.right = s.top = 0;
-    s.border = "solid rgba(0, 255, 0, 0.5)";
-    s.borderWidth = "0 0 1px 1px";
-    s.borderRadius = s.oBorderRadius = s.webkitBorderRadius = s.MozBorderRadius =
-        "0 0 0 8px";
-    s.padding = "4px";
+    s.padding = "8px";
     root.appendChild(box);
     box.appendChild(document.createTextNode("Score: "));
     value = this.scoreElement = document.createElement("span");
     s = value.style;
     s.fontFamily = "monospace";
     s.fontWeight = "bold";
-    s.fontSize = "12px";
+    s.fontSize = "15px";
     value.appendChild(document.createTextNode("0"));
     box.appendChild(value);
 };

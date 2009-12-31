@@ -29,7 +29,7 @@ jsteroids.Intro = function(game)
     s.left = "40px";
     s.top = "40px";    
     s.right = "40px";
-    s.border = "1px solid rgba(0, 255, 0, 0.5)";
+    s.border = "solid rgba(0, 255, 0, 0.5) 1px";
     s.padding = "10px";
     s.textAlign = "center";
     s.fontFamily = "sans-serif";
@@ -59,6 +59,7 @@ jsteroids.Intro = function(game)
     s = e.style;
     s.marginBottom = "3em";
     e.appendChild(document.createTextNode(jsteroids.msgCopyright));
+    e.appendChild(document.createTextNode(" "));
     link = document.createElement("a");
     s = link.style;
     s.color = "inherit";

@@ -132,7 +132,7 @@ jsteroids.msgTitle = "JSteroids"
 jsteroids.msgVersion = "1.0.0-SNAPSHOT"
 
 /** The copyright message. @type {String} */ 
-jsteroids.msgCopyright = "Copyright © 2009 "
+jsteroids.msgCopyright = "Copyright © 2009"
     
 /** The copyright holder URL. @type {String} */
 jsteroids.msgCopyrightHolderURL = "http://www.ailis.de/~k/";
@@ -141,4 +141,4 @@ jsteroids.msgCopyrightHolderURL = "http://www.ailis.de/~k/";
 jsteroids.msgCopyrightHolder = "Klaus Reimer";
 
 /** The intro start message. @type {String} */
-jsteroids.msgIntroStart = "Press any key or click to start game";
+jsteroids.msgIntroStart = "Click to start game";
