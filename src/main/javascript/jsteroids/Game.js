@@ -708,17 +708,3 @@ jsteroids.Game.prototype.updateShipState = function()
     this.hud.setHull(this.spaceship.getHull());
 };
 
-
-/**
- * Rotates the screen by the specified angle. This should be called when
- * the output size has been changed from vertical to horizontal layout and
- * vice versa.
- * 
- * @param {Number} angle
- *            The rotation angle in degree
- */
-
-jsteroids.Game.prototype.rotate = function(angle)
-{
-    this.rootNode.getTransform().rotate(angle * Math.PI / 180);    
-};
