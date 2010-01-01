@@ -90,6 +90,8 @@ jsteroids.Game.prototype.intro = null;
 /** The hud. @private @type {jsteroids.Hud} */
 jsteroids.Game.prototype.hud = null;
 
+/** The last screen orientation (Accelerometer support) @private @type {Number} */
+jsteroids.Game.prototype.lastOrientation = 0;
 
 /**
  * Initializes the game.
@@ -163,6 +165,7 @@ jsteroids.Game.prototype.init = function()
     this.keyUpHandler = this.handleKeyUp.bindAsEventListener(this);
     this.mouseDownHandler = this.handleMouseDown.bindAsEventListener(this);
     this.mouseUpHandler = this.handleMouseUp.bindAsEventListener(this);
+    this.orientationChangeHandler = this.handleOrientationChange.bindAsEventListener(this);
     
     // Initialize the game size
     this.resize();
@@ -256,6 +259,7 @@ jsteroids.Game.prototype.start = function()
     this.timer = window.setInterval(this.run.bind(this), 1);
 
     // Install keyboard handlers
+    document.addEventListener("orientationchange", this.orientationChangeHandler, false);
     window.addEventListener("keydown", this.keyDownHandler, false);     
     window.addEventListener("keyup", this.keyUpHandler, false);     
     this.container.addEventListener("mousedown", this.mouseDownHandler, false);     
@@ -270,11 +274,12 @@ jsteroids.Game.prototype.start = function()
 jsteroids.Game.prototype.stop = function()
 {
     // Uninstall keyboard handlers
-    window.removeEventListener("keydown", this.keyDownHandler, false);     
-    window.removeEventListener("keyup", this.keyUpHandler, false);     
-    this.container.removeEventListener("mousedown", this.mouseDownHandler, false);     
-    this.container.removeEventListener("mouseup", this.mouseUpHandler, false);     
-
+    document.removeEventListener("orientationchange", this.orientationChangeHandler);
+    window.removeEventListener("keydown", this.keyDownHandler);
+    window.removeEventListener("keyup", this.keyUpHandler);     
+    this.container.removeEventListener("mousedown", this.mouseDownHandler);     
+    this.container.removeEventListener("mouseup", this.mouseUpHandler);     
+    
     // Stop game thread
     window.clearTimeout(this.timer);
     
@@ -349,6 +354,103 @@ jsteroids.Game.prototype.getLevel = function()
 
 
 /**
+ * Checks if control is in the specified controls array.
+ * 
+ * @param {Number} control
+ *            The control to check
+ * @param {Array} controls
+ *            Controls array
+ * @return {Boolean} True if control is in the array, false if not
+ * @private
+ */
+
+jsteroids.Game.prototype.isControl = function(control, controls)
+{
+    var i;
+    
+    for (i = controls.length - 1; i >= 0; i--)
+        if (control == controls[i]) return true;
+    return false;
+};
+
+
+/**
+ * Handles the control down event.
+ * 
+ * @param {Number} control
+ *            The control id
+ * @param {Number} power
+ *            Optional power (percent) for analog controls. Defaults to 100
+ * @return {Boolean} True if event was handles, false if not
+ * 
+ * @private
+ */
+ 
+jsteroids.Game.prototype.handleControlDown = function(control, power)
+{
+    if (power === undefined) power = 100;
+    
+    if (this.gameOver)
+    {
+        if (this.intro.isOpen())
+        {
+            if (this.isControl(control, jsteroids.ctrlStart))
+                this.newGame();
+            else
+                return false;
+        } else return false;
+    }
+    else
+    {
+        if (this.isControl(control, jsteroids.ctrlThrust))
+            this.spaceship.startThrust(power);
+        else if (this.isControl(control, jsteroids.ctrlRight))
+            this.spaceship.yawRight(power);
+        else if (this.isControl(control, jsteroids.ctrlLeft))
+            this.spaceship.yawLeft(power);
+        else if (this.isControl(control, jsteroids.ctrlFire))
+            this.spaceship.startFireLaser(power);
+        else
+            return false;
+    }
+    return true;
+};
+
+
+/**
+ * Handles the control up event.
+ * 
+ * @param {Number} control
+ *            The control id
+ * @return {Boolean} True if event was handles, false if not
+ * 
+ * @private
+ */
+ 
+jsteroids.Game.prototype.handleControlUp = function(control)
+{
+    if (this.gameOver)
+    {
+        return false;
+    }
+    else
+    {
+        if (this.isControl(control, jsteroids.ctrlThrust))
+            this.spaceship.stopThrust();
+        else if (this.isControl(control, jsteroids.ctrlRight))
+            this.spaceship.stopYaw();
+        else if (this.isControl(control, jsteroids.ctrlLeft))
+            this.spaceship.stopYaw();
+        else if (this.isControl(control, jsteroids.ctrlFire))
+            this.spaceship.stopFireLaser();
+        else
+            return false;
+    }
+    return true;
+};
+
+
+/**
  * Handles the key down event.
  * 
  * @param {Event} event
@@ -358,34 +460,8 @@ jsteroids.Game.prototype.getLevel = function()
  
 jsteroids.Game.prototype.handleKeyDown = function(event)
 {
-    if (this.gameOver) return;
-    
-    switch (event.keyCode)
-    {
-        case 65: // A
-        case 38: // UP
-            this.spaceship.startThrust();
-            break;
-            
-        case 76: // L
-        case 39: // RIGHT
-            this.spaceship.yawRight();
-            break;
-            
-        case 75: // K
-        case 37: // LEFT
-            this.spaceship.yawLeft();
-            break;
-            
-        case 32: // Space
-        case 81: // Q
-            this.spaceship.startFireLaser();
-            break;
-            
-        default:
-            return;
-    }
-    event.preventDefault();
+    if (this.handleControlDown(event.keyCode) ||
+        this.handleControlDown(0)) event.preventDefault();
 };
 
 
@@ -399,31 +475,8 @@ jsteroids.Game.prototype.handleKeyDown = function(event)
  
 jsteroids.Game.prototype.handleKeyUp = function(event)
 {
-    if (this.gameOver) return;
-    
-    switch (event.keyCode)
-    {
-        case 65: // A
-        case 38: // UP
-            this.spaceship.stopThrust();
-            break;
-            
-        case 75: // K
-        case 76: // L
-        case 39: // RIGHT
-        case 37: // LEFT
-            this.spaceship.stopYaw();
-            break;
-            
-        case 32: // Space
-        case 81: // Q
-            this.spaceship.stopFireLaser();
-            break;
-            
-        default:
-            return;
-    }
-    event.preventDefault();
+    if (this.handleControlUp(event.keyCode) ||
+        this.handleControlUp(0)) event.preventDefault();
 };
 
 
@@ -437,7 +490,8 @@ jsteroids.Game.prototype.handleKeyUp = function(event)
  
 jsteroids.Game.prototype.handleMouseDown = function(event)
 {
-    if (this.gameOver && this.intro.isOpen()) this.newGame();
+    
+    if (this.handleControlDown(-1)) event.preventDefault();
 };
 
 
@@ -451,7 +505,75 @@ jsteroids.Game.prototype.handleMouseDown = function(event)
  
 jsteroids.Game.prototype.handleMouseUp = function(event)
 {
-    // Empty
+    if (this.handleControlUp(-1)) event.preventDefault();
+};
+
+
+/**
+ * Handles the orientation change event.
+ * 
+ * @param {Event} event
+ *            The orientation change event
+ * @private
+ */
+ 
+jsteroids.Game.prototype.handleOrientationChange = function(event)
+{
+    var roll, pitch, pitchPower, rollPower;
+
+    // If position is not 0 or 1 then a orientation change was performed.
+    // Remember this orientation change because this is the base for
+    // calculating the yaw angle.
+    if (event.position > 1) this.lastOrientation = event.position;
+    
+    // Do nothing more if game is over
+    if (this.gameOver) return;
+    
+    // Calculate the yaw angle
+    switch (this.lastOrientation)
+    {
+        case 2:
+            roll = event.roll;
+            pitch = event.pitch;
+            break;
+
+        case 3:
+            roll = -event.roll;
+            pitch = -event.pitch;
+            break;
+
+        case 4:
+            roll = -event.pitch;
+            pitch = -event.roll;
+            break;
+            
+        case 5:
+            roll = event.pitch;
+            pitch = event.roll;
+            break;
+            
+        default:
+            roll = 0;
+            pitch = 0;            
+    }
+    
+    // Dead zone
+    if (Math.abs(roll) < 5) roll = 0;
+    if (Math.abs(pitch) < 5) pitch = 0;
+
+    // Calculate power
+    rollPower = Math.min(100, Math.abs(roll) * 100 / 22.5);    
+    pitchPower = Math.min(100, Math.abs(pitch) * 100 / 22.5);    
+    
+    // Apply the roll and pitch
+    if (roll)
+        this.handleControlDown(-2, rollPower);
+    else
+        this.handleControlUp(-2);
+    if (pitch)
+        this.handleControlDown(-3, pitchPower);
+    else
+        this.handleControlUp(-3);
 };
 
     

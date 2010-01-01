@@ -142,3 +142,24 @@ jsteroids.msgCopyrightHolder = "Klaus Reimer";
 
 /** The intro start message. @type {String} */
 jsteroids.msgIntroStart = "Click to start game";
+
+/** Keycodes for thrust. @type {Number} */
+jsteroids.ctrlThrust = [ 65, 38 ];
+
+/** Keycodes for yaw right. @type {Number} */
+jsteroids.ctrlRight = [ 76, 39 ];
+
+/** Keycodes for yaw left. @type {Number} */
+jsteroids.ctrlLeft = [ 75, 37 ];
+
+/** Keycodes for fire. @type {Number} */
+jsteroids.ctrlFire = [ 32, 81 ];
+
+/** Keycodes for back. @type {Number} */
+jsteroids.ctrlBack = [ 27, 36 ];
+
+/** Keycodes for back. @type {Number} */
+jsteroids.ctrlStart = [ -1 ];
+
+/** Keycodes for pause. @type {Number} */
+jsteroids.ctrlPause = [ 80, 19, -1 ];

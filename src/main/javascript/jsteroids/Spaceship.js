@@ -130,22 +130,30 @@ jsteroids.Spaceship.prototype.stopThrust = function()
 
 /**
  * Yaws the spaceship to the left.
+ * 
+ * @param {Number} power
+ *            The thrust power in percent
  */
 
-jsteroids.Spaceship.prototype.yawLeft = function()
+jsteroids.Spaceship.prototype.yawLeft = function(power)
 {
-    this.physics.setSpinAcceleration(-jsteroids.Spaceship.YAW * this.hull / 100);
+    this.physics.setSpinAcceleration(-jsteroids.Spaceship.YAW * this.hull /
+        100 * power / 100);
     this.yawing = true;
 };
 
 
 /**
  * Yaws the spaceship to the right.
+ * 
+ * @param {Number} power
+ *            The thrust power in percent
  */
 
-jsteroids.Spaceship.prototype.yawRight = function()
+jsteroids.Spaceship.prototype.yawRight = function(power)
 {
-    this.physics.setSpinAcceleration(jsteroids.Spaceship.YAW * this.hull / 100);
+    this.physics.setSpinAcceleration(jsteroids.Spaceship.YAW * this.hull /
+        100 * power / 100);
     this.yawing = true;
 };
 
