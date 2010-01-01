@@ -1,6 +1,6 @@
 /**
  * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2010 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
  * @fileoverview
@@ -92,6 +92,10 @@ jsteroids.Game.prototype.hud = null;
 
 /** The last screen orientation (Accelerometer support) @private @type {Number} */
 jsteroids.Game.prototype.lastOrientation = 0;
+
+/** If game has been paused. @private @type {Boolean} */
+jsteroids.Game.prototype.paused = false;
+
 
 /**
  * Initializes the game.
@@ -268,17 +272,58 @@ jsteroids.Game.prototype.start = function()
 
 
 /**
+ * Checks if game has been stopped or is running
+ */
+
+jsteroids.Game.prototype.isPaused = function()
+{
+    return this.paused;
+};
+
+
+/**
+ * Pauses the game
+ */
+
+jsteroids.Game.prototype.pause = function()
+{
+    if (!this.paused)
+    {
+        this.scene.pause();
+        this.stateLabel.innerHTML = jsteroids.msgPause;
+        this.showStateLabel();
+        this.paused = true;
+    }
+};
+
+
+/**
+ * Resumes the game
+ */
+
+jsteroids.Game.prototype.resume = function()
+{
+    if (this.paused)
+    {
+        this.paused = false;
+        this.hideStateLabel();
+        this.scene.resume();
+    }
+};
+
+
+/**
  * Stops the game.
  */
 
 jsteroids.Game.prototype.stop = function()
 {
     // Uninstall keyboard handlers
-    document.removeEventListener("orientationchange", this.orientationChangeHandler);
-    window.removeEventListener("keydown", this.keyDownHandler);
-    window.removeEventListener("keyup", this.keyUpHandler);     
-    this.container.removeEventListener("mousedown", this.mouseDownHandler);     
-    this.container.removeEventListener("mouseup", this.mouseUpHandler);     
+    document.removeEventListener("orientationchange", this.orientationChangeHandler, false);
+    window.removeEventListener("keydown", this.keyDownHandler, false);
+    window.removeEventListener("keyup", this.keyUpHandler, false);     
+    this.container.removeEventListener("mousedown", this.mouseDownHandler, false);     
+    this.container.removeEventListener("mouseup", this.mouseUpHandler, false);     
     
     // Stop game thread
     window.clearTimeout(this.timer);
@@ -410,6 +455,10 @@ jsteroids.Game.prototype.handleControlDown = function(control, power)
             this.spaceship.yawLeft(power);
         else if (this.isControl(control, jsteroids.ctrlFire))
             this.spaceship.startFireLaser(power);
+        else if (this.isControl(control, jsteroids.ctrlPause))
+        {
+            if (this.isPaused()) this.resume(); else this.pause();
+        }
         else
             return false;
     }
@@ -710,7 +759,7 @@ jsteroids.Game.prototype.completeLevel = function()
     var nextLevel;
     
     nextLevel = this.level + 1;
-    this.stateLabel.innerHTML = "Right On Commander!<br /><br />Prepare for Level <strong>" + nextLevel + "</strong>";
+    this.stateLabel.innerHTML = jsteroids.msgNextLevel.replace("%LEVEL%", nextLevel);
     this.showStateLabel();
     this.setLevel.bind(this, nextLevel).delay(5);
 };
@@ -723,7 +772,7 @@ jsteroids.Game.prototype.completeLevel = function()
 jsteroids.Game.prototype.endGame = function()
 {
     this.gameOver = true;
-    this.stateLabel.innerHTML = "Game Over";
+    this.stateLabel.innerHTML = jsteroids.msgGameOver;
     this.showStateLabel();
     this.startIntro.bind(this).delay(5);
     this.hud.close();
@@ -738,7 +787,7 @@ jsteroids.Game.prototype.newGame = function()
 {
     this.destroyAll();
     this.intro.close();
-    this.stateLabel.innerHTML = "Prepare for Level 1";
+    this.stateLabel.innerHTML = jsteroids.msgFirstLevel;
     this.showStateLabel();
     this.reset.bind(this).delay(2);
 };

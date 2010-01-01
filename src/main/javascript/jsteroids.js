@@ -143,6 +143,30 @@ jsteroids.msgCopyrightHolder = "Klaus Reimer";
 /** The intro start message. @type {String} */
 jsteroids.msgIntroStart = "Click to start game";
 
+/** The pause message. @type {String} */
+jsteroids.msgPause = "Pause";
+
+/** The first level message. @type {String} */
+jsteroids.msgFirstLevel = "Prepare for Level 1";
+
+/** The next level message. @type {String} */
+jsteroids.msgNextLevel = "Right On Commander!<br /><br />Prepare for Level <strong>%LEVEL%</strong>"
+
+/** The game over message. @type {String} */
+jsteroids.msgGameOver = "Game Over";
+
+/** The shield display label. @type {String} */
+jsteroids.msgShield = "SHIELD";
+
+/** The hull display label. @type {String} */
+jsteroids.msgHull = "HULL";
+
+/** The score display label. @type {String} */
+jsteroids.msgScore = "SCORE";
+
+/** The level display label. @type {String} */
+jsteroids.msgLevel = "LEVEL";
+
 /** Keycodes for thrust. @type {Number} */
 jsteroids.ctrlThrust = [ 65, 38 ];
 

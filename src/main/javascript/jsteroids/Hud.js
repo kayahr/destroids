@@ -29,8 +29,9 @@ jsteroids.Hud = function(game)
     s.left = s.top = s.right = s.bottom = 0;
     s.opacity = 0;
     s.color = "#0f0";
-    s.fontSize = "12px";
-    s.fontFamily = "sans-serif";
+    s.fontSize = "11px";
+    s.fontWeight = "bold";
+    s.fontFamily = "Verdana sans-serif";
     s.transition = s.oTransition = s.MozTransition = s.webkitTransition =
         "color 0.5s ease-in-out, opacity 0.5s ease-in-out";
     
@@ -41,7 +42,8 @@ jsteroids.Hud = function(game)
     s.left = s.bottom = 0;
     s.padding = "8px";
     root.appendChild(box);
-    box.appendChild(document.createTextNode("Shield: "));
+    box.appendChild(document.createTextNode(jsteroids.msgShield));
+    box.appendChild(document.createTextNode(" "));
     value = this.shieldElement = document.createElement("span");
     s = value.style;
     s.fontFamily = "monospace";
@@ -58,7 +60,8 @@ jsteroids.Hud = function(game)
     s.right = s.bottom = 0;
     s.padding = "7px";
     root.appendChild(box);
-    box.appendChild(document.createTextNode("Hull: "));
+    box.appendChild(document.createTextNode(jsteroids.msgHull));
+    box.appendChild(document.createTextNode(" "));
     value = this.hullElement = document.createElement("span");
     s = value.style;
     s.fontFamily = "monospace";
@@ -75,7 +78,8 @@ jsteroids.Hud = function(game)
     s.left = s.top = 0;
     s.padding = "8px";
     root.appendChild(box);
-    box.appendChild(document.createTextNode("Level: "));
+    box.appendChild(document.createTextNode(jsteroids.msgLevel));
+    box.appendChild(document.createTextNode(" "));
     value = this.levelElement = document.createElement("span");
     s = value.style;
     s.fontFamily = "monospace";
@@ -91,7 +95,8 @@ jsteroids.Hud = function(game)
     s.right = s.top = 0;
     s.padding = "8px";
     root.appendChild(box);
-    box.appendChild(document.createTextNode("Score: "));
+    box.appendChild(document.createTextNode(jsteroids.msgScore));
+    box.appendChild(document.createTextNode(" "));
     value = this.scoreElement = document.createElement("span");
     s = value.style;
     s.fontFamily = "monospace";
@@ -189,8 +194,10 @@ jsteroids.Hud.prototype.setShield = function(shield)
     var s, e, v;
     
     v = parseInt(shield).toString();
+    /*
     if (shield < 100) v = "&nbsp;" + v;
     if (shield < 10) v = "&nbsp;" + v;
+    */
     e = this.shieldElement;
     e.innerHTML = v;
     s = e.style;
@@ -215,8 +222,8 @@ jsteroids.Hud.prototype.setHull = function(hull)
     var s, e, v;
     
     v = parseInt(hull).toString();
-    if (hull < 100) v = "&nbsp;" + v;
-    if (hull < 10) v = "&nbsp;" + v;
+    /*if (hull < 100) v = "&nbsp;" + v;
+    if (hull < 10) v = "&nbsp;" + v;*/
     e = this.hullElement;
     e.innerHTML = v;
     s = e.style;
