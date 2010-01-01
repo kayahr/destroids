@@ -29,7 +29,7 @@ jsteroids.Hud = function(game)
     s.left = s.top = s.right = s.bottom = 0;
     s.opacity = 0;
     s.color = "#0f0";
-    s.fontSize = "11px";
+    s.fontSize = "10px";
     s.fontWeight = "bold";
     s.fontFamily = "Verdana sans-serif";
     s.transition = s.oTransition = s.MozTransition = s.webkitTransition =
@@ -43,15 +43,16 @@ jsteroids.Hud = function(game)
     s.padding = "8px";
     root.appendChild(box);
     box.appendChild(document.createTextNode(jsteroids.msgShield));
-    box.appendChild(document.createTextNode(" "));
     value = this.shieldElement = document.createElement("span");
     s = value.style;
-    s.fontFamily = "monospace";
+    s.margin = "0 8px";
+    s.position = "relative";
+    s.top = "1px";
     s.fontWeight = "bold";
     s.fontSize = "15px";
     value.appendChild(document.createTextNode("100"));
     box.appendChild(value);
-    box.appendChild(document.createTextNode(" %"));
+    box.appendChild(document.createTextNode("%"));
 
     // Create the hull box
     box = document.createElement("div");
@@ -61,15 +62,16 @@ jsteroids.Hud = function(game)
     s.padding = "7px";
     root.appendChild(box);
     box.appendChild(document.createTextNode(jsteroids.msgHull));
-    box.appendChild(document.createTextNode(" "));
     value = this.hullElement = document.createElement("span");
     s = value.style;
-    s.fontFamily = "monospace";
+    s.margin = "0 8px";
+    s.position = "relative";
+    s.top = "1px";
     s.fontWeight = "bold";
     s.fontSize = "15px";
     value.appendChild(document.createTextNode("100"));
     box.appendChild(value);
-    box.appendChild(document.createTextNode(" %"));
+    box.appendChild(document.createTextNode("%"));
 
     // Create the level box
     box = document.createElement("div");
@@ -79,10 +81,11 @@ jsteroids.Hud = function(game)
     s.padding = "8px";
     root.appendChild(box);
     box.appendChild(document.createTextNode(jsteroids.msgLevel));
-    box.appendChild(document.createTextNode(" "));
     value = this.levelElement = document.createElement("span");
     s = value.style;
-    s.fontFamily = "monospace";
+    s.margin = "0 8px";
+    s.position = "relative";
+    s.top = "1px";
     s.fontWeight = "bold";
     s.fontSize = "15px";
     value.appendChild(document.createTextNode("1"));
@@ -96,10 +99,11 @@ jsteroids.Hud = function(game)
     s.padding = "8px";
     root.appendChild(box);
     box.appendChild(document.createTextNode(jsteroids.msgScore));
-    box.appendChild(document.createTextNode(" "));
     value = this.scoreElement = document.createElement("span");
     s = value.style;
-    s.fontFamily = "monospace";
+    s.margin = "0 8px";
+    s.position = "relative";
+    s.top = "1px";
     s.fontWeight = "bold";
     s.fontSize = "15px";
     value.appendChild(document.createTextNode("0"));
