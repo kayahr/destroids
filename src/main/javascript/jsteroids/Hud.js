@@ -31,7 +31,7 @@ jsteroids.Hud = function(game)
     s.color = "#0f0";
     s.fontSize = "10px";
     s.fontWeight = "bold";
-    s.fontFamily = "Verdana sans-serif";
+    s.fontFamily = "verdana, sans-serif";
     s.transition = s.oTransition = s.MozTransition = s.webkitTransition =
         "color 0.5s ease-in-out, opacity 0.5s ease-in-out";
     
