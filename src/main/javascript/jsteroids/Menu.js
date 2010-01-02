@@ -75,7 +75,7 @@ jsteroids.Menu = function(game)
     e = document.createElement("div");
     s = e.style;
     s.padding = "20px";
-    s.border = "1px solid #0f0";
+    s.border = "solid 1px #0f0";
     s.margin = "8px 0";
     s.cursor = "pointer";
     e.onclick = function() { game.newGame.call(game); };
@@ -86,7 +86,7 @@ jsteroids.Menu = function(game)
     e = this.continueButton = document.createElement("div");
     s = e.style;
     s.padding = "20px";
-    s.border = "1px solid #0f0";
+    s.border = "solid 1px #0f0";
     s.margin = "8px 0";
     s.cursor = "pointer";
     e.onclick = function() { game.continueGame.call(game); };
@@ -100,7 +100,7 @@ jsteroids.Menu = function(game)
         s = e.style;
         s.cursor = "pointer";
         s.padding = "20px";
-        s.border = "1px #0f0 solid";
+        s.border = "solid 1px #0f0";
         s.margin = "8px 0";
         e.onclick = jsteroids.onPreferences;
         e.appendChild(document.createTextNode(jsteroids.msgPreferences));
@@ -114,7 +114,7 @@ jsteroids.Menu = function(game)
         s = e.style;
         s.padding = "20px";
         s.cursor = "pointer";
-        s.border = "1px solid #0f0";
+        s.border = "solid 1px #0f0";
         s.margin = "8px 0";
         e.onclick = jsteroids.onAbout;
         e.appendChild(document.createTextNode(jsteroids.msgAbout));
