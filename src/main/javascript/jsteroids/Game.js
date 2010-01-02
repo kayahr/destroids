@@ -801,7 +801,8 @@ jsteroids.Game.prototype.newGame = function()
 
 jsteroids.Game.prototype.newUFO = function()
 {
-    this.rootNode.appendChild(new jsteroids.Ufo(this));
+    if (!jsteroids.Ufo.count())
+        this.rootNode.appendChild(new jsteroids.Ufo(this));
 };
 
 

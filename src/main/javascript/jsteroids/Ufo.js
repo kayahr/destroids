@@ -52,8 +52,13 @@ jsteroids.Ufo = function(game)
     // Enable collision detection
     this.setCollidable(true);
     this.connect("collisionStarted", this.handleCollide, this);
+        
+    jsteroids.Ufo.counter++;
 };
 twodee.inherit(jsteroids.Ufo, twodee.ImageNode);
+
+/** The number of active UFOs. @private @type {Number} */
+jsteroids.Ufo.counter = 0;
 
 /** The game. @private @type {jsteroids.Game} */
 jsteroids.Ufo.prototype.game = null;
@@ -62,10 +67,10 @@ jsteroids.Ufo.prototype.game = null;
 jsteroids.Ufo.prototype.nextCourseChange = 0;
 
 /** The timeout for the next laser firing. @private @type {Number} */ 
-jsteroids.Ufo.prototype.nextFire = 2500;
+jsteroids.Ufo.prototype.nextFire = 3000;
 
 /** The UFO hull. @private @type {Number} */
-jsteroids.Ufo.prototype.hull = 500;
+jsteroids.Ufo.prototype.hull = 200;
 
 
 
@@ -114,7 +119,7 @@ jsteroids.Ufo.prototype.changeCourse = function()
     if (tmp > 90 - 22.5) heading -= tmp - (90 - 22.5);    
 
     // Calculate random speed
-    speed = 50 + Math.random() * 50;
+    speed = 33 + Math.random() * 33;
     
     // Calculate and apply the velocity vector
     this.getPhysics().getVelocity().set(0, speed).
@@ -177,6 +182,20 @@ jsteroids.Ufo.prototype.destroy = function()
 
     // Remove the UFO
     this.remove();
+    
+    jsteroids.Ufo.counter--;
+};
+
+
+/**
+ * Returns the number of active UFOs.
+ * 
+ * @return {Number} The number of active UFOs.
+ */
+
+jsteroids.Ufo.count = function()
+{
+    return this.counter;
 };
 
 
@@ -190,7 +209,7 @@ jsteroids.Ufo.prototype.fireLaser = function()
 {
     var laser, transform, speed, angle;
     
-    speed = 150;
+    speed = 100;
     angle = Math.random() * 2 * Math.PI;
     laser = new jsteroids.Laser(this.game, true);
     transform = this.getTransform();
