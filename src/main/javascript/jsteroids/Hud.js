@@ -23,6 +23,8 @@ jsteroids.Hud = function(game)
     var root, s, box, value;
     
     this.game = game;
+    
+    // Create the root element
     root = this.element = document.createElement("div");
     s = root.style;
     s.position = "absolute";

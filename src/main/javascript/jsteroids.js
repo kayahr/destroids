@@ -125,6 +125,12 @@ jsteroids.UFO_BOUNDS = new twodee.Polygon([
     new twodee.Vector(22 - 24, 15 - 8)
 ]);
 
+/** The function to call when preferences button is pressed. @type {Function} */
+jsteroids.onPreferences = null;
+
+/** The function to call when about button is pressed. @type {Function} */
+jsteroids.onAbout = null;
+
 /** The game title. @type {String} */
 jsteroids.msgTitle = "JSteroids"
 
@@ -139,12 +145,6 @@ jsteroids.msgCopyrightHolderURL = "http://www.ailis.de/~k/";
 
 /** The copyright holder. @type {String} */
 jsteroids.msgCopyrightHolder = "Klaus Reimer";
-
-/** The intro start message. @type {String} */
-jsteroids.msgIntroStart = "Click to start game";
-
-/** The pause message. @type {String} */
-jsteroids.msgPause = "Pause";
 
 /** The first level message. @type {String} */
 jsteroids.msgFirstLevel = "Prepare for Level 1";
@@ -167,6 +167,18 @@ jsteroids.msgScore = "SCORE";
 /** The level display label. @type {String} */
 jsteroids.msgLevel = "LEVEL";
 
+/** The new-game button label. @type {String} */
+jsteroids.msgNewGame = "New Game";
+
+/** The continue-game button label. @type {String} */
+jsteroids.msgContinueGame = "Continue";
+
+/** The preferences button label. @type {String} */
+jsteroids.msgPreferences = "Preferences";
+
+/** The about button label. @type {String} */
+jsteroids.msgAbout = "About";
+
 /** Keycodes for thrust. @type {Number} */
 jsteroids.ctrlThrust = [ 65, 38 ];
 
@@ -179,11 +191,5 @@ jsteroids.ctrlLeft = [ 75, 37 ];
 /** Keycodes for fire. @type {Number} */
 jsteroids.ctrlFire = [ 32, 81 ];
 
-/** Keycodes for back. @type {Number} */
-jsteroids.ctrlBack = [ 27, 36 ];
-
-/** Keycodes for back. @type {Number} */
-jsteroids.ctrlStart = [ -1 ];
-
-/** Keycodes for pause. @type {Number} */
-jsteroids.ctrlPause = [ 80, 19, -1 ];
+/** Keycodes for menu. @type {Number} */
+jsteroids.ctrlMenu = [ 27, -1 ];

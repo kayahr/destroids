@@ -84,8 +84,8 @@ jsteroids.Game.prototype.asteroids = 0;
 /** If game is over. @private @type {Boolean} */
 jsteroids.Game.prototype.gameOver = true;
 
-/** The intro. @private @type {jsteroids.Intro} */
-jsteroids.Game.prototype.intro = null;
+/** The menu. @private @type {jsteroids.Menu} */
+jsteroids.Game.prototype.menu = null;
 
 /** The hud. @private @type {jsteroids.Hud} */
 jsteroids.Game.prototype.hud = null;
@@ -103,7 +103,7 @@ jsteroids.Game.prototype.paused = false;
 
 jsteroids.Game.prototype.init = function()
 {
-    var container, canvas, s, scene, rootNode, intro, hud;
+    var container, canvas, s, scene, rootNode, menu, hud;
     
     // Try to get container reference
     this.container = container = document.getElementById(this.containerId);
@@ -141,9 +141,9 @@ jsteroids.Game.prototype.init = function()
         "color .5s ease-in-out";
     container.appendChild(stateLabel);
     
-    // Create the intro
-    intro = this.intro = new jsteroids.Intro(this);
-    container.appendChild(intro.getElement());
+    // Create the menu
+    menu = this.menu = new jsteroids.Menu(this);
+    container.appendChild(menu.getElement());
     
     // Create the HUD
     hud = this.hud = new jsteroids.Hud(this);
@@ -257,7 +257,7 @@ jsteroids.Game.prototype.start = function()
     if (!this.initialized) return;
     
     // Resume the scene (if it was paused)
-    this.scene.resume();
+    if (!this.paused) this.scene.resume();
 
     // Start the game thread
     this.timer = window.setInterval(this.run.bind(this), 1);
@@ -290,8 +290,6 @@ jsteroids.Game.prototype.pause = function()
     if (!this.paused)
     {
         this.scene.pause();
-        this.stateLabel.innerHTML = jsteroids.msgPause;
-        this.showStateLabel();
         this.paused = true;
     }
 };
@@ -303,10 +301,9 @@ jsteroids.Game.prototype.pause = function()
 
 jsteroids.Game.prototype.resume = function()
 {
-    if (this.paused)
+    if (this.paused && (this.gameOver || !this.menu.isOpen()))
     {
         this.paused = false;
-        this.hideStateLabel();
         this.scene.resume();
     }
 };
@@ -435,17 +432,14 @@ jsteroids.Game.prototype.handleControlDown = function(control, power)
 {
     if (power === undefined) power = 100;
     
-    if (this.gameOver)
+    // Controls when within menu
+    if (this.menu.isOpen())
     {
-        if (this.intro.isOpen())
-        {
-            if (this.isControl(control, jsteroids.ctrlStart))
-                this.newGame();
-            else
-                return false;
-        } else return false;
+        return false;
     }
-    else
+    
+    // Controls when playing
+    else if (!this.gameOver && !this.isPaused())
     {
         if (this.isControl(control, jsteroids.ctrlThrust))
             this.spaceship.startThrust(power);
@@ -455,13 +449,15 @@ jsteroids.Game.prototype.handleControlDown = function(control, power)
             this.spaceship.yawLeft(power);
         else if (this.isControl(control, jsteroids.ctrlFire))
             this.spaceship.startFireLaser(power);
-        else if (this.isControl(control, jsteroids.ctrlPause))
-        {
-            if (this.isPaused()) this.resume(); else this.pause();
-        }
+        else if (this.isControl(control, jsteroids.ctrlMenu))
+            this.gotoMenu();
         else
             return false;
     }
+    
+    // Unhandled control
+    else return false;
+
     return true;
 };
 
@@ -478,11 +474,8 @@ jsteroids.Game.prototype.handleControlDown = function(control, power)
  
 jsteroids.Game.prototype.handleControlUp = function(control)
 {
-    if (this.gameOver)
-    {
-        return false;
-    }
-    else
+    // Controls when playing
+    if (!this.menu.isOpen() && !this.gameOver && !this.isPaused())
     {
         if (this.isControl(control, jsteroids.ctrlThrust))
             this.spaceship.stopThrust();
@@ -495,6 +488,10 @@ jsteroids.Game.prototype.handleControlUp = function(control)
         else
             return false;
     }
+    
+    // Unhandled control
+    else return false;
+    
     return true;
 };
 
@@ -771,11 +768,14 @@ jsteroids.Game.prototype.completeLevel = function()
 
 jsteroids.Game.prototype.endGame = function()
 {
-    this.gameOver = true;
-    this.stateLabel.innerHTML = jsteroids.msgGameOver;
-    this.showStateLabel();
-    this.startIntro.bind(this).delay(5);
-    this.hud.close();
+    if (!this.gameOver)
+    {
+        this.gameOver = true;
+        this.stateLabel.innerHTML = jsteroids.msgGameOver;
+        this.showStateLabel();
+        this.startIntro.bind(this).delay(5);
+        this.hud.close();
+    }
 };
 
 
@@ -785,8 +785,10 @@ jsteroids.Game.prototype.endGame = function()
 
 jsteroids.Game.prototype.newGame = function()
 {
+    this.gameOver = true;
+    this.menu.close();
+    this.resume();
     this.destroyAll();
-    this.intro.close();
     this.stateLabel.innerHTML = jsteroids.msgFirstLevel;
     this.showStateLabel();
     this.reset.bind(this).delay(2);
@@ -841,7 +843,7 @@ jsteroids.Game.prototype.startIntro = function()
     this.newUFO();
     
     // Display the intro screen
-    this.intro.open();
+    this.menu.open();
 };
 
 
@@ -879,3 +881,38 @@ jsteroids.Game.prototype.updateShipState = function()
     this.hud.setHull(this.spaceship.getHull());
 };
 
+
+/**
+ * Pauses the game and opens the menu.
+ */
+
+jsteroids.Game.prototype.gotoMenu = function()
+{
+    this.pause();
+    this.hud.close();
+    this.menu.open();
+};
+
+
+/**
+ * Closes the menu and continues the game.
+ */
+
+jsteroids.Game.prototype.continueGame = function()
+{
+    this.menu.close();
+    this.hud.open();
+    this.resume();
+};
+
+
+/**
+ * Checks if game is over or not.
+ * 
+ * @return {Boolean} True if game is over, false if not
+ */
+
+jsteroids.Game.prototype.isGameOver = function()
+{
+    return this.gameOver;
+};
