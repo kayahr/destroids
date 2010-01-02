@@ -20,7 +20,7 @@
 
 jsteroids.Menu = function(game)
 {
-    var root, s, e, link;
+    var root, s, e;
     
     this.game = game;
     root = this.element = document.createElement("div");
@@ -47,7 +47,7 @@ jsteroids.Menu = function(game)
     s.fontFamily = "serif";
     s.fontSize = "25px";
     e.appendChild(document.createTextNode(jsteroids.msgTitle));
-    root.appendChild(e);
+    root.appendChild(e);    
     
     e = document.createElement("div");
     s = e.style;
@@ -55,21 +55,9 @@ jsteroids.Menu = function(game)
     s.marginBottom = "1em";
     e.appendChild(document.createTextNode(jsteroids.msgVersion));
     root.appendChild(e);
-    
-    e = document.createElement("div");
-    s = e.style;
-    s.marginBottom = "3em";
-    e.appendChild(document.createTextNode(jsteroids.msgCopyright));
-    e.appendChild(document.createTextNode(" "));
-    link = document.createElement("a");
-    s = link.style;
-    s.color = "inherit";
-    s.position = "relative";
-    s.zIndex = 100;
-    link.href = jsteroids.msgCopyrightHolderURL;
-    link.appendChild(document.createTextNode(jsteroids.msgCopyrightHolder));
-    e.appendChild(link);
-    root.appendChild(e);
+
+    // Create and append the high scores table
+    root.appendChild(this.createHighScores());
     
     // Create the "new game" button
     e = document.createElement("div");
@@ -134,6 +122,9 @@ jsteroids.Menu.prototype.opened = false;
 /** The continue button. @private @type {HTMLElement} */
 jsteroids.Menu.prototype.continueButton = null;
 
+/** The high scores table. @private @type {HTMLElement} */
+jsteroids.Menu.prototype.highScoresTable = null;
+
 
 /**
  * Opens the menu screen.
@@ -144,6 +135,7 @@ jsteroids.Menu.prototype.open = function()
     var s;
 
     this.continueButton.style.display = this.game.isGameOver() ? "none" : "block";
+    this.updateHighScores();
     s = this.element.style;
     s.top = "40px";
     this.opened = true;
@@ -186,4 +178,76 @@ jsteroids.Menu.prototype.isOpen = function()
 jsteroids.Menu.prototype.getElement = function()
 {
     return this.element;
+};
+
+
+/**
+ * Creates and returns the high scores table.
+ * 
+ * @return {HTMLElement} The high scores table
+ * 
+ * @private
+ */
+
+jsteroids.Menu.prototype.createHighScores = function()
+{
+    var table, row, cell;
+    
+    table = this.highScoresTable = document.createElement("table");
+    table.id = "highScores";
+    
+    row = document.createElement("tr");
+    table.appendChild(row);
+    
+    cell = document.createElement("th");
+    row.appendChild(cell);
+    cell.appendChild(document.createTextNode("Name"));
+    
+    cell = document.createElement("th");
+    row.appendChild(cell);
+    cell.appendChild(document.createTextNode("Level"));
+    
+    cell = document.createElement("th");
+    row.appendChild(cell);
+    cell.appendChild(document.createTextNode("Score"));
+    
+    return table;
+};
+
+
+/**
+ * Updates the high scores table.
+ */
+
+jsteroids.Menu.prototype.updateHighScores = function()
+{
+    var table, row, scores, cell, entry, i, max;
+    
+    table = this.highScoresTable;
+    while ((row = table.lastChild).firstChild.tagName == "TD")
+    {
+        table.removeChild(row);
+    }
+    
+    scores = jsteroids.HighScores.getInstance().getScores();
+    console.log(scores);
+    for (i = 0, max = scores.length; i < max; i++)
+    {
+        entry = scores[i];
+        
+        row = document.createElement("tr");
+        table.appendChild(row);
+        
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell.appendChild(document.createTextNode(entry["name"]));
+        
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell.appendChild(document.createTextNode(entry["level"]));
+
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell.appendChild(document.createTextNode(entry["score"]));
+    }
 };

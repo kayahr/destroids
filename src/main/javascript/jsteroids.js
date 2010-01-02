@@ -153,7 +153,7 @@ jsteroids.msgFirstLevel = "Prepare for Level 1";
 jsteroids.msgNextLevel = "Right On Commander!<br /><br />Prepare for Level <strong>%LEVEL%</strong>"
 
 /** The game over message. @type {String} */
-jsteroids.msgGameOver = "Game Over";
+jsteroids.msgGameOver = "Game Over<br /><span class=\"detail\">End Score: <span class=\"score\">%SCORE%</span></span>";
 
 /** The shield display label. @type {String} */
 jsteroids.msgShield = "SHIELD";
@@ -178,6 +178,8 @@ jsteroids.msgPreferences = "Preferences";
 
 /** The about button label. @type {String} */
 jsteroids.msgAbout = "About";
+
+jsteroids.msgNewHighScore = "Congratulations! You scored %SCORE% points! This is rank %RANK% in the high score list! Please enter your name:";
 
 /** Keycodes for thrust. @type {Number} */
 jsteroids.ctrlThrust = [ 65, 38 ];

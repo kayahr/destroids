@@ -771,9 +771,12 @@ jsteroids.Game.prototype.endGame = function()
     if (!this.gameOver)
     {
         this.gameOver = true;
-        this.stateLabel.innerHTML = jsteroids.msgGameOver;
+        this.stateLabel.innerHTML = jsteroids.msgGameOver.replace("%SCORE%", this.score);
         this.showStateLabel();
-        this.startIntro.bind(this).delay(5);
+        if (jsteroids.HighScores.getInstance().determineRank(this.score))
+            this.newHighScore.bind(this).delay(5);
+        else
+            this.startIntro.bind(this).delay(5);
         this.hud.close();
     }
 };
@@ -916,4 +919,25 @@ jsteroids.Game.prototype.continueGame = function()
 jsteroids.Game.prototype.isGameOver = function()
 {
     return this.gameOver;
+};
+
+
+/**
+ * Records a new high score.
+ * 
+ * @param {Number} place
+ *            The achieved place
+ * @private 
+ */
+
+jsteroids.Game.prototype.newHighScore = function(place)
+{
+    var name, rank, highScores;
+
+    highScores = jsteroids.HighScores.getInstance();
+    rank = highScores.determineRank(this.score);
+    name = prompt(jsteroids.msgNewHighScore.replace("%SCORE%", this.score).
+        replace("%RANK%", rank));
+    if (name) highScores.add(name, this.level, this.score);
+    this.startIntro();
 };
