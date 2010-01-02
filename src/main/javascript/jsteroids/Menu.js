@@ -164,17 +164,17 @@ jsteroids.Menu.prototype.createHighScores = function()
     cell = document.createElement("th");
     row.appendChild(cell);
     cell.className = "name";
-    cell.appendChild(document.createTextNode("Name"));
+    cell.appendChild(document.createTextNode(jsteroids.msgName));
     
     cell = document.createElement("th");
     row.appendChild(cell);
     cell.className = "level";
-    cell.appendChild(document.createTextNode("Level"));
+    cell.appendChild(document.createTextNode(jsteroids.msgLevel));
     
     cell = document.createElement("th");
     row.appendChild(cell);
     cell.className = "score";
-    cell.appendChild(document.createTextNode("Score"));
+    cell.appendChild(document.createTextNode(jsteroids.msgScore));
     
     return table;
 };

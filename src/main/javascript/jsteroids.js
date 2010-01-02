@@ -172,16 +172,19 @@ jsteroids.msgNextLevel = "Right On Commander!<br /><br />Prepare for Level <stro
 jsteroids.msgGameOver = "Game Over<br /><span class=\"detail\">End Score: <span class=\"score\">%SCORE%</span></span>";
 
 /** The shield display label. @type {String} */
-jsteroids.msgShield = "SHIELD";
+jsteroids.msgShield = "Shield";
 
 /** The hull display label. @type {String} */
-jsteroids.msgHull = "HULL";
+jsteroids.msgHull = "Hull";
+
+/** The namey label. @type {String} */
+jsteroids.msgName = "Name";
 
 /** The score display label. @type {String} */
-jsteroids.msgScore = "SCORE";
+jsteroids.msgScore = "Score";
 
 /** The level display label. @type {String} */
-jsteroids.msgLevel = "LEVEL";
+jsteroids.msgLevel = "Level";
 
 /** The new-game button label. @type {String} */
 jsteroids.msgNewGame = "New Game";

@@ -131,6 +131,7 @@ body
 {
 	position: absolute;
 	white-space: nowrap;
+	text-transform: uppercase;
 }
 
 #hud #levelDisplay
