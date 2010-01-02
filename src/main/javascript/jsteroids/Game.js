@@ -771,7 +771,8 @@ jsteroids.Game.prototype.endGame = function()
     if (!this.gameOver)
     {
         this.gameOver = true;
-        this.stateLabel.innerHTML = jsteroids.msgGameOver.replace("%SCORE%", this.score);
+        this.stateLabel.innerHTML = jsteroids.msgGameOver.replace("%SCORE%",
+            jsteroids.formatNumber(this.score));
         this.showStateLabel();
         if (jsteroids.HighScores.getInstance().determineRank(this.score))
             this.newHighScore.bind(this).delay(5);
@@ -936,7 +937,8 @@ jsteroids.Game.prototype.newHighScore = function(place)
 
     highScores = jsteroids.HighScores.getInstance();
     rank = highScores.determineRank(this.score);
-    name = prompt(jsteroids.msgNewHighScore.replace("%SCORE%", this.score).
+    name = prompt(jsteroids.msgNewHighScore.replace("%SCORE%",
+        jsteroids.formatNumber(this.score)).
         replace("%RANK%", rank));
     if (name) highScores.add(name, this.level, this.score);
     this.startIntro();

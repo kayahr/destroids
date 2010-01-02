@@ -20,96 +20,75 @@
 
 jsteroids.Hud = function(game)
 {
-    var root, s, box, value;
+    var root, value, topBar, bottomBar, display;
     
     this.game = game;
     
     // Create the root element
     root = this.element = document.createElement("div");
-    s = root.style;
-    s.position = "absolute";
-    s.left = s.top = s.right = s.bottom = 0;
-    s.opacity = 0;
-    s.color = "#0f0";
-    s.fontSize = "10px";
-    s.fontWeight = "bold";
-    s.fontFamily = "verdana, sans-serif";
-    s.transition = s.oTransition = s.MozTransition = s.webkitTransition =
-        "color 0.5s ease-in-out, opacity 0.5s ease-in-out";
+    root.id = "hud";
     
-    // Create the shield box
-    box = document.createElement("div");
-    s = box.style;    
-    s.position = "absolute";
-    s.left = s.bottom = 0;
-    s.padding = "8px";
-    root.appendChild(box);
-    box.appendChild(document.createTextNode(jsteroids.msgShield));
-    value = this.shieldElement = document.createElement("span");
-    s = value.style;
-    s.margin = "0 8px";
-    s.position = "relative";
-    s.top = "1px";
-    s.fontWeight = "bold";
-    s.fontSize = "15px";
-    value.appendChild(document.createTextNode("100"));
-    box.appendChild(value);
-    box.appendChild(document.createTextNode("%"));
-
-    // Create the hull box
-    box = document.createElement("div");
-    s = box.style;    
-    s.position = "absolute";
-    s.right = s.bottom = 0;
-    s.padding = "7px";
-    root.appendChild(box);
-    box.appendChild(document.createTextNode(jsteroids.msgHull));
-    value = this.hullElement = document.createElement("span");
-    s = value.style;
-    s.margin = "0 8px";
-    s.position = "relative";
-    s.top = "1px";
-    s.fontWeight = "bold";
-    s.fontSize = "15px";
-    value.appendChild(document.createTextNode("100"));
-    box.appendChild(value);
-    box.appendChild(document.createTextNode("%"));
-
+    // Create the top HUD bar
+    topBar = document.createElement("div");
+    root.appendChild(topBar);
+    topBar.className = "bar";
+    topBar.id = "topBar";
+    
     // Create the level box
-    box = document.createElement("div");
-    s = box.style;    
-    s.position = "absolute";
-    s.left = s.top = 0;
-    s.padding = "8px";
-    root.appendChild(box);
-    box.appendChild(document.createTextNode(jsteroids.msgLevel));
+    display = document.createElement("div");
+    topBar.appendChild(display);
+    display.id = "levelDisplay";
+    display.className = "display";
+    display.appendChild(document.createTextNode(jsteroids.msgLevel));
     value = this.levelElement = document.createElement("span");
-    s = value.style;
-    s.margin = "0 8px";
-    s.position = "relative";
-    s.top = "1px";
-    s.fontWeight = "bold";
-    s.fontSize = "15px";
+    display.appendChild(value);
+    value.id = "levelValue";
+    value.className = "value";
     value.appendChild(document.createTextNode("1"));
-    box.appendChild(value);
 
     // Create the score box
-    box = document.createElement("div");
-    s = box.style;    
-    s.position = "absolute";
-    s.right = s.top = 0;
-    s.padding = "8px";
-    root.appendChild(box);
-    box.appendChild(document.createTextNode(jsteroids.msgScore));
+    display = document.createElement("div");
+    topBar.appendChild(display);
+    display.id = "scoreDisplay";
+    display.className = "display";
+    display.appendChild(document.createTextNode(jsteroids.msgScore));
     value = this.scoreElement = document.createElement("span");
-    s = value.style;
-    s.margin = "0 8px";
-    s.position = "relative";
-    s.top = "1px";
-    s.fontWeight = "bold";
-    s.fontSize = "15px";
+    display.appendChild(value);
+    value.id = "scoreValue";
+    value.className = "value";
     value.appendChild(document.createTextNode("0"));
-    box.appendChild(value);
+
+    // Create the bottom HUD bar
+    bottomBar = document.createElement("div");
+    root.appendChild(bottomBar);
+    bottomBar.className = "bar";
+    bottomBar.id = "bottomBar";
+    
+    // Create the shield display
+    display = document.createElement("div");
+    bottomBar.appendChild(display);
+    display.id = "shieldDisplay";
+    display.className = "display";
+    display.appendChild(document.createTextNode(jsteroids.msgShield));
+    value = this.shieldElement = document.createElement("span");
+    display.appendChild(value);
+    value.id = "shieldValue";
+    value.className = "value";
+    value.appendChild(document.createTextNode("100"));
+    display.appendChild(document.createTextNode("%"));
+
+    // Create the hull box
+    display = document.createElement("div");
+    bottomBar.appendChild(display);
+    display.id = "hullDisplay";
+    display.className = "display";
+    display.appendChild(document.createTextNode(jsteroids.msgHull));
+    value = this.hullElement = document.createElement("span");
+    display.appendChild(value);
+    value.id = "hullValue";
+    value.className = "value";
+    value.appendChild(document.createTextNode("100"));
+    display.appendChild(document.createTextNode("%"));
 };
 
 /** The game reference. @private @type {jsteroids.Game} */
@@ -264,5 +243,5 @@ jsteroids.Hud.prototype.setLevel = function(level)
 
 jsteroids.Hud.prototype.setScore = function(score)
 {
-    this.scoreElement.innerHTML = score;
+    this.scoreElement.innerHTML = jsteroids.formatNumber(score);
 };

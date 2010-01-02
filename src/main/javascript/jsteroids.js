@@ -1,6 +1,25 @@
 /** The namespace for JSteroids classes. @type {Object} */
 jsteroids = {};
 
+
+/**
+ * Formats a number
+ * 
+ * @param {Number} number
+ *            The number to format
+ * @return {String} The formatted number
+ */
+
+jsteroids.formatNumber = function(number)
+{
+    var rest;
+    
+    rest = parseInt(number / 1000);
+    if (rest) return jsteroids.formatNumber(rest) + jsteroids.msgThousandSep +
+        (1000 + (Math.abs(number) % 1000)).toString().substring(1);
+    return number;
+};
+
 /** The location of the images. @type {String} */
 jsteroids.imagesDir = "images";
 
@@ -128,9 +147,6 @@ jsteroids.UFO_BOUNDS = new twodee.Polygon([
 /** The function to call when preferences button is pressed. @type {Function} */
 jsteroids.onPreferences = null;
 
-/** The function to call when about button is pressed. @type {Function} */
-jsteroids.onAbout = null;
-
 /** The game title. @type {String} */
 jsteroids.msgTitle = "JSteroids"
 
@@ -176,10 +192,11 @@ jsteroids.msgContinueGame = "Continue";
 /** The preferences button label. @type {String} */
 jsteroids.msgPreferences = "Preferences";
 
-/** The about button label. @type {String} */
-jsteroids.msgAbout = "About";
-
+/** The new high score message. @type {String} */
 jsteroids.msgNewHighScore = "Congratulations! You scored %SCORE% points! This is rank %RANK% in the high score list! Please enter your name:";
+
+/** The thousand separator character. @type {String} */
+jsteroids.msgThousandSep = ",";
 
 /** Keycodes for thrust. @type {Number} */
 jsteroids.ctrlThrust = [ 65, 38 ];
