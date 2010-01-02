@@ -70,7 +70,7 @@ jsteroids.Ufo.prototype.nextCourseChange = 0;
 jsteroids.Ufo.prototype.nextFire = 3000;
 
 /** The UFO hull. @private @type {Number} */
-jsteroids.Ufo.prototype.hull = 200;
+jsteroids.Ufo.prototype.hull = 300;
 
 
 
