@@ -735,7 +735,8 @@ jsteroids.Game.prototype.completeLevel = function()
     var nextLevel;
     
     nextLevel = this.level + 1;
-    this.stateLabel.innerHTML = jsteroids.msgNextLevel.replace("%LEVEL%", nextLevel);
+    this.stateLabel.innerHTML = jsteroids.msgRightOn +
+        jsteroids.msgNextLevel.replace("%LEVEL%", nextLevel);
     this.showStateLabel();
     this.setLevel.bind(this, nextLevel).delay(5);
 };
@@ -772,7 +773,7 @@ jsteroids.Game.prototype.newGame = function()
     this.menu.close();
     this.resume();
     this.destroyAll();
-    this.stateLabel.innerHTML = jsteroids.msgFirstLevel;
+    this.stateLabel.innerHTML = jsteroids.msgNextLevel.replace("%LEVEL%", 1);
     this.showStateLabel();
     this.reset.bind(this).delay(2);
 };
