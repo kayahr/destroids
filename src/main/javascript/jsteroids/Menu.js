@@ -99,7 +99,11 @@ jsteroids.Menu.prototype.open = function()
     else
         this.continueButton.className = "button";
     this.updateHighScores();
-    this.element.className = "visible";
+    
+    // Stinking webOS. Can't handle transitions with CSS classes... 
+    //this.element.className = "visible";
+    this.element.style.top = "40px";
+    
     this.opened = true;
 };
 
@@ -110,7 +114,10 @@ jsteroids.Menu.prototype.open = function()
 
 jsteroids.Menu.prototype.close = function()
 {
-    this.element.className = "hidden";
+    // Stinking webOS. Can't handle transitions with CSS classes... 
+    //this.element.className = "hidden";
+    this.element.style.top = "-400px";
+    
     this.opened = false;
     
 };

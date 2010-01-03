@@ -119,7 +119,11 @@ jsteroids.Hud.prototype.scoreElement = null;
 
 jsteroids.Hud.prototype.open = function()
 {
-    this.element.className = "visible";
+    // Stinking webOS. Can't handle transitions with CSS classes... 
+    //this.element.className = "visible";
+    this.element.style.opacity = 1;
+    this.element.style.color = "#0f0";
+    
     this.opened = true;
 };
 
@@ -130,7 +134,11 @@ jsteroids.Hud.prototype.open = function()
 
 jsteroids.Hud.prototype.close = function()
 {
-    this.element.className = "hidden";
+    // Stinking webOS. Can't handle transitions with CSS classes... 
+    //this.element.className = "hidden";
+    this.element.style.opacity = 0;
+    this.element.style.color = "rgba(0, 0, 0, 0)";
+       
     this.opened = false;
 };
 
