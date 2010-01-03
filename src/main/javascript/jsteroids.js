@@ -160,10 +160,10 @@ jsteroids.msgCopyrightHolderURL = "http://www.ailis.de/~k/";
 jsteroids.msgCopyrightHolder = "Klaus Reimer";
 
 /** The first level message. @type {String} */
-jsteroids.msgFirstLevel = "Prepare for Level 1";
+jsteroids.msgFirstLevel = "Prepare for Level <span class=\"level\">1</span>";
 
 /** The next level message. @type {String} */
-jsteroids.msgNextLevel = "Right On Commander!<br /><br />Prepare for Level <strong>%LEVEL%</strong>"
+jsteroids.msgNextLevel = "Right On Commander!<br /><br />Prepare for Level <span class=\"level\">%LEVEL%</span>"
 
 /** The game over message. @type {String} */
 jsteroids.msgGameOver = "Game Over<br /><span class=\"detail\">End Score: <span class=\"score\">%SCORE%</span></span>";

@@ -1,11 +1,7 @@
-*
+#mainMenu
 {
     font-family: Verdana, sans-serif;
     font-size: 12px;      
-}
-
-#mainMenu
-{
     top: -400px;    
     position: absolute;
     left: 40px;
@@ -102,6 +98,8 @@
 
 #hud
 {
+    font-family: Verdana, sans-serif;
+    font-size: 12px;      
     position: absolute;
     left: 0;
     top: 0;
