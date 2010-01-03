@@ -917,9 +917,30 @@ jsteroids.Game.prototype.newHighScore = function(place)
 
     highScores = jsteroids.HighScores.getInstance();
     rank = highScores.determineRank(this.score);
-    name = prompt(jsteroids.msgNewHighScore.replace("%SCORE%",
+    message = jsteroids.msgNewHighScore.replace("%SCORE%",
         jsteroids.formatNumber(this.score)).
-        replace("%RANK%", rank));
-    if (name) highScores.add(name, this.level, this.score);
+        replace("%RANK%", rank)
+    jsteroids.onPrompt(jsteroids.msgNewHighScoreTitle, message,
+        this.saveHighScore, this);
+};
+
+
+/**
+ * Submits the high score name. This method must be called by the external
+ * newHighScore
+ * 
+ * @param {String} name
+ *            The high score name
+ * @private
+ */
+
+jsteroids.Game.prototype.saveHighScore = function(name)
+{
+    if (name)
+    {
+        highScores = jsteroids.HighScores.getInstance();
+        rank = highScores.determineRank(this.score);
+        highScores.add(name, this.level, this.score);
+    }
     this.startIntro();
 };

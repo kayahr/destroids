@@ -144,6 +144,12 @@ jsteroids.UFO_BOUNDS = new twodee.Polygon([
 /** The function to call when preferences button is pressed. @type {Function} */
 jsteroids.onPreferences = null;
 
+/** The prompt function. @type {Function} */
+jsteroids.onPrompt = function(title, message, onSubmit, context)
+{
+    onSubmit.call(context, prompt(title + " " + message));
+};
+
 /** The game title. @type {String} */
 jsteroids.msgTitle = "JSteroids"
 
@@ -192,8 +198,11 @@ jsteroids.msgContinueGame = "Continue";
 /** The preferences button label. @type {String} */
 jsteroids.msgPreferences = "Preferences";
 
+/** The new high score title. @type {String} */
+jsteroids.msgNewHighScoreTitle = "Congratulations!";
+
 /** The new high score message. @type {String} */
-jsteroids.msgNewHighScore = "Congratulations! You scored %SCORE% points! This is rank %RANK% in the high score list! Please enter your name:";
+jsteroids.msgNewHighScore = "You scored %SCORE% points! This is rank %RANK% in the high score list! Please enter your name:";
 
 /** The thousand separator character. @type {String} */
 jsteroids.msgThousandSep = ",";

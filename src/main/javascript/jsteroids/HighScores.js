@@ -21,6 +21,7 @@
 
 jsteroids.HighScores = function()
 {
+    this.scores = [];
     this.load();
 };
 
@@ -60,10 +61,10 @@ jsteroids.HighScores.prototype.load = function()
     // Read high scores from mojo cookies if possible
     if (window.Mojo && Mojo.Model && Mojo.Model.Cookie)
         cookie = new Mojo.Model.Cookie("highscores").get();
-    
-    this.reset();
+
     if (cookie)
     {
+        
         for (i = 0; i < this.entries; i++)
         {
             level = cookie["level" + i];
@@ -76,7 +77,7 @@ jsteroids.HighScores.prototype.load = function()
                 "score": score
             });
         }
-    }
+    } else this.reset();
 };
 
 
@@ -88,6 +89,7 @@ jsteroids.HighScores.prototype.save = function()
 {
     var data, max, entry, i;
     
+    data = {};
     for (i = 0, max = this.scores.length; i < max; i++)
     {
         entry = this.scores[i];
@@ -173,6 +175,8 @@ jsteroids.HighScores.prototype.add = function(name, level, score)
     // Truncate the list if needed
     if (this.scores.length > this.entries)
         this.scores = this.scores.slice(0, this.entries);
+    
+    this.save();
 };
 
 
