@@ -100,6 +100,27 @@
     text-transform: uppercase;   
 }
 
+#mainMenu #helpButton
+{
+    width: 101px;
+    height: 33px;
+    font-size: 14px;
+    padding-top: 9px;
+    background: url(../images/smallbutton.png) no-repeat;
+    float: left;
+    margin-right: 10px;
+}
+
+#mainMenu #preferencesButton
+{
+    width: 101px;
+    height: 33px;
+    font-size: 14px;
+    padding-top: 9px;
+    background: url(../images/smallbutton.png) no-repeat;
+    float: left;
+}
+
 #mainMenu .hidden-button
 {
     display: none;

@@ -193,7 +193,10 @@ jsteroids.msgNewGame = "New Game";
 jsteroids.msgContinueGame = "Continue";
 
 /** The preferences button label. @type {String} */
-jsteroids.msgPreferences = "Preferences";
+jsteroids.msgPreferences = "Prefs";
+
+/** The help button label. @type {String} */
+jsteroids.msgHelp = "Help";
 
 /** The new high score title. @type {String} */
 jsteroids.msgNewHighScoreTitle = "Congratulations!";

@@ -60,6 +60,17 @@ jsteroids.Menu = function(game)
     e.appendChild(document.createTextNode(jsteroids.msgContinueGame));
     
     // Create preferences button
+    if (jsteroids.onHelp)
+    {
+        e = document.createElement("div");
+        buttons.appendChild(e);
+        e.id = "helpButton";
+        e.className = "button";
+        e.onclick = jsteroids.onHelp;
+        e.appendChild(document.createTextNode(jsteroids.msgHelp));
+    }    
+
+    // Create preferences button
     if (jsteroids.onPreferences)
     {
         e = document.createElement("div");
