@@ -109,8 +109,8 @@ jsteroids.HighScores.prototype.save = function()
 jsteroids.HighScores.prototype.reset = function()
 {
     this.scores = [
-        { "name": "Scott Safran", "level": 5, "score": 4133 },
-        { "name": "Leo Daniels", "level": 4, "score": 4010 },
+        { "name": "Scott Safran", "level": 5, "score": 5000 },
+        { "name": "Leo Daniels", "level": 4, "score": 4000 },
         { "name": "Lyle Rains", "level": 3, "score": 3000 },
         { "name": "Ed Logg", "level": 2, "score": 2000 },
         { "name": "Atari", "level": 1, "score": 1000 },
