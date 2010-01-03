@@ -23,9 +23,6 @@ jsteroids.formatNumber = function(number)
 /** The location of the images. @type {String} */
 jsteroids.imagesDir = "images";
 
-/** The number of available background images. @type {Number} */
-jsteroids.backgrounds = 1;
-
 /** The number of available asteroid types. @type {Number} */
 jsteroids.asteroids = 5;
 

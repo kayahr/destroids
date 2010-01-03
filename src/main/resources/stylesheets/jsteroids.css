@@ -26,6 +26,11 @@ body
 	-moz-border-radius: 8px;
 }
 
+#mainMenu.visible
+{
+	top: 40px;
+}
+
 #mainMenu #title
 {
     font-family: Times New Roman;
@@ -91,6 +96,11 @@ body
     background: rgba(0, 255, 0, 0.2);   
 }
 
+#mainmenu .hidden-button
+{
+	display: none;
+}
+
 #hud
 {
     position: absolute;
@@ -99,13 +109,19 @@ body
     right: 0;
     bottom: 0;
     opacity: 0;
-    colo: "#0f0";
+    color: rgba(0, 0, 0, 0);
     font-size: 10px;
     font-weight: bold;
     transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
     -o-transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
     -moz-transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
     -webkit-transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+#hud.visible
+{
+    opacity: 1;
+    color: #0f0;
 }
 
 #hud .bar
@@ -165,4 +181,46 @@ body
     top: 2px;
     font-weight: bold;
     font-size: 16px;
+}
+
+#hud .value-warning
+{
+	color: #ff0;
+}
+
+#hud .value-critical
+{
+	color: #f44;
+}
+        
+#gameCanvas
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #000;
+    background-position: center center;
+    background-image: url(../images/background1.jpeg);    
+}
+
+#stateLabel
+{
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 33%;
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-weight: bold;
+    font-size: 25px;
+    color: rgba(255, 255, 128, 0);
+    transition: color .5s ease-in-out;
+    -o-transition: color .5s ease-in-out;
+    -webkit-transition: color .5s ease-in-out;
+    -moz-transition: color .5s ease-in-out;
+}
+
+#stateLabel.visible
+{
+    color: rgba(255, 255, 128, 0.75);
 }

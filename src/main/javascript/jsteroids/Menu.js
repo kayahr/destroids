@@ -94,12 +94,12 @@ jsteroids.Menu.prototype.highScoresTable = null;
 
 jsteroids.Menu.prototype.open = function()
 {
-    var s;
-
-    this.continueButton.style.display = this.game.isGameOver() ? "none" : "block";
+    if (this.game.isGameOver())
+        this.continueButton.className = "hidden-button button";
+    else
+        this.continueButton.className = "button";
     this.updateHighScores();
-    s = this.element.style;
-    s.top = "40px";
+    this.element.className = "visible";
     this.opened = true;
 };
 
@@ -110,10 +110,7 @@ jsteroids.Menu.prototype.open = function()
 
 jsteroids.Menu.prototype.close = function()
 {
-    var s;
-    
-    s = this.element.style;
-    s.top = "-400px";
+    this.element.className = "hidden";
     this.opened = false;
     
 };

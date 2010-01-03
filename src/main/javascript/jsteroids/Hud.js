@@ -119,11 +119,7 @@ jsteroids.Hud.prototype.scoreElement = null;
 
 jsteroids.Hud.prototype.open = function()
 {
-    var s;
-    
-    s = this.element.style;
-    s.opacity = 1;
-    s.color = "#0f0";
+    this.element.className = "visible";
     this.opened = true;
 };
 
@@ -134,11 +130,7 @@ jsteroids.Hud.prototype.open = function()
 
 jsteroids.Hud.prototype.close = function()
 {
-    var s;
-    
-    s = this.element.style;
-    s.opacity = 0;
-    s.color = "rgba(0, 0, 0, 0)";
+    this.element.className = "hidden";
     this.opened = false;
 };
 
@@ -176,22 +168,16 @@ jsteroids.Hud.prototype.getElement = function()
 
 jsteroids.Hud.prototype.setShield = function(shield)
 {
-    var s, e, v;
+    var e;
     
-    v = parseInt(shield).toString();
-    /*
-    if (shield < 100) v = "&nbsp;" + v;
-    if (shield < 10) v = "&nbsp;" + v;
-    */
     e = this.shieldElement;
-    e.innerHTML = v;
-    s = e.style;
+    e.innerHTML = shield;
     if (shield > 50)
-        s.color = "inherit";
+        e.className = "value";
     else if (shield > 25)
-        s.color = "#ff0";
-    else if (shield <=50)
-        s.color = "#f44";
+        e.className = "value value-warning";
+    else
+        e.className = "value value-critical";
 };
 
 
@@ -204,20 +190,16 @@ jsteroids.Hud.prototype.setShield = function(shield)
 
 jsteroids.Hud.prototype.setHull = function(hull)
 {
-    var s, e, v;
+    var e;
     
-    v = parseInt(hull).toString();
-    /*if (hull < 100) v = "&nbsp;" + v;
-    if (hull < 10) v = "&nbsp;" + v;*/
     e = this.hullElement;
-    e.innerHTML = v;
-    s = e.style;
+    e.innerHTML = hull;
     if (hull > 50)
-        s.color = "inherit";
+        e.className = "value";
     else if (hull > 25)
-        s.color = "#ff0";
-    else if (hull <=50)
-        s.color = "#f44";
+        e.className = "value value-warning";
+    else
+        e.className = "value value-critical";
 };
 
 

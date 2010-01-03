@@ -103,7 +103,7 @@ jsteroids.Game.prototype.paused = false;
 
 jsteroids.Game.prototype.init = function()
 {
-    var container, canvas, s, scene, rootNode, menu, hud;
+    var container, canvas, scene, rootNode, menu, hud;
     
     // Try to get container reference
     this.container = container = document.getElementById(this.containerId);
@@ -117,29 +117,13 @@ jsteroids.Game.prototype.init = function()
     
     // Create the canvas
     this.canvas = canvas = document.createElement("canvas");
-    s = canvas.style;
-    s.position = "absolute";
-    s.left = s.top = 0;
-    s.background = "#000 center center url(" + jsteroids.imagesDir +
-        "/background1.jpeg)";
-
     container.appendChild(canvas);
-
+    canvas.id = "gameCanvas";
 
     // Create the game state label
     this.stateLabel = stateLabel = document.createElement("span");
-    s = stateLabel.style;
-    s.position = "absolute";
-    s.left = s.right = "16px";
-    s.top = "33%";
-    s.textAlign = "center";
-    s.fontFamily = "Times New Roman, serif";
-    s.fontWeight = "bold";
-    s.fontSize = "30px";
-    s.color = "rgba(255, 255, 128, 0)";
-    s.transition = s.oTransition = s.MozTransition = s.webkitTransition =
-        "color .5s ease-in-out";
     container.appendChild(stateLabel);
+    stateLabel.id = "stateLabel";
     
     // Create the menu
     menu = this.menu = new jsteroids.Menu(this);
@@ -359,7 +343,7 @@ jsteroids.Game.prototype.run = function()
 
 jsteroids.Game.prototype.setLevel = function(level)
 {
-    var bgId, rootNode, asteroids;
+    var rootNode, asteroids;
     
     this.hideStateLabel();
 
@@ -369,12 +353,7 @@ jsteroids.Game.prototype.setLevel = function(level)
     
     // Set the level
     this.level = level;
-    
-    // Setup the background image
-    bgId = (level % jsteroids.backgrounds) + 1;
-    this.canvas.style.backgroundImage = "url(" + jsteroids.imagesDir +
-        "/background" + bgId + ".jpeg)";
-    
+        
     // Create the asteroids
     this.asteroids = 0;
     asteroids = 2 + parseInt(level / 3);
@@ -860,7 +839,7 @@ jsteroids.Game.prototype.startIntro = function()
 
 jsteroids.Game.prototype.showStateLabel = function()
 {
-    this.stateLabel.style.color = "rgba(255, 255, 128, 0.75)"; 
+    this.stateLabel.className = "visible"; 
 };
 
 
@@ -872,7 +851,7 @@ jsteroids.Game.prototype.showStateLabel = function()
 
 jsteroids.Game.prototype.hideStateLabel = function()
 {
-    this.stateLabel.style.color = "rgba(255, 255, 128, 0)"; 
+    this.stateLabel.className = "hidden"; 
 };
 
 
