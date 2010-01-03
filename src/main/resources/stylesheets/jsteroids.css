@@ -1,50 +1,50 @@
+@font-face
+{
+	font-family: Heavy Data;
+	src: url(../fonts/heavy_data.ttf);
+}
+
 #mainMenu
 {
-    font-family: Verdana, sans-serif;
-    font-size: 12px;      
-    top: -400px;    
     position: absolute;
-    left: 40px;
-    right: 40px;
-    border: solid #080 1px;
-    padding: 10px;
-    text-align: center;
-    color: #cc0;
+    width: 250px;
+    height: 330px;
+    top: 50%;
+    left: -50%;
+    margin-top: -165px;
+    margin-left: -125px;
     z-index: 3;
-    background: rgba(0, 255, 0, 0.2);    
-    transition: top 0.5s ease-in-out;
-    -o-transition: top 0.5s ease-in-out;
-    -webkit-transition: top 0.5s ease-in-out;
-    -moz-transition: top 0.5s ease-in-out;
-    border-radius: 8px;
-    -o-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
+    background: url(../images/menubox.png);    
+    transition: left 0.5s ease-in-out;
+    -o-transition: left 0.5s ease-in-out;
+    -webkit-transition: left 0.5s ease-in-out;
+    -moz-transition: left 0.5s ease-in-out;
 }
 
 #mainMenu.visible
 {
-    top: 40px;
+ 	left: 50%;
 }
 
 #mainMenu #title
 {
-    font-family: Times New Roman;
-    font-size: 25px;
-}
-
-#mainMenu #version
-{    
-    font-size: 12px;
-    margin-bottom: 1em;
+    font-family: Heavy Data;
+    font-weight: bold;
+    color: #0f0;
+    font-size: 34px;
+    margin-top: 10px;
+    text-align: center;
 }
 
 #highScores
 {
-    width: 100%;
+    width: 200px;
+    margin: 1em auto;
+    font-size: 11px;
+    font-family: Verdana, sans-serif;
+    color: #ff0;
     border-collapse: collapse;
     border-spacing: 0;
-    margin: 1em 0;
 }
 
 #highScores td, #highScores th
@@ -78,17 +78,26 @@
     text-align: right;
 }
 
+#mainMenu #buttons
+{
+    position: absolute;
+    left: 19px;
+    bottom: 19px;
+}
+
 #mainMenu .button
 {
-    padding: 10px 20px;
-    border: solid 1px #0f0;
-    margin: 8px 0;
+	width: 212px;
+	text-align: center;
+	height: 35px;
+    margin-top: 10px;
     cursor: pointer;
-    border-radius: 8px;
-    -o-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    background: rgba(0, 255, 0, 0.2);   
+    font-family: Verdana, sans-serif;
+    font-size: 18px;
+    padding-top: 7px;
+    color: #0f0;
+    background: url(../images/button.png) no-repeat;
+    text-transform: uppercase;   
 }
 
 #mainMenu .hidden-button
@@ -103,22 +112,12 @@
     position: absolute;
     left: 0;
     top: 0;
+    color: #0f0;
     right: 0;
     bottom: 0;
-    opacity: 0;
-    color: rgba(0, 0, 0, 0);
     font-size: 10px;
     font-weight: bold;
-    transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
-    -o-transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
-    -webkit-transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
-    -moz-transition: color 0.5s ease-in-out, opacity 0.5s ease-in-out;
-}
-
-#hud.visible
-{
-	opacity: 1;
-    color: #0f0;
+    overflow: hidden;
 }
 
 #hud .bar
@@ -126,18 +125,36 @@
     left: 0;
     right: 0;
     position: absolute;
-    height: 24px;
-    background: rgba(0, 255, 0, 0.1);
+    height: 35px;
+    background: url(../images/hud_gradient.png) repeat-x;
 }
 
 #hud #topBar
 {
-    top: 8px;
+    top: -35px;
+    transition: top 0.5s ease-in-out;
+    -o-transition: top 0.5s ease-in-out;
+    -webkit-transition: top 0.5s ease-in-out;
+    -moz-transition: top 0.5s ease-in-out;
 }
 
 #hud #bottomBar
 {
-    bottom: 8px;
+    bottom: -35px;
+    transition: bottom 0.5s ease-in-out;
+    -o-transition: bottom 0.5s ease-in-out;
+    -webkit-transition: bottom 0.5s ease-in-out;
+    -moz-transition: bottom 0.5s ease-in-out;
+}
+
+#hud.visible #topBar
+{
+    top: 0;
+}
+
+#hud.visible #bottomBar
+{
+    bottom: 0;
 }
 
 #hud .bar .display
@@ -151,30 +168,31 @@
 #hud #levelDisplay
 {
     left: 8px;
-    top: 0;
+    top: 4px;
 }
 
 #hud #scoreDisplay
 {
     right: 8px;
-    top: 0;
+    top: 4px;
 }
 
 #hud #shieldDisplay
 {
     left: 8px;
-    top: 0;
+    top: 4px;
 }
 
 #hud #hullDisplay
 {
     right: 8px;
-    top: 0;
+    top: 4px;
 }
 
 #hud .value
 {
-    margin: 0 8px;
+    color: #0f0;
+	margin: 0 8px;
     position: relative;
     top: 2px;
     font-weight: bold;

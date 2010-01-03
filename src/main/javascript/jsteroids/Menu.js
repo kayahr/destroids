@@ -20,7 +20,7 @@
 
 jsteroids.Menu = function(game)
 {
-    var root, e;
+    var root, e, buttons;
     
     // Remember the game reference
     this.game = game;
@@ -35,26 +35,25 @@ jsteroids.Menu = function(game)
     e.id = "title";
     e.appendChild(document.createTextNode(jsteroids.msgTitle));
     
-    // Create the version element
-    e = document.createElement("div");
-    root.appendChild(e);
-    e.id = "version";
-    e.appendChild(document.createTextNode(jsteroids.msgVersion));
-
     // Create and append the high scores table
     root.appendChild(this.createHighScores());
     
+    // Create the buttons container
+    buttons = this.buttons = document.createElement("div");
+    root.appendChild(buttons);
+    buttons.id = "buttons";
+    
     // Create the "new game" button
     e = document.createElement("div");
+    buttons.appendChild(e);
     e.id = "newGameButton";
     e.className = "button";
-    root.appendChild(e);
     e.onclick = function() { game.newGame.call(game); };
     e.appendChild(document.createTextNode(jsteroids.msgNewGame));
     
     // Create the "Continue" button
     e = this.continueButton = document.createElement("div");
-    root.appendChild(e);
+    buttons.appendChild(e);
     e.id = "continueGameButton";
     e.className = "button";
     e.onclick = function() { game.continueGame.call(game); };
@@ -64,7 +63,7 @@ jsteroids.Menu = function(game)
     if (jsteroids.onPreferences)
     {
         e = document.createElement("div");
-        root.appendChild(e);
+        buttons.appendChild(e);
         e.id = "preferencesButton";
         e.className = "button";
         e.onclick = jsteroids.onPreferences;
@@ -80,6 +79,9 @@ jsteroids.Menu.prototype.element = null;
 
 /** If menu is open or not. @private @type {Boolean} */
 jsteroids.Menu.prototype.opened = false;
+
+/** The buttons container. @private @type {HTMLElement} */
+jsteroids.Menu.prototype.buttons = null;
 
 /** The continue button. @private @type {HTMLElement} */
 jsteroids.Menu.prototype.continueButton = null;
@@ -100,10 +102,7 @@ jsteroids.Menu.prototype.open = function()
         this.continueButton.className = "button";
     this.updateHighScores();
     
-    // Stinking webOS. Can't handle transitions with CSS classes... 
-    //this.element.className = "visible";
-    this.element.style.top = "40px";
-    
+    this.element.className = "visible";
     this.opened = true;
 };
 
@@ -114,10 +113,7 @@ jsteroids.Menu.prototype.open = function()
 
 jsteroids.Menu.prototype.close = function()
 {
-    // Stinking webOS. Can't handle transitions with CSS classes... 
-    //this.element.className = "hidden";
-    this.element.style.top = "-400px";
-    
+    this.element.className = "";
     this.opened = false;
     
 };

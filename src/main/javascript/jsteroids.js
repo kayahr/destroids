@@ -153,9 +153,6 @@ jsteroids.onPrompt = function(title, message, onSubmit, context)
 /** The game title. @type {String} */
 jsteroids.msgTitle = "JSteroids"
 
-/** The game version. @type {String} */
-jsteroids.msgVersion = "1.0.0-SNAPSHOT"
-
 /** The copyright message. @type {String} */ 
 jsteroids.msgCopyright = "Copyright © 2009"
     
