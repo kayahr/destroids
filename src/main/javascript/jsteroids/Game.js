@@ -91,7 +91,7 @@ jsteroids.Game.prototype.menu = null;
 jsteroids.Game.prototype.hud = null;
 
 /** The last screen orientation (Accelerometer support) @private @type {Number} */
-jsteroids.Game.prototype.lastOrientation = 0;
+jsteroids.Game.prototype.lastOrientation = 2;
 
 /** If game has been paused. @private @type {Boolean} */
 jsteroids.Game.prototype.paused = false;
@@ -559,12 +559,12 @@ jsteroids.Game.prototype.handleOrientationChange = function(event)
     {
         case 2:
             roll = event.roll;
-            pitch = event.pitch;
+            pitch = -event.pitch;
             break;
 
         case 3:
             roll = -event.roll;
-            pitch = -event.pitch;
+            pitch = event.pitch;
             break;
 
         case 4:
@@ -582,23 +582,48 @@ jsteroids.Game.prototype.handleOrientationChange = function(event)
             pitch = 0;            
     }
     
+    roll -= jsteroids.ctrlRollCenter;
+    pitch -= jsteroids.ctrlPitchCenter;
+    
     // Dead zone
-    if (Math.abs(roll) < 5) roll = 0;
-    if (Math.abs(pitch) < 5) pitch = 0;
-
+    if (Math.abs(roll) < jsteroids.ctrlRollDeadZone) roll = 0;
+    if (Math.abs(pitch) < jsteroids.ctrlPitchDeadZone) pitch = 0;
+    
     // Calculate power
-    rollPower = Math.min(100, Math.abs(roll) * 100 / 22.5);    
-    pitchPower = Math.min(100, Math.abs(pitch) * 100 / 22.5);    
+    rollPower = Math.min(100, Math.abs(roll) * 50 / jsteroids.ctrlRollRange);    
+    pitchPower = Math.min(100, Math.abs(pitch) * 50 / jsteroids.ctrlPitchRange);    
     
     // Apply the roll and pitch
-    if (roll)
-        this.handleControlDown(-2, rollPower);
-    else
+    if (roll > 0)
+    {
         this.handleControlUp(-2);
-    if (pitch)
-        this.handleControlDown(-3, pitchPower);
-    else
+        this.handleControlDown(-3, rollPower);
+    }
+    else if (roll < 0)
+    {
         this.handleControlUp(-3);
+        this.handleControlDown(-2, rollPower);
+    }
+    else
+    {
+        this.handleControlUp(-2);
+        this.handleControlUp(-3);
+    }
+    if (pitch > 0)
+    {
+        this.handleControlUp(-4);
+        this.handleControlDown(-5, pitchPower);
+    }
+    else if (pitch < 0)
+    {
+        this.handleControlUp(-5);
+        this.handleControlDown(-4, pitchPower);
+    }
+    else
+    {
+        this.handleControlUp(-4);
+        this.handleControlUp(-5);
+    }
 };
 
     

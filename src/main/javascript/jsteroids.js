@@ -207,6 +207,24 @@ jsteroids.msgNewHighScore = "You scored %SCORE% points! This is rank %RANK% in t
 /** The thousand separator character. @type {String} */
 jsteroids.msgThousandSep = ",";
 
+/** The roll center. @type {Number} */
+jsteroids.ctrlRollCenter = 0;
+
+/** The roll center. @type {Number} */
+jsteroids.ctrlPitchCenter = 0;
+
+/** The roll range in degree. @type {Number} */
+jsteroids.ctrlRollRange = 45;
+
+/** The roll range in degree. @type {Number} */
+jsteroids.ctrlPitchRange = 45;
+
+/** The pitch dead zone in degree. @type {Number} */
+jsteroids.ctrlPitchDeadZone = 10;
+
+/** The roll dead zone in degree. @type {Number} */
+jsteroids.ctrlRollDeadZone = 10;
+
 /** Keycodes for thrust. @type {Number} */
 jsteroids.ctrlThrust = [ 65, 38 ];
 

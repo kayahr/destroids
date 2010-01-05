@@ -110,10 +110,11 @@ jsteroids.Spaceship.prototype.hull = 100;
  * Starts thrust forward.
  */
 
-jsteroids.Spaceship.prototype.startThrust = function()
+jsteroids.Spaceship.prototype.startThrust = function(power)
 {
-    this.thrust = jsteroids.Spaceship.THRUST * this.hull / 100;
-    this.mainThrust.enable();
+    this.thrust = jsteroids.Spaceship.THRUST * this.hull / 100 *
+        Math.max(0, power) / 100;
+    if (this.thrust) this.mainThrust.enable();
 };
 
 
