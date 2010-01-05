@@ -189,25 +189,25 @@
 #hud #levelDisplay
 {
     left: 8px;
-    top: 4px;
+    top: 6px;
 }
 
 #hud #scoreDisplay
 {
     right: 8px;
-    top: 4px;
+    top: 6px;
 }
 
 #hud #shieldDisplay
 {
     left: 8px;
-    top: 4px;
+    top: 6px;
 }
 
 #hud #hullDisplay
 {
     right: 8px;
-    top: 4px;
+    top: 6px;
 }
 
 #hud .value
@@ -215,9 +215,9 @@
     color: #0f0;
 	margin: 0 8px;
     position: relative;
-    top: 2px;
+    top: 1px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #hud .value-warning
