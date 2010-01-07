@@ -973,3 +973,15 @@ jsteroids.Game.prototype.saveHighScore = function(name)
     }
     this.startIntro();
 };
+
+
+/**
+ * Checks if menu is currently open.
+ * 
+ * @return {Boolean} True if menu is open, false if not
+ */
+
+jsteroids.Game.prototype.isMenuOpen = function()
+{
+    return this.menu.isOpen();
+};
