@@ -240,7 +240,7 @@ jsteroids.Spaceship.prototype.update = function(delta)
     spin = physics.getSpin();
         
     // Auto-pilot
-    if (!this.yawing)
+    if (!this.yawing && jsteroids.ctrlRotationCompensator)
     {
         if (spin)
         {

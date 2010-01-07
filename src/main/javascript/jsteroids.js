@@ -239,3 +239,6 @@ jsteroids.ctrlFire = [ 32, 81 ];
 
 /** Keycodes for menu. @type {Number} */
 jsteroids.ctrlMenu = [ 27, -1 ];
+
+/** If rotation compensator should be used. @type {Boolean} */
+jsteroids.ctrlRotationCompensator = true;

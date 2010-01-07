@@ -586,12 +586,16 @@ jsteroids.Game.prototype.handleOrientationChange = function(event)
     pitch -= jsteroids.ctrlPitchCenter;
     
     // Dead zone
-    if (Math.abs(roll) < jsteroids.ctrlRollDeadZone) roll = 0;
-    if (Math.abs(pitch) < jsteroids.ctrlPitchDeadZone) pitch = 0;
+    rollDeadZone = jsteroids.ctrlRollDeadZone / 2;
+    pitchDeadZone = jsteroids.ctrlPitchDeadZone / 2;
+    if (Math.abs(roll) < rollDeadZone) roll = 0;
+    if (Math.abs(pitch) < pitchDeadZone) pitch = 0;
     
     // Calculate power
-    rollPower = Math.min(100, Math.abs(roll) * 200 / jsteroids.ctrlRollRange);    
-    pitchPower = Math.min(100, Math.abs(pitch) * 200 / jsteroids.ctrlPitchRange);    
+    rollRange = jsteroids.ctrlRollRange / 2;
+    pitchRange = jsteroids.ctrlPitchRange / 2;
+    rollPower = Math.min(100, (Math.abs(roll) - rollDeadZone) * 100 / (rollRange - rollDeadZone));    
+    pitchPower = Math.min(100, (Math.abs(pitch) - pitchDeadZone) * 100 / (pitchRange - pitchDeadZone));    
     
     // Apply the roll and pitch
     if (roll > 0)
