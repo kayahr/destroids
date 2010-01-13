@@ -105,6 +105,9 @@ jsteroids.Spaceship.prototype.shield = 100;
 /** The hull strength in percent. @private @type {Number} */
 jsteroids.Spaceship.prototype.hull = 100;
 
+/** The target heading. @private @type {Number} */
+jsteroids.Spaceship.prototype.targetHeading = null;
+
 
 /**
  * Starts thrust forward.
@@ -256,6 +259,41 @@ jsteroids.Spaceship.prototype.update = function(delta)
         }
     }
 
+    targetHeading = this.targetHeading;
+    if (targetHeading !== null)
+    {
+        heading = this.getHeading();
+        diff = jsteroids.getAngleDiff(heading, targetHeading);
+        var v = physics.getSpin();
+        var a = jsteroids.Spaceship.YAW * this.hull / 100;
+        if (v < 0) a = -a;
+        var distance = a ? (-1*(v*v)/(2*-a)) : 0;
+        //power = Math.min(100, 100 / 10
+                //* Math.abs(diff));
+        power = 100;
+            
+        if (diff < -1)
+        {
+            if (diff > distance)
+                this.yawRight(power);
+            else
+                this.yawLeft(power);
+        }
+        else if (diff > 1)
+        {
+            if (diff > distance)
+                this.yawRight(power);
+            else
+                this.yawLeft(power);
+        }
+        else
+        {
+            this.targetHeading = null;
+            //this.setHeading(targetHeading);
+            this.stopYaw();
+        }
+    }
+    
     // Animate left and right thrust
     spinAcceleration = physics.getSpinAcceleration();
     this.animateLeftThrust(spinAcceleration);
@@ -437,4 +475,49 @@ jsteroids.Spaceship.prototype.destroy = function()
     
     // End the game
     this.game.endGame();
+};
+
+
+/**
+ * Returns the current heading of the spaceship in clock-wise RAD.
+ * 
+ * @return {Number} The current heading of the spaceship
+ */
+
+jsteroids.Spaceship.prototype.getHeading = function()
+{
+    return this.getTransform().getRotationAngle();    
+};
+
+
+/**
+ * Sets the current heading of the spaceship in clock-wise RAD.
+ * 
+ * @param {Number} heading
+ *            The heading to set
+ */
+
+jsteroids.Spaceship.prototype.setHeading = function(heading)
+{
+    this.getTransform().rotate(heading - this.getHeading());
+};
+
+
+/**
+ * Sets the target heading in clock-wise RAD. The auto-pilot then
+ * tries to reach this heading as fast as possible.
+ * 
+ * @param {Number} targetHeading
+ *            The target heading to set
+ */
+
+jsteroids.Spaceship.prototype.setTargetHeading = function(targetHeading)
+{
+    var heading;
+    
+    heading = this.getHeading();
+    if (targetHeading != heading)
+    {
+        this.targetHeading = targetHeading;
+    }
 };

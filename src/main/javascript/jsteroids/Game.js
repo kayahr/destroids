@@ -430,8 +430,26 @@ jsteroids.Game.prototype.handleControlDown = function(control, power)
             this.spaceship.startFireLaser(power);
         else if (this.isControl(control, jsteroids.ctrlMenu))
             this.gotoMenu();
-        else
+        else if (jsteroids.ctrlGravity)
+        {
+            switch (control)
+            {
+                case 102:
+                    this.spaceship.setTargetHeading(Math.PI / 2);
+                    break;
+                case 104:
+                    this.spaceship.setTargetHeading(0);
+                    break;
+                case 100:
+                    this.spaceship.setTargetHeading(Math.PI + Math.PI / 2);
+                    break;
+                case 98:
+                    this.spaceship.setTargetHeading(Math.PI);
+                    break;
+            }
+            console.log(control);
             return false;
+        }
     }
     
     // Unhandled control
@@ -545,6 +563,7 @@ jsteroids.Game.prototype.handleMouseUp = function(event)
 jsteroids.Game.prototype.handleOrientationChange = function(event)
 {
     var roll, pitch, pitchPower, rollPower;
+    var angle, heading, diff;
 
     // If position is not 0 or 1 then a orientation change was performed.
     // Remember this orientation change because this is the base for
@@ -580,6 +599,13 @@ jsteroids.Game.prototype.handleOrientationChange = function(event)
         default:
             roll = 0;
             pitch = 0;            
+    }
+    
+    if (jsteroids.ctrlGravity)
+    {
+        angle = new twodee.Vector(0, 1).getAngle(new twodee.Vector(roll,
+            -pitch));
+        this.spaceship.setTargetHeading(angle);
     }
     
     roll -= jsteroids.ctrlRollCenter;

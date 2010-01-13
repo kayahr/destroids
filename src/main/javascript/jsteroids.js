@@ -20,6 +20,46 @@ jsteroids.formatNumber = function(number)
     return number;
 };
 
+
+/**
+ * Sanitizes the specified angle (RAD) so the returned angle
+ * is between 0 and 2*PI.
+ * 
+ * @param {Number} angle
+ *            The angle to sanitize
+ * @return {Number} The sanitized angle
+ */
+
+jsteroids.sanitizeAngle = function(angle)
+{
+    var pi2;
+    
+    pi2 = Math.PI * 2;
+    return ((angle % pi2) + pi2) % pi2;
+};
+
+
+/**
+ * Returns the difference between the two angles (Both in RAD). The
+ * returned difference angle is between -PI and PI. Negative means
+ * the angle is anti-clockwise, positive means it is clockwise.
+ * 
+ * @param {Number} startAngle
+ *            The starting angle
+ * @param {Number} endAngle
+ *            The ending enagle
+ */
+
+jsteroids.getAngleDiff = function(startAngle, endAngle)
+{   
+    startAngle = jsteroids.sanitizeAngle(startAngle);
+    endAngle = jsteroids.sanitizeAngle(endAngle);
+    diff = jsteroids.sanitizeAngle(endAngle - startAngle);
+    if (diff > Math.PI) diff -= Math.PI * 2;
+    return diff;
+};
+
+
 /** The location of the images. @type {String} */
 jsteroids.imagesDir = "images";
 
@@ -242,3 +282,6 @@ jsteroids.ctrlMenu = [ 27, -1 ];
 
 /** If rotation compensator should be used. @type {Boolean} */
 jsteroids.ctrlRotationCompensator = true;
+
+/** If gravity control should be used. @type {Boolean} */
+jsteroids.ctrlGravity = false;
