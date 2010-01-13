@@ -82,7 +82,7 @@ jsteroids.Asteroid = function(game, small, parentAsteroid, subId)
     if (tmp > 90 - 22.5) heading -= tmp - (90 - 22.5);    
     
     // Calculate a level (and size) specific speed
-    speed = 25 + (small ? 50 : 0) + level * 5;
+    speed = 25 + (small ? 50 : 0) + level * 2;
     
     // Calculate and apply the velocity vector
     physics.getVelocity().set(0, speed).rotate(heading * Math.PI / 180);

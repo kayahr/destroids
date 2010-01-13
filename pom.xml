@@ -95,6 +95,7 @@
                 <file>jsteroids.js</file>
                 <file>jsteroids/Laser.js</file>
                 <file>jsteroids/Asteroid.js</file>
+                <file>jsteroids/Energy.js</file>
                 <file>jsteroids/Spaceship.js</file>
                 <file>jsteroids/Ufo.js</file>
                 <file>jsteroids/Menu.js</file>

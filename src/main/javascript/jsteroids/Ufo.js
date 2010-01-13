@@ -180,6 +180,9 @@ jsteroids.Ufo.prototype.destroy = function()
     // Score points for the UFO if it was not destroyed by friendly fire
     this.game.addScore(100);
 
+    // Drop some energy
+    if (!this.game.isGameOver()) this.dropEnergy();
+    
     // Remove the UFO
     this.remove();
     
@@ -232,4 +235,22 @@ jsteroids.Ufo.prototype.addDamage = function(damage)
 {
     this.hull = Math.max(0, this.hull - damage);
     if (!this.hull) this.destroy();
+};
+
+
+/**
+ * Drop some energy.
+ * 
+ * @private
+ */
+
+jsteroids.Ufo.prototype.dropEnergy = function()
+{
+    var energy, transform;
+    
+    energy = new jsteroids.Energy(this.game);
+    transform = this.getTransform();
+    energy.getTransform().setTransform(transform);
+    this.getPhysics().getVelocity().copy(energy.getPhysics().getVelocity());
+    this.parentNode.appendChild(energy);   
 };

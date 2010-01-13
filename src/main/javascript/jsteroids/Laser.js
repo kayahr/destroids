@@ -102,35 +102,6 @@ jsteroids.Laser.prototype.handleCollide = function(laser, collider)
  *            The time delta in milliseconds
  */
 
-jsteroids.Laser.prototype.update2 = function(delta)
-{
-    var x, y, transform, xRadius, yRadius, bbox, game;
-    
-    twodee.PolygonNode.prototype.update.call(this, delta);
-    
-    transform = this.getTransform();
-    
-    // Calculate the maximum x and y radius of the position
-    bbox = this.getBounds().getBoundingBox();
-    game = this.game;
-    xRadius = (game.width + bbox.getWidth()) / 2;
-    yRadius = (game.height + bbox.getHeight()) / 2;
-    
-    // Correct the position if out of screen
-    x = transform.m02;
-    y = transform.m12;
-    if (x > xRadius || x < -xRadius || y > yRadius || y < -yRadius)
-        this.remove();
-};
-
-
-/**
- * @see twodee.PolygonNode#update
- * 
- * @param {Number} delta
- *            The time delta in milliseconds
- */
-
 jsteroids.Laser.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, bbox, game;

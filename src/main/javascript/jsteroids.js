@@ -181,6 +181,18 @@ jsteroids.UFO_BOUNDS = new twodee.Polygon([
     new twodee.Vector(22 - 24, 15 - 8)
 ]);
 
+/** The drop bounds. @private @type {twodee.Polygon} */
+jsteroids.DROP_BOUNDS = new twodee.Polygon([
+    new twodee.Vector(-7,  0),
+    new twodee.Vector(-5, -5),
+    new twodee.Vector( 0, -7),
+    new twodee.Vector( 5, -5),
+    new twodee.Vector( 7,  0),
+    new twodee.Vector( 5,  5),
+    new twodee.Vector( 0,  7),
+    new twodee.Vector(-5,  5)
+]);
+
 /** The function to call when preferences button is pressed. @type {Function} */
 jsteroids.onPreferences = null;
 

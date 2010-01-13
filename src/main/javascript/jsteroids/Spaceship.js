@@ -411,6 +411,23 @@ jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
         collider.destroy();
         this.addDamage(100);
     }
+    
+    else if (collider instanceof jsteroids.Energy)
+    {
+        collider.remove();
+        this.addShieldEnergy(25);
+    }
+};
+
+
+/**
+ * Adds shield energy.
+ */
+
+jsteroids.Spaceship.prototype.addShieldEnergy = function(energy)
+{
+    this.shield += Math.max(0, Math.ceil(25 * (150 - this.shield) / 150));
+    this.game.updateShipState();
 };
 
 

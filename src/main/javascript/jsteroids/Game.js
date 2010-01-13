@@ -96,6 +96,9 @@ jsteroids.Game.prototype.lastOrientation = 2;
 /** If game has been paused. @private @type {Boolean} */
 jsteroids.Game.prototype.paused = false;
 
+/** The last level which has seen an UFO. @private @type {Number} */
+jsteroids.Game.prototype.lastUfoLevel = 0;
+
 
 /**
  * Initializes the game.
@@ -189,6 +192,8 @@ jsteroids.Game.prototype.reset = function()
 
     // Reset score to 0
     this.setScore(0);
+    
+    this.lastUfoLevel = 0;
 
     this.gameOver = false;
     
@@ -356,9 +361,15 @@ jsteroids.Game.prototype.setLevel = function(level)
         
     // Create the asteroids
     this.asteroids = 0;
-    asteroids = 2 + parseInt(level / 3);
+    asteroids = 1 + parseInt(level / 3);
     while (asteroids--)
         this.rootNode.appendChild(new jsteroids.Asteroid(this));
+    asteroids = level % 3;
+    while (asteroids)
+    {
+        this.rootNode.appendChild(new jsteroids.Asteroid(this, true));
+        asteroids--;
+    }
 };
 
 
@@ -447,9 +458,10 @@ jsteroids.Game.prototype.handleControlDown = function(control, power)
                     this.spaceship.setTargetHeading(Math.PI);
                     break;
             }
-            console.log(control);
             return false;
         }
+        else
+            return false;
     }
     
     // Unhandled control
@@ -835,13 +847,16 @@ jsteroids.Game.prototype.newGame = function()
 
 
 /**
- * Creates a new UFO.
+ * Creates a new UFO if this level hasn't seen an UFO yet.
  */
 
 jsteroids.Game.prototype.newUFO = function()
 {
-    if (!jsteroids.Ufo.count())
+    if (this.lastUfoLevel < this.level && !jsteroids.Ufo.count())
+    {
         this.rootNode.appendChild(new jsteroids.Ufo(this));
+        this.lastUfoLevel = this.level
+    }
 };
 
 
