@@ -76,7 +76,18 @@ jsteroids.Laser.prototype.handleCollide = function(laser, collider)
             collider.destroy(true);
         }
         else
+        {
+            // Score points for the asteroid
+            this.game.addScore(20 + (collider.isSmall() ? 30 : 0));
+            
             collider.destroy();
+        }
+    }
+    
+    else if (collider instanceof jsteroids.Energy)
+    {
+        collider.destroy();
+        laser.remove();
     }
     
     else if (collider instanceof jsteroids.Ufo && !this.alien)

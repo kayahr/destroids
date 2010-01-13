@@ -416,6 +416,7 @@ jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
     {
         collider.remove();
         this.addShieldEnergy(25);
+        this.game.addScore(25);
     }
 };
 

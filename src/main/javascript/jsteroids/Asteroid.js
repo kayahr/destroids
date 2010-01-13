@@ -184,9 +184,6 @@ jsteroids.Asteroid.prototype.destroy = function(noDescendants)
 
     // Trigger an explosion at the location of the asteroid
     this.game.explode(this);
-    
-    // Score points for the asteroid
-    this.game.addScore(20 + (this.small ? 30 : 0));
 
     // If its a large asteroid then spawn new asteroids.
     if (!noDescendants && !this.small)

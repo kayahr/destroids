@@ -177,7 +177,7 @@ jsteroids.Ufo.prototype.destroy = function()
     // Trigger an explosion at the location of the UFO
     this.game.explode(this, 2);
     
-    // Score points for the UFO if it was not destroyed by friendly fire
+    // Score points for the UFO
     this.game.addScore(100);
 
     // Drop some energy

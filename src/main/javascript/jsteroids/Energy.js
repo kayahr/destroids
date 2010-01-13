@@ -81,3 +81,17 @@ jsteroids.Energy.prototype.update = function(delta)
     if (y > yRadius) transform.m12 = -yRadius;
     if (y < -yRadius) transform.m12 = yRadius;   
 };
+
+
+/**
+ * Destroys the drop. 
+ */
+
+jsteroids.Energy.prototype.destroy = function()
+{
+    // Trigger an explosion at the location of the UFO
+    this.game.explode(this);
+    
+    // Remove the UFO
+    this.remove();
+};
