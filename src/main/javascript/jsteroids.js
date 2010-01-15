@@ -205,15 +205,6 @@ jsteroids.onPrompt = function(title, message, onSubmit, context)
 /** The game title. @type {String} */
 jsteroids.msgTitle = "JSteroids"
 
-/** The copyright message. @type {String} */ 
-jsteroids.msgCopyright = "Copyright © 2009"
-    
-/** The copyright holder URL. @type {String} */
-jsteroids.msgCopyrightHolderURL = "http://www.ailis.de/~k/";
-
-/** The copyright holder. @type {String} */
-jsteroids.msgCopyrightHolder = "Klaus Reimer";
-
 /** The first level message. @type {String} */
 jsteroids.msgRightOn = "Right On Commander!<br /><br />";
 

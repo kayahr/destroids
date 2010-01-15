@@ -249,7 +249,8 @@ jsteroids.Game.prototype.start = function()
     if (!this.paused) this.scene.resume();
 
     // Start the game thread
-    this.timer = window.setInterval(this.run.bind(this), 1);
+    if (!this.timer)
+        this.timer = window.setInterval(this.run.bind(this), 1);
 
     // Install keyboard handlers
     document.addEventListener("orientationchange", this.orientationChangeHandler, false);
@@ -278,6 +279,13 @@ jsteroids.Game.prototype.pause = function()
 {
     if (!this.paused)
     {
+        // Stop game thread
+        if (this.timer)
+        {
+            window.clearTimeout(this.timer);
+            this.timer = null;
+        }       
+
         this.scene.pause();
         this.paused = true;
     }
@@ -292,6 +300,10 @@ jsteroids.Game.prototype.resume = function()
 {
     if (this.paused && (this.gameOver || !this.menu.isOpen()))
     {
+        // Start the game thread
+        if (!this.timer)
+            this.timer = window.setInterval(this.run.bind(this), 1);
+
         this.paused = false;
         this.scene.resume();
     }
@@ -312,7 +324,11 @@ jsteroids.Game.prototype.stop = function()
     this.container.removeEventListener("mouseup", this.mouseUpHandler, false);     
     
     // Stop game thread
-    window.clearTimeout(this.timer);
+    if (this.timer)
+    {
+        window.clearTimeout(this.timer);
+        this.timer = null;
+    }       
     
     // Pause the scene
     this.scene.pause();
