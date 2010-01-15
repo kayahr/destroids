@@ -250,7 +250,7 @@ jsteroids.Game.prototype.start = function()
 
     // Start the game thread
     if (!this.timer)
-        this.timer = window.setInterval(this.run.bind(this), 1);
+        this.timer = window.setInterval(this.run.bind(this), 33);
 
     // Install keyboard handlers
     document.addEventListener("orientationchange", this.orientationChangeHandler, false);
@@ -302,7 +302,7 @@ jsteroids.Game.prototype.resume = function()
     {
         // Start the game thread
         if (!this.timer)
-            this.timer = window.setInterval(this.run.bind(this), 1);
+            this.timer = window.setInterval(this.run.bind(this), 33);
 
         this.paused = false;
         this.scene.resume();
