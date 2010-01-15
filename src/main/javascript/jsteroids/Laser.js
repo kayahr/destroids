@@ -66,14 +66,23 @@ jsteroids.Laser.prototype.alien = false;
 
 jsteroids.Laser.prototype.handleCollide = function(laser, collider)
 {
+    var parent;
+    
     if (collider instanceof jsteroids.Asteroid)
     {
         laser.remove();
         if (this.alien)
         {
-            collider.getParentNode().appendChild(
-                new jsteroids.Asteroid(this.game, collider.isSmall()));
-            collider.destroy(true);
+            // In some situations collider has no parent. Don't know
+            // why (MOst likely because asteroid is already destroyed)
+            // but just in case we check it here
+            parent = collider.getParentNode();
+            if (parent)
+            {
+                parent.appendChild(new jsteroids.Asteroid(this.game,
+                    collider.isSmall()));
+                collider.destroy(true);
+            }
         }
         else
         {

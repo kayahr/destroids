@@ -78,7 +78,7 @@ jsteroids.Ufo.prototype.hull = 300;
  * Handles collision.
  * 
  * @param {jsteroids.Ufo} ufo
- *            The ufo
+ *            The UFO
  * @param {twodee.SceneNode} collider
  *            The node the spaceship collided with
  */
@@ -174,6 +174,8 @@ jsteroids.Ufo.prototype.update = function(delta)
 
 jsteroids.Ufo.prototype.destroy = function()
 {
+    this.game.playSound(jsteroids.SND_UFO_DESTROYED);
+
     // Trigger an explosion at the location of the UFO
     this.game.explode(this, 2);
     
@@ -212,6 +214,8 @@ jsteroids.Ufo.prototype.fireLaser = function()
 {
     var laser, transform, speed, angle;
     
+    this.game.playSound(jsteroids.SND_UFO_FIRE);
+
     speed = 100;
     angle = Math.random() * 2 * Math.PI;
     laser = new jsteroids.Laser(this.game, true);
@@ -233,6 +237,8 @@ jsteroids.Ufo.prototype.fireLaser = function()
 
 jsteroids.Ufo.prototype.addDamage = function(damage)
 {
+    this.game.playSound(jsteroids.SND_UFO_HULL_DAMAGE);
+
     this.hull = Math.max(0, this.hull - damage);
     if (!this.hull) this.destroy();
 };

@@ -202,6 +202,9 @@ jsteroids.onPrompt = function(title, message, onSubmit, context)
     onSubmit.call(context, prompt(title + " " + message));
 };
 
+/** The function to call to play a sound. @type {Function} */
+jsteroids.onSound = null;
+
 /** The game title. @type {String} */
 jsteroids.msgTitle = "JSteroids"
 
@@ -288,3 +291,42 @@ jsteroids.ctrlRotationCompensator = true;
 
 /** If gravity control should be used. @type {Boolean} */
 jsteroids.ctrlGravity = false;
+
+/** Sound constant for spaceship fire. @type {Number} */
+jsteroids.SND_SPACESHIP_THRUST = 0;
+
+/** Sound constant for spaceship fire. @type {Number} */
+jsteroids.SND_SPACESHIP_FIRE = 1;
+
+/** Sound constant for UFO fire. @type {Number} */
+jsteroids.SND_UFO_FIRE = 2;
+
+/** Sound constant for destroying small asteroid. @type {Number} */
+jsteroids.SND_SMALL_ASTEROID_DESTROYED = 3;
+
+/** Sound constant for destroying large asteroid. @type {Number} */
+jsteroids.SND_LARGE_ASTEROID_DESTROYED = 4;
+
+/** Sound constant for UFO hull damage. @type {Number} */
+jsteroids.SND_UFO_HULL_DAMAGE = 5;
+
+/** Sound constant for destroying UFO. @type {Number} */
+jsteroids.SND_UFO_DESTROYED = 6;
+
+/** Sound constant for destroying drop. @type {Number} */
+jsteroids.SND_DROP_DESTROYED = 7;
+
+/** Sound constant for spaceship shield damage. @type {Number} */
+jsteroids.SND_SPACESHIP_SHIELD_DAMAGE = 8;
+
+/** Sound constant for spaceship hull damage. @type {Number} */
+jsteroids.SND_SPACESHIP_HULL_DAMAGE = 9;
+
+/** Sound constant for spaceship destroyed. @type {Number} */
+jsteroids.SND_SPACESHIP_DESTROYED = 10;
+
+/** Sound constant for adding shield energy. @type {Number} */
+jsteroids.SND_COLLECT_DROP = 11;
+
+/** Sound constant for level up. @type {Number} */
+jsteroids.SND_LEVEL_UP = 12;

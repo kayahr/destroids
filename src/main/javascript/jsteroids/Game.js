@@ -591,7 +591,6 @@ jsteroids.Game.prototype.handleMouseUp = function(event)
 jsteroids.Game.prototype.handleOrientationChange = function(event)
 {
     var roll, pitch, pitchPower, rollPower;
-    var angle, heading, diff;
 
     // If position is not 0 or 1 then a orientation change was performed.
     // Remember this orientation change because this is the base for
@@ -817,6 +816,8 @@ jsteroids.Game.prototype.completeLevel = function()
 {
     var nextLevel;
     
+    this.playSound(jsteroids.SND_LEVEL_UP);
+    
     nextLevel = this.level + 1;
     this.stateLabel.innerHTML = jsteroids.msgRightOn +
         jsteroids.msgNextLevel.replace("%LEVEL%", nextLevel);
@@ -852,6 +853,8 @@ jsteroids.Game.prototype.endGame = function()
 
 jsteroids.Game.prototype.newGame = function()
 {
+    this.playSound(jsteroids.SND_LEVEL_UP);
+
     this.gameOver = true;
     this.menu.close();
     this.resume();
@@ -1000,7 +1003,7 @@ jsteroids.Game.prototype.isGameOver = function()
 
 jsteroids.Game.prototype.newHighScore = function(place)
 {
-    var name, rank, highScores;
+    var message, rank, highScores;
 
     highScores = jsteroids.HighScores.getInstance();
     rank = highScores.determineRank(this.score);
@@ -1042,4 +1045,17 @@ jsteroids.Game.prototype.saveHighScore = function(name)
 jsteroids.Game.prototype.isMenuOpen = function()
 {
     return this.menu.isOpen();
+};
+
+
+/**
+ * Plays a sound.
+ * 
+ * @param {Number} sound
+ *            The sound ID
+ */
+
+jsteroids.Game.prototype.playSound = function(sound)
+{
+    if (jsteroids.onSound) jsteroids.onSound(sound);
 };

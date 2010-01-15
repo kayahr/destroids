@@ -89,6 +89,8 @@ jsteroids.Energy.prototype.update = function(delta)
 
 jsteroids.Energy.prototype.destroy = function()
 {
+    this.game.playSound(jsteroids.SND_DROP_DESTROYED);
+    
     // Trigger an explosion at the location of the UFO
     this.game.explode(this);
     

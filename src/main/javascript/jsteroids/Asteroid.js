@@ -182,6 +182,11 @@ jsteroids.Asteroid.prototype.destroy = function(noDescendants)
     // If already destroyed then do nothing
     if (!this.parentNode) return;
 
+    if (this.small)
+        this.game.playSound(jsteroids.SND_SMALL_ASTEROID_DESTROYED);
+    else
+        this.game.playSound(jsteroids.SND_LARGE_ASTEROID_DESTROYED);
+
     // Trigger an explosion at the location of the asteroid
     this.game.explode(this);
 

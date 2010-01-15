@@ -115,6 +115,7 @@ jsteroids.Spaceship.prototype.targetHeading = null;
 
 jsteroids.Spaceship.prototype.startThrust = function(power)
 {
+    this.game.playSound(jsteroids.SND_SPACESHIP_THRUST);
     this.thrust = jsteroids.Spaceship.THRUST * this.hull / 100 *
         Math.max(0, power) / 100;
     if (this.thrust) this.mainThrust.enable();
@@ -203,6 +204,8 @@ jsteroids.Spaceship.prototype.fireLaser = function()
 {
     var laser, transform, speed, bbox;
     
+    this.game.playSound(jsteroids.SND_SPACESHIP_FIRE);
+
     speed = jsteroids.Spaceship.THRUST * 1.2;
     bbox = this.getBounds().getBoundingBox();
     laser = new jsteroids.Laser(this.game);
@@ -224,7 +227,7 @@ jsteroids.Spaceship.prototype.fireLaser = function()
 jsteroids.Spaceship.prototype.update = function(delta)
 {
     var x, y, transform, acceleration, xRadius, yRadius, bbox, game, now,
-        physics, spinAcceleration;
+        physics, spinAcceleration, targetHeading;
     
     twodee.PolygonNode.prototype.update.call(this, delta);
     
@@ -262,36 +265,7 @@ jsteroids.Spaceship.prototype.update = function(delta)
     targetHeading = this.targetHeading;
     if (targetHeading !== null)
     {
-        heading = this.getHeading();
-        diff = jsteroids.getAngleDiff(heading, targetHeading);
-        var v = physics.getSpin();
-        var a = jsteroids.Spaceship.YAW * this.hull / 100;
-        if (v < 0) a = -a;
-        var distance = a ? (-1*(v*v)/(2*-a)) : 0;
-        //power = Math.min(100, 100 / 10
-                //* Math.abs(diff));
-        power = 100;
-            
-        if (diff < -1)
-        {
-            if (diff > distance)
-                this.yawRight(power);
-            else
-                this.yawLeft(power);
-        }
-        else if (diff > 1)
-        {
-            if (diff > distance)
-                this.yawRight(power);
-            else
-                this.yawLeft(power);
-        }
-        else
-        {
-            this.targetHeading = null;
-            //this.setHeading(targetHeading);
-            this.stopYaw();
-        }
+        // TODO Implement me
     }
     
     // Animate left and right thrust
@@ -414,6 +388,7 @@ jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
     
     else if (collider instanceof jsteroids.Energy)
     {
+        this.game.playSound(jsteroids.SND_COLLECT_DROP);
         collider.remove();
         this.addShieldEnergy(25);
         this.game.addScore(25);
@@ -445,6 +420,10 @@ jsteroids.Spaceship.prototype.addDamage = function(damage)
     
     damage = parseInt(damage);
     restDamage = parseInt(Math.max(0, damage - this.shield) / 2);
+    if (restDamage)
+        this.game.playSound(jsteroids.SND_SPACESHIP_HULL_DAMAGE);
+    else
+        this.game.playSound(jsteroids.SND_SPACESHIP_SHIELD_DAMAGE);        
     this.shield = Math.max(0, this.shield - damage);
     this.hull = Math.max(0, this.hull - restDamage);
     this.game.updateShipState();
@@ -482,6 +461,8 @@ jsteroids.Spaceship.prototype.getHull = function()
 
 jsteroids.Spaceship.prototype.destroy = function()
 {
+    this.game.playSound(jsteroids.SND_SPACESHIP_DESTROYED);
+            
     // Trigger an explosion at the location of the asteroid
     this.game.explode(this, 1);
 
