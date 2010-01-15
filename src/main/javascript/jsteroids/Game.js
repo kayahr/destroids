@@ -852,7 +852,8 @@ jsteroids.Game.prototype.newGame = function()
 
 jsteroids.Game.prototype.newUFO = function()
 {
-    if (this.lastUfoLevel < this.level && !jsteroids.Ufo.count())
+    if (this.gameOver || this.lastUfoLevel <
+        this.level && !jsteroids.Ufo.count())
     {
         this.rootNode.appendChild(new jsteroids.Ufo(this));
         this.lastUfoLevel = this.level
