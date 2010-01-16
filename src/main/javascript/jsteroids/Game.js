@@ -1059,3 +1059,14 @@ jsteroids.Game.prototype.playSound = function(sound)
 {
     if (jsteroids.onSound) jsteroids.onSound(sound);
 };
+
+
+/**
+ * Resets the high scores.
+ */
+
+jsteroids.Game.prototype.resetHighScores = function()
+{
+    jsteroids.HighScores.getInstance().reset();
+    this.menu.updateHighScores();
+};
