@@ -1070,3 +1070,15 @@ jsteroids.Game.prototype.resetHighScores = function()
     jsteroids.HighScores.getInstance().reset();
     this.menu.updateHighScores();
 };
+
+
+/**
+ * Returns the spaceship.
+ * 
+ * @return {jsteroids.Spaceship} The spaceship  
+ */
+
+jsteroids.Game.prototype.getSpaceship = function()
+{
+    return this.spaceship;
+};

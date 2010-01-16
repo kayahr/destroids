@@ -93,7 +93,9 @@
               <srcAggregate>jsteroids-src.js</srcAggregate>
               <order>
                 <file>jsteroids.js</file>
+                <file>jsteroids/Drop.js</file>
                 <file>jsteroids/Laser.js</file>
+                <file>jsteroids/RepairKit.js</file>
                 <file>jsteroids/Asteroid.js</file>
                 <file>jsteroids/Energy.js</file>
                 <file>jsteroids/Spaceship.js</file>

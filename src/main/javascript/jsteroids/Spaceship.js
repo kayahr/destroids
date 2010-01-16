@@ -393,6 +393,14 @@ jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
         this.addShieldEnergy(25);
         this.game.addScore(25);
     }
+
+    else if (collider instanceof jsteroids.RepairKit)
+    {
+        this.game.playSound(jsteroids.SND_COLLECT_DROP);
+        collider.remove();
+        this.repair(25);
+        this.game.addScore(25);
+    }
 };
 
 
@@ -402,7 +410,18 @@ jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
 
 jsteroids.Spaceship.prototype.addShieldEnergy = function(energy)
 {
-    this.shield += Math.max(0, Math.ceil(25 * (150 - this.shield) / 150));
+    this.shield += Math.max(0, Math.ceil(energy * (150 - this.shield) / 150));
+    this.game.updateShipState();
+};
+
+
+/**
+ * Repairs the hull
+ */
+
+jsteroids.Spaceship.prototype.repair = function(repair)
+{
+    this.hull += Math.max(0, Math.ceil(repair * (100 - this.hull) / 100));
     this.game.updateShipState();
 };
 

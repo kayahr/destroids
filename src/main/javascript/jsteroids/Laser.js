@@ -93,7 +93,7 @@ jsteroids.Laser.prototype.handleCollide = function(laser, collider)
         }
     }
     
-    else if (collider instanceof jsteroids.Energy)
+    else if (collider instanceof jsteroids.Drop)
     {
         collider.destroy();
         laser.remove();

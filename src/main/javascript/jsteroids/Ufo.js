@@ -183,7 +183,7 @@ jsteroids.Ufo.prototype.destroy = function()
     this.game.addScore(100);
 
     // Drop some energy
-    if (!this.game.isGameOver()) this.dropEnergy();
+    if (!this.game.isGameOver()) this.dropStuff();
     
     // Remove the UFO
     this.remove();
@@ -245,18 +245,30 @@ jsteroids.Ufo.prototype.addDamage = function(damage)
 
 
 /**
- * Drop some energy.
+ * Drops some stuff.
  * 
- * @private
+ * @private 
  */
 
-jsteroids.Ufo.prototype.dropEnergy = function()
+jsteroids.Ufo.prototype.dropStuff = function()
 {
-    var energy, transform;
+    var spaceship, hull, shield, drops, drop, transform;
     
-    energy = new jsteroids.Energy(this.game);
+    drops = [];
+    spaceship = this.game.getSpaceship();
+    hull = spaceship.getHull();
+    shield = spaceship.getShield();
+    
+    if (hull < 100) drops.push(jsteroids.RepairKit);
+    if (shield < 150) drops.push(jsteroids.Energy);
+    
+    // If nothing to drop then do nothing
+    if (!drops.length) return;
+    
+    dropClass = drops[parseInt(Math.random() * drops.length)];    
+    drop = new dropClass(this.game);
     transform = this.getTransform();
-    energy.getTransform().setTransform(transform);
-    this.getPhysics().getVelocity().copy(energy.getPhysics().getVelocity());
-    this.parentNode.appendChild(energy);   
+    drop.getTransform().setTransform(transform);
+    this.getPhysics().getVelocity().copy(drop.getPhysics().getVelocity());
+    this.parentNode.appendChild(drop);       
 };

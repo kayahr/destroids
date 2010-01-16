@@ -4,7 +4,7 @@
  * See LICENSE.TXT for licensing information
  * 
  * @fileoverview
- * Provides the Energy class.
+ * Provides the RepairKit class.
  * 
  * @author Klaus Reimer (k@ailis.de)
  * @version $Revision: 910 $
@@ -12,20 +12,21 @@
 
 
 /**
- * Constructs a new energy drop.
+ * Constructs a new repair drop.
  * 
  * @param {jsteroids.Game} game
  *            The game
  * 
  * @constructor
- * @class An energy drop
+ * @class An repair drop
  */
 
-jsteroids.Energy = function(game)
+jsteroids.RepairKit = function(game)
 {
-    jsteroids.Drop.call(this, game, "energy");
+    jsteroids.Drop.call(this, game, "repairkit");
 };
-twodee.inherit(jsteroids.Energy, jsteroids.Drop);
+twodee.inherit(jsteroids.RepairKit, jsteroids.Drop);
 
 /** The class name. @private @type {String} */
-jsteroids.Energy.prototype.jsonClassName = "jsteroid.Energy";
+jsteroids.RepairKit.prototype.jsonClassName = "jsteroid.RepairKit";
+
