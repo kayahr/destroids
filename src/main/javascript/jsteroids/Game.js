@@ -1067,7 +1067,11 @@ jsteroids.Game.prototype.playSound = function(sound)
 
 jsteroids.Game.prototype.resetHighScores = function()
 {
-    jsteroids.HighScores.getInstance().reset();
+    var highScores;
+    
+    highScores = jsteroids.HighScores.getInstance();
+    highScores.reset();
+    highScores.save();
     this.menu.updateHighScores();
 };
 
