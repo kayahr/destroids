@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>jsteroids</name>
-	<comment></comment>
+	<comment>JavaScript 2D scene graph</comment>
 	<projects>
 	</projects>
 	<buildSpec>
