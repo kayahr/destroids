@@ -6,6 +6,7 @@ are licensed under the Creative Commons Attribution-Share Alike license
 * hud_gradient.png
 * menubox.png
 * smallbutton.png
+* background1.jpeg
 
 All other graphics are created by Klaus Reimer <k@ailis.de> and are
 released into the public domain.
