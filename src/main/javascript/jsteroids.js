@@ -209,7 +209,7 @@ jsteroids.onSound = null;
 jsteroids.msgTitle = "JSteroids"
 
 /** The first level message. @type {String} */
-jsteroids.msgRightOn = "Right On Commander!<br /><br />";
+jsteroids.msgRightOn = "<span class=\"rightOn\">Right On Commander!</span>";
 
 /** The next level message. @type {String} */
 jsteroids.msgNextLevel = "Prepare for Level <span class=\"level\">%LEVEL%</span>"
