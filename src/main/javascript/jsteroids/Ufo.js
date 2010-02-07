@@ -50,7 +50,8 @@ jsteroids.Ufo = function(game)
         translate(radius, 0).rotate(-rotation);
     
     // Enable collision detection
-    this.setCollidable(true);
+    this.setCollisionType(jsteroids.TYPE_UFO);
+    this.setCollisionMask(jsteroids.TYPE_ASTEROID);
     this.connect("collisionStarted", this.handleCollide, this);
         
     jsteroids.Ufo.counter++;

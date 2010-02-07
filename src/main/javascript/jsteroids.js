@@ -330,3 +330,18 @@ jsteroids.SND_COLLECT_DROP = 11;
 
 /** Sound constant for level up. @type {Number} */
 jsteroids.SND_LEVEL_UP = 12;
+
+/** Constant for laser type. @final @type {Number} */
+jsteroids.TYPE_LASER = 1;
+
+/** Constant for laser type. @final @type {Number} */
+jsteroids.TYPE_ASTEROID = 2;
+
+/** Constant for laser type. @final @type {Number} */
+jsteroids.TYPE_SPACESHIP = 4;
+
+/** Constant for laser type. @final @type {Number} */
+jsteroids.TYPE_UFO = 8;
+
+/** Constant for laser type. @final @type {Number} */
+jsteroids.TYPE_DROP = 16;

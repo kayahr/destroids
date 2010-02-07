@@ -58,7 +58,9 @@ jsteroids.Spaceship = function(game)
     this.setPhysics(physics);
     
     // Enable collision detection
-    this.setCollidable(true);
+    this.setCollisionType(jsteroids.TYPE_SPACESHIP);
+    this.setCollisionMask(jsteroids.TYPE_ASTEROID | jsteroids.TYPE_DROP |
+         jsteroids.TYPE_UFO);
     this.connect("collisionStarted", this.handleCollide, this);
 };
 twodee.inherit(jsteroids.Spaceship, twodee.ImageNode);

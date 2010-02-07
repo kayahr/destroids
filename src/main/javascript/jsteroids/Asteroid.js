@@ -16,6 +16,8 @@
  * 
  * @param {jsteroids.Game} game
  *            The game
+ * @param {Boolean} small
+ *            If small asterid should be created
  * @param {jsteroids.Asteroid} parentAsteroid
  *            The parent asteroid if this asteroid is created from a destroyed
  *            parent asteroid
@@ -111,7 +113,7 @@ jsteroids.Asteroid = function(game, small, parentAsteroid, subId)
     if (small) transform.scale(0.5);
     
     // Enable collision detection
-    this.setCollidable(true);
+    this.setCollisionType(jsteroids.TYPE_ASTEROID);
 };
 twodee.inherit(jsteroids.Asteroid, twodee.ImageNode);
 

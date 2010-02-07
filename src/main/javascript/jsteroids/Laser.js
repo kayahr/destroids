@@ -40,7 +40,9 @@ jsteroids.Laser = function(game, alien)
     this.setPhysics(physics);
     
     // Enable collision detection
-    this.setCollidable(true);
+    this.setCollisionType(jsteroids.TYPE_LASER);
+    this.setCollisionMask(jsteroids.TYPE_ASTEROID | jsteroids.TYPE_DROP |
+         jsteroids.TYPE_UFO | jsteroids.TYPE_SPACESHIP);
     this.connect("collisionStarted", this.handleCollide, this);
 };
 twodee.inherit(jsteroids.Laser, twodee.PolygonNode);

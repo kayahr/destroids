@@ -45,7 +45,7 @@ jsteroids.Drop = function(game, imageName)
     this.setPhysics(physics);
     
     // Enable collision detection
-    this.setCollidable(true);
+    this.setCollisionType(jsteroids.TYPE_DROP);
 };
 twodee.inherit(jsteroids.Drop, twodee.ImageNode);
 
