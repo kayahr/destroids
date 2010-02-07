@@ -178,7 +178,7 @@ jsteroids.Game.prototype.init = function()
 
 jsteroids.Game.prototype.reset = function()
 {
-    var rootNode;
+    var rootNode, spaceship;
     
     rootNode = this.rootNode;
 
