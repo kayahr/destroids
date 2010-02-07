@@ -7,6 +7,8 @@ are licensed under the Creative Commons Attribution-Share Alike license
 * menubox.png
 * smallbutton.png
 * background1.jpeg
+* energy.png
+* repairkit.png
 
 All other graphics are created by Klaus Reimer <k@ailis.de> and are
 released into the public domain.
