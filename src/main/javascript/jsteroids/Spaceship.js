@@ -264,6 +264,9 @@ jsteroids.Spaceship.prototype.update = function(delta)
         }
     }
 
+    // Slow down the ship (slowly)
+    if (!this.thrust) physics.getVelocity().scale(0.99);
+
     targetHeading = this.targetHeading;
     if (targetHeading !== null)
     {
