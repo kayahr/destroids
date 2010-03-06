@@ -250,7 +250,7 @@ jsteroids.Game.prototype.start = function()
 
     // Start the game thread
     if (!this.timer)
-        this.timer = window.setInterval(this.run.bind(this), 33);
+        this.timer = window.setInterval(this.run.bind(this), jsteroids.GAME_INTERVAL);
 
     // Install keyboard handlers
     document.addEventListener("orientationchange", this.orientationChangeHandler, false);
@@ -302,7 +302,7 @@ jsteroids.Game.prototype.resume = function()
     {
         // Start the game thread
         if (!this.timer)
-            this.timer = window.setInterval(this.run.bind(this), 33);
+            this.timer = window.setInterval(this.run.bind(this), jsteroids.GAME_INTERVAL);
 
         this.paused = false;
         this.scene.resume();
@@ -349,7 +349,7 @@ jsteroids.Game.prototype.run = function()
     
     ctx.save();
     ctx.clearRect(0, 0, width, height);
-    this.scene.update();
+    this.scene.update(-jsteroids.GAME_INTERVAL * 5);
     this.scene.render(ctx, width, height);
     ctx.restore();
 };

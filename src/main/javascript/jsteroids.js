@@ -292,6 +292,9 @@ jsteroids.ctrlRotationCompensator = true;
 /** If gravity control should be used. @type {Boolean} */
 jsteroids.ctrlGravity = false;
 
+/** The game interval in millisconds. @const @type {Number} */
+jsteroids.GAME_INTERVAL = 33;
+
 /** Sound constant for spaceship fire. @type {Number} */
 jsteroids.SND_SPACESHIP_THRUST = 0;
 
