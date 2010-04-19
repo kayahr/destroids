@@ -14,20 +14,23 @@
 /**
  * Constructs a new laser shot.
  * 
- * @param {jsteroids.Game} game
+ * @param {destroids.Game} game
  *            The game
- * @param {Boolean} alien
- *            Set to true if this is an alien laser
+ * @param {boolean=} alien
+ *            Set to true if this is an alien laser. Optional, defaults to false
  * 
  * @constructor
+ * @extends twodee.PolygonNode
  * @class A Laser
  */
 
-jsteroids.Laser = function(game, alien)
+destroids.Laser = function(game, alien)
 {
+	var physics;
+	
     this.game = game;
     
-    twodee.PolygonNode.call(this, jsteroids.LASER);
+    twodee.PolygonNode.call(this, destroids.LASER);
     this.setFillStyle(alien ? "#4f4" : "orange");
 
     // Remember that this is an alien laser
@@ -39,38 +42,35 @@ jsteroids.Laser = function(game, alien)
     physics.setDecay(alien ? 0.5 : 0.2);
     this.setPhysics(physics);
     
-    // Enable collision detection
-    this.setCollisionType(jsteroids.TYPE_LASER);
-    this.setCollisionMask(jsteroids.TYPE_ASTEROID | jsteroids.TYPE_DROP |
-         jsteroids.TYPE_UFO | jsteroids.TYPE_SPACESHIP);
+    // Enable cotwodee.PolygonNodellision detection
+    this.setCollisionType(destroids.TYPE_LASER);
+    this.setCollisionMask(destroids.TYPE_ASTEROID | destroids.TYPE_DROP |
+         destroids.TYPE_UFO | destroids.TYPE_SPACESHIP);
     this.connect("collisionStarted", this.handleCollide, this);
 };
-twodee.inherit(jsteroids.Laser, twodee.PolygonNode);
+twodee.inherit(destroids.Laser, twodee.PolygonNode);
 
-/** The class name. @private @type {String} */
-jsteroids.Laser.prototype.jsonClassName = "jsteroid.Laser";
+/** The game. @private @type {destroids.Game} */
+destroids.Laser.prototype.game = null;
 
-/** The game. @private @type {jsteroids.Game} */
-jsteroids.Laser.prototype.game = null;
-
-/** If this is an alien laser. @private @type {Boolean} */
-jsteroids.Laser.prototype.alien = false;
+/** If this is an alien laser. @private @type {boolean} */
+destroids.Laser.prototype.alien = false;
 
 
 /**
  * Handles collision.
  * 
- * @param {jsteroids.Laser} laser
+ * @param {destroids.Laser} laser
  *            The laser
  * @param {twodee.SceneNode} collider
  *            The node the laser collided with
  */
 
-jsteroids.Laser.prototype.handleCollide = function(laser, collider)
+destroids.Laser.prototype.handleCollide = function(laser, collider)
 {
     var parent;
     
-    if (collider instanceof jsteroids.Asteroid)
+    if (collider instanceof destroids.Asteroid)
     {
         laser.remove();
         if (this.alien)
@@ -81,7 +81,7 @@ jsteroids.Laser.prototype.handleCollide = function(laser, collider)
             parent = collider.getParentNode();
             if (parent)
             {
-                parent.appendChild(new jsteroids.Asteroid(this.game,
+                parent.appendChild(new destroids.Asteroid(this.game,
                     collider.isSmall()));
                 collider.destroy(true);
             }
@@ -90,25 +90,24 @@ jsteroids.Laser.prototype.handleCollide = function(laser, collider)
         {
             // Score points for the asteroid
             this.game.addScore(20 + (collider.isSmall() ? 30 : 0));
-            
             collider.destroy();
         }
     }
     
-    else if (collider instanceof jsteroids.Drop)
+    else if (collider instanceof destroids.Drop)
     {
         collider.destroy();
         laser.remove();
     }
     
-    else if (collider instanceof jsteroids.Ufo && !this.alien)
+    else if (collider instanceof destroids.Ufo && !this.alien)
     {
         this.game.explode(laser, 3);
         laser.remove();
         collider.addDamage(100);
     }
 
-    else if (collider instanceof jsteroids.Spaceship && this.alien)
+    else if (collider instanceof destroids.Spaceship && this.alien)
     {
         this.game.explode(laser, 3);
         laser.remove();
@@ -120,11 +119,12 @@ jsteroids.Laser.prototype.handleCollide = function(laser, collider)
 /**
  * @see twodee.PolygonNode#update
  * 
- * @param {Number} delta
+ * @param {number} delta
  *            The time delta in milliseconds
+ * @override
  */
 
-jsteroids.Laser.prototype.update = function(delta)
+destroids.Laser.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, bbox, game;
     
@@ -135,8 +135,8 @@ jsteroids.Laser.prototype.update = function(delta)
     // Calculate the maximum x and y radius of the position
     bbox = this.getBounds().getBoundingBox();
     game = this.game;
-    xRadius = (game.width + bbox.getWidth()) / 2;
-    yRadius = (game.height + bbox.getHeight()) / 2;
+    xRadius = (game.getWidth() + bbox.getWidth()) / 2;
+    yRadius = (game.getHeight() + bbox.getHeight()) / 2;
     
     // Correct the position if out of screen
     x = transform.m02;

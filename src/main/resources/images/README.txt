@@ -6,6 +6,7 @@ are licensed under the Creative Commons Attribution-Share Alike license
 * hud_gradient.png
 * menubox.png
 * smallbutton.png
+* destroids.png
 * background1.jpeg
 * energy.png
 * repairkit.png

@@ -14,11 +14,15 @@
 /**
  * Constructs a new UFO
  * 
+ * @param {destroids.Game} game
+ *            The game
+ * 
  * @constructor
+ * @extends twodee.ImageNode
  * @class An UFO
  */
 
-jsteroids.Ufo = function(game)
+destroids.Ufo = function(game)
 {
     var image, bbox, ufoXRadius, ufoYRadius, xRadius, yRadius, radius, bounds,
         rotation;
@@ -27,11 +31,11 @@ jsteroids.Ufo = function(game)
     
     // Load the image and setup the image node with it
     image = new Image();
-    image.src = jsteroids.imagesDir + "/ufo.png";
+    image.src = destroids.imagesDir + "/ufo.png";
     twodee.ImageNode.call(this, image);
     
     // Set the bounds
-    this.setBounds(bounds = jsteroids.UFO_BOUNDS);
+    this.setBounds(bounds = destroids.UFO_BOUNDS);
     
     // Apply physics
     this.setPhysics(new twodee.Physics());
@@ -42,58 +46,77 @@ jsteroids.Ufo = function(game)
     ufoYRadius = bbox.getHeight() / 2;
     
     // Calculate starting position
-    xRadius = game.width / 2 + ufoXRadius;
-    yRadius = game.height / 2 + ufoYRadius;
+    xRadius = game.getWidth() / 2 + ufoXRadius;
+    yRadius = game.getHeight() / 2 + ufoYRadius;
     radius = Math.sqrt(xRadius * xRadius + yRadius * yRadius);
     rotation = Math.random() * Math.PI * 2;
     this.getTransform().rotate(rotation).
         translate(radius, 0).rotate(-rotation);
     
     // Enable collision detection
-    this.setCollisionType(jsteroids.TYPE_UFO);
-    this.setCollisionMask(jsteroids.TYPE_ASTEROID);
+    this.setCollisionType(destroids.TYPE_UFO);
+    this.setCollisionMask(destroids.TYPE_ASTEROID);
     this.connect("collisionStarted", this.handleCollide, this);
         
-    jsteroids.Ufo.counter++;
+    destroids.Ufo.counter++;
 };
-twodee.inherit(jsteroids.Ufo, twodee.ImageNode);
+twodee.inherit(destroids.Ufo, twodee.ImageNode);
 
-/** The number of active UFOs. @private @type {Number} */
-jsteroids.Ufo.counter = 0;
+/**
+ * The number of active UFOs.
+ * @private
+ * @type {number}
+ */
+destroids.Ufo.counter = 0;
 
-/** The game. @private @type {jsteroids.Game} */
-jsteroids.Ufo.prototype.game = null;
+/** 
+ * The game. 
+ * @private 
+ * @type {destroids.Game} 
+ */
+destroids.Ufo.prototype.game = null;
 
-/** The timeout for the next course change. @private @type {Number} */ 
-jsteroids.Ufo.prototype.nextCourseChange = 0;
+/** 
+ * The timeout for the next course change. 
+ * @private 
+ * @type {number} 
+ */ 
+destroids.Ufo.prototype.nextCourseChange = 0;
 
-/** The timeout for the next laser firing. @private @type {Number} */ 
-jsteroids.Ufo.prototype.nextFire = 3000;
+/** 
+ * The timeout for the next laser firing. 
+ * @private 
+ * @type {number} 
+ */ 
+destroids.Ufo.prototype.nextFire = 3000;
 
-/** The UFO hull. @private @type {Number} */
-jsteroids.Ufo.prototype.hull = 300;
-
+/** 
+ * The UFO hull. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Ufo.prototype.hull = 300;
 
 
 /**
  * Handles collision.
  * 
- * @param {jsteroids.Ufo} ufo
+ * @param {destroids.Ufo} ufo
  *            The UFO
  * @param {twodee.SceneNode} collider
  *            The node the spaceship collided with
  */
 
-jsteroids.Ufo.prototype.handleCollide = function(ufo, collider)
+destroids.Ufo.prototype.handleCollide = function(ufo, collider)
 {
     var parent;
     
-    if (collider instanceof jsteroids.Asteroid)
+    if (collider instanceof destroids.Asteroid)
     {
         parent = collider.getParentNode();
         if (!parent) return;
         parent.appendChild(
-            new jsteroids.Asteroid(this.game, collider.isSmall()));
+            new destroids.Asteroid(this.game, collider.isSmall()));
         collider.destroy(true);
     }
 };
@@ -105,13 +128,12 @@ jsteroids.Ufo.prototype.handleCollide = function(ufo, collider)
  * @private
  */
 
-
-jsteroids.Ufo.prototype.changeCourse = function()
+destroids.Ufo.prototype.changeCourse = function()
 {
-    var heading, tmp;
+    var heading, tmp, speed;
     
     // Calculate a random heading
-    heading = 22.5 + Math.random() * 45 + parseInt(Math.random() * 4) * 90;
+    heading = 22.5 + Math.random() * 45 + parseInt(Math.random() * 4, 10) * 90;
 
     // Make sure the heading is a good one (To prevent the UFO moving
     // constantly in the void)
@@ -134,13 +156,14 @@ jsteroids.Ufo.prototype.changeCourse = function()
 /**
  * @see twodee.PolygonNode#update
  * 
- * @param {Number} delta
+ * @param {number} delta
  *            The time delta in milliseconds
+ * @override
  */
 
-jsteroids.Ufo.prototype.update = function(delta)
+destroids.Ufo.prototype.update = function(delta)
 {
-    var x, y, transform, xRadius, yRadius, bbox;
+    var x, y, transform, xRadius, yRadius, bbox, game;
     
     twodee.PolygonNode.prototype.update.call(this, delta);
     
@@ -156,8 +179,8 @@ jsteroids.Ufo.prototype.update = function(delta)
     // Calculate the maximum x and y radius of the position
     bbox = this.getBounds().getBoundingBox();
     game = this.game;
-    xRadius = (game.width + bbox.getWidth()) / 2;
-    yRadius = (game.height + bbox.getHeight()) / 2;
+    xRadius = (game.getWidth() + bbox.getWidth()) / 2;
+    yRadius = (game.getHeight() + bbox.getHeight()) / 2;
     
     // Correct the position if out of screen
     x = transform.m02;
@@ -173,9 +196,9 @@ jsteroids.Ufo.prototype.update = function(delta)
  * Destroys the UFO. 
  */
 
-jsteroids.Ufo.prototype.destroy = function()
+destroids.Ufo.prototype.destroy = function()
 {
-    this.game.playSound(jsteroids.SND_UFO_DESTROYED);
+    this.game.playSound(destroids.SND_UFO_DESTROYED);
 
     // Trigger an explosion at the location of the UFO
     this.game.explode(this, 2);
@@ -189,19 +212,19 @@ jsteroids.Ufo.prototype.destroy = function()
     // Remove the UFO
     this.remove();
     
-    jsteroids.Ufo.counter--;
+    destroids.Ufo.counter--;
 };
 
 
 /**
  * Returns the number of active UFOs.
  * 
- * @return {Number} The number of active UFOs.
+ * @return {number} The number of active UFOs.
  */
 
-jsteroids.Ufo.count = function()
+destroids.Ufo.count = function()
 {
-    return this.counter;
+    return destroids.Ufo.counter;
 };
 
 
@@ -211,20 +234,20 @@ jsteroids.Ufo.count = function()
  * @private
  */
 
-jsteroids.Ufo.prototype.fireLaser = function()
+destroids.Ufo.prototype.fireLaser = function()
 {
     var laser, transform, speed, angle;
     
-    this.game.playSound(jsteroids.SND_UFO_FIRE);
+    this.game.playSound(destroids.SND_UFO_FIRE);
 
     speed = 100;
     angle = Math.random() * 2 * Math.PI;
-    laser = new jsteroids.Laser(this.game, true);
+    laser = new destroids.Laser(this.game, true);
     transform = this.getTransform();
     laser.getTransform().setTransform(transform).translate(0, (angle > Math.PI / 2 && angle < Math.PI * 1.5) ? 10 : -10).rotate(angle);
     laser.getPhysics().getVelocity().set(0, -speed).
         rotate(angle);
-    this.parentNode.appendChild(laser);
+    this.getParentNode().appendChild(laser);
     this.nextFire = 2000;
 };
 
@@ -232,13 +255,13 @@ jsteroids.Ufo.prototype.fireLaser = function()
 /**
  * Adds damage to the ship.
  * 
- * @param {Number} damage
+ * @param {number} damage
  *            The damage to add
  */
 
-jsteroids.Ufo.prototype.addDamage = function(damage)
+destroids.Ufo.prototype.addDamage = function(damage)
 {
-    this.game.playSound(jsteroids.SND_UFO_HULL_DAMAGE);
+    this.game.playSound(destroids.SND_UFO_HULL_DAMAGE);
 
     this.hull = Math.max(0, this.hull - damage);
     if (!this.hull) this.destroy();
@@ -251,25 +274,34 @@ jsteroids.Ufo.prototype.addDamage = function(damage)
  * @private 
  */
 
-jsteroids.Ufo.prototype.dropStuff = function()
+destroids.Ufo.prototype.dropStuff = function()
 {
-    var spaceship, hull, shield, drops, drop, transform;
+    var spaceship, hull, shield, drop, transform, dropClass,
+        drops;
     
-    drops = [];
+    drops = (/** @type Array.<number> */ []);
     spaceship = this.game.getSpaceship();
     hull = spaceship.getHull();
     shield = spaceship.getShield();
     
-    if (hull < 100) drops.push(jsteroids.RepairKit);
-    if (shield < 150) drops.push(jsteroids.Energy);
+    if (hull < 100) drops.push(1);
+    if (shield < 150) drops.push(0);
     
     // If nothing to drop then do nothing
     if (!drops.length) return;
     
-    dropClass = drops[parseInt(Math.random() * drops.length)];    
-    drop = new dropClass(this.game);
+    dropClass = drops[parseInt(Math.random() * drops.length, 10)];
+    switch (dropClass)
+    {
+        case 1:
+            drop = new destroids.RepairKit(this.game);
+            break;
+           
+        default:
+    		drop = new destroids.Energy(this.game);
+    }
     transform = this.getTransform();
     drop.getTransform().setTransform(transform);
     this.getPhysics().getVelocity().copy(drop.getPhysics().getVelocity());
-    this.parentNode.appendChild(drop);       
+    this.getParentNode().appendChild(drop);       
 };

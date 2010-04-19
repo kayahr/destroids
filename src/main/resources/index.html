@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
     <title>JSteroids</title>
-    <link href="stylesheets/jsteroids.css" media="screen" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="prototype.js"></script>
-    <script type="text/javascript" src="twodee.js"></script>
-    <script type="text/javascript" src="jsteroids.js"></script>
+    <link href="stylesheets/destroids.css" media="screen" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="deps/scripts-src/prototype.js"></script>
+    <script type="text/javascript" src="deps/scripts/twodee.js"></script>
+    <script type="text/javascript" src="scripts/destroids.js"></script>
     <script type="text/javascript">
     /* <![CDATA[ */
+     
+    destroids.onPreferences = function() { alert("Not implemented") };
+    destroids.onHelp = function() { alert("Not implemented") };
     
-    jsteroids.onPreferences = function() { alert("Not implemented") };
-    jsteroids.onHelp = function() { alert("Not implemented") };
-    
-    game = new jsteroids.Game("output");
+    game = new destroids.Game("output");
 
     function switchOrientation()
     {

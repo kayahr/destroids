@@ -14,18 +14,16 @@
 /**
  * Constructs a new energy drop.
  * 
- * @param {jsteroids.Game} game
+ * @param {destroids.Game} game
  *            The game
  * 
  * @constructor
+ * @extends destroids.Drop
  * @class An energy drop
  */
 
-jsteroids.Energy = function(game)
+destroids.Energy = function(game)
 {
-    jsteroids.Drop.call(this, game, "energy");
+    destroids.Drop.call(this, game, "energy");
 };
-twodee.inherit(jsteroids.Energy, jsteroids.Drop);
-
-/** The class name. @private @type {String} */
-jsteroids.Energy.prototype.jsonClassName = "jsteroid.Energy";
+twodee.inherit(destroids.Energy, destroids.Drop);

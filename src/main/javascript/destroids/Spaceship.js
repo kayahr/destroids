@@ -12,13 +12,17 @@
 
 
 /**
- * Constructs a new jsteroids.Spaceship
+ * Constructs a new destroids.Spaceship
+ * 
+ * @param {destroids.Game} game
+ *            The game
  * 
  * @constructor
- * @class The players jsteroids.Spaceship
+ * @extends twodee.ImageNode
+ * @class The players destroids.Spaceship
  */
 
-jsteroids.Spaceship = function(game)
+destroids.Spaceship = function(game)
 {
     var image, physics, mainThrust, leftThrust, rightThrust;
     
@@ -26,26 +30,26 @@ jsteroids.Spaceship = function(game)
     
     // Load the image and setup the image node with it
     image = new Image();
-    image.src = jsteroids.imagesDir + "/spaceship.png";
+    image.src = destroids.imagesDir + "/spaceship.png";
     twodee.ImageNode.call(this, image);
     
     // Set the bounds
-    this.setBounds(jsteroids.SPACESHIP_BOUNDS);
+    this.setBounds(destroids.SPACESHIP_BOUNDS);
     
     // Append the main thrust node
-    this.mainThrust = mainThrust = new twodee.PolygonNode(jsteroids.MAIN_THRUST);
+    this.mainThrust = mainThrust = new twodee.PolygonNode(destroids.MAIN_THRUST);
     mainThrust.setFillStyle("orange");
     mainThrust.disable();
     this.appendChild(mainThrust);
     
     // Append the left thrust node
-    this.leftThrust = leftThrust = new twodee.PolygonNode(jsteroids.LEFT_THRUST);
+    this.leftThrust = leftThrust = new twodee.PolygonNode(destroids.LEFT_THRUST);
     leftThrust.setFillStyle("orange");
     leftThrust.disable();
     this.appendChild(leftThrust);
     
     // Append the right thrust node
-    this.rightThrust = rightThrust = new twodee.PolygonNode(jsteroids.RIGHT_THRUST);
+    this.rightThrust = rightThrust = new twodee.PolygonNode(destroids.RIGHT_THRUST);
     rightThrust.setFillStyle("orange");
     rightThrust.disable();
     this.appendChild(rightThrust);
@@ -58,67 +62,131 @@ jsteroids.Spaceship = function(game)
     this.setPhysics(physics);
     
     // Enable collision detection
-    this.setCollisionType(jsteroids.TYPE_SPACESHIP);
-    this.setCollisionMask(jsteroids.TYPE_ASTEROID | jsteroids.TYPE_DROP |
-         jsteroids.TYPE_UFO);
+    this.setCollisionType(destroids.TYPE_SPACESHIP);
+    this.setCollisionMask(destroids.TYPE_ASTEROID | destroids.TYPE_DROP |
+         destroids.TYPE_UFO);
     this.connect("collisionStarted", this.handleCollide, this);
 };
-twodee.inherit(jsteroids.Spaceship, twodee.ImageNode);
+twodee.inherit(destroids.Spaceship, twodee.ImageNode);
 
-/** The yaw thrust. @private @final @type {Number} */
-jsteroids.Spaceship.YAW = 400 * Math.PI / 180;
+/** 
+ * The yaw thrust. 
+ * @private @final 
+ * @type {number} 
+ */
+destroids.Spaceship.YAW = 400 * Math.PI / 180;
 
-/** The thrust. @private @final @type {Number} */
-jsteroids.Spaceship.THRUST = 250;
+/** 
+ * The thrust. 
+ * @private 
+ * @final 
+ * @type {number} 
+ */
+destroids.Spaceship.THRUST = 250;
 
-/** The game. @private @type {jsteroids.Game} */
-jsteroids.Spaceship.prototype.game = null; 
+/** 
+ * The game. 
+ * @private 
+ * @type {destroids.Game} 
+ */
+destroids.Spaceship.prototype.game = null; 
     
-/** The current thrust. @private @type {Number} */
-jsteroids.Spaceship.prototype.thrust = 0;
+/** 
+ * The current thrust. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Spaceship.prototype.thrust = 0;
 
-/** The current yaw. @private @type {Number} */
-jsteroids.Spaceship.prototype.yaw = 0;
+/** 
+ * The current yaw. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Spaceship.prototype.yaw = 0;
 
-/** The main thrust node. @private @type {twodee.SceneNode} */
-jsteroids.Spaceship.prototype.mainThrust = null;
+/** 
+ * The main thrust node. 
+ * @private 
+ * @type {twodee.PolygonNode}
+ */
+destroids.Spaceship.prototype.mainThrust = null;
 
-/** The right thrust node. @private @type {twodee.SceneNode} */
-jsteroids.Spaceship.prototype.rightThrust = null;
+/** 
+ * The right thrust node. 
+ * @private 
+ * @type {twodee.PolygonNode} 
+ */
+destroids.Spaceship.prototype.rightThrust = null;
 
-/** The left thrust node. @private @type {twodee.SceneNode} */
-jsteroids.Spaceship.prototype.leftThrust = null;
+/** 
+ * The left thrust node. 
+ * @private 
+ * @type {twodee.PolygonNode} 
+ */
+destroids.Spaceship.prototype.leftThrust = null;
 
-/** If laser is currently firing. @private @type {Boolean} */
-jsteroids.Spaceship.prototype.laserFiring = false;
+/** 
+ * If laser is currently firing.
+ * @private 
+ * @type {boolean}
+ */
+destroids.Spaceship.prototype.laserFiring = false;
 
-/** The last time the laser was fired. @private @type {Number} */
-jsteroids.Spaceship.prototype.lastLaserFire = 0;
+/** 
+ * The last time the laser was fired. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Spaceship.prototype.lastLaserFire = 0;
 
-/** The fire rate (shots per second). @private @type {Number} */
-jsteroids.Spaceship.prototype.fireRate = 4;
+/** 
+ * The fire rate (shots per second). 
+ * @private 
+ * @type {number} 
+ */
+destroids.Spaceship.prototype.fireRate = 4;
 
-/** If ship is currently yawing. @private @type {Boolean} */
-jsteroids.Spaceship.prototype.yawing = false;
+/** 
+ * If ship is currently yawing. 
+ * @private 
+ * @type {boolean} 
+ */
+destroids.Spaceship.prototype.yawing = false;
 
-/** The shield strength in percent. @private @type {Number} */
-jsteroids.Spaceship.prototype.shield = 100;
+/** 
+ * The shield strength in percent. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Spaceship.prototype.shield = 100;
 
-/** The hull strength in percent. @private @type {Number} */
-jsteroids.Spaceship.prototype.hull = 100;
+/** 
+ * The hull strength in percent. 
+ * @private 
+ * @type {number}
+ */
+destroids.Spaceship.prototype.hull = 100;
 
-/** The target heading. @private @type {Number} */
-jsteroids.Spaceship.prototype.targetHeading = null;
+/** 
+ * The target heading.
+ * @private 
+ * @type {?number}
+ */
+destroids.Spaceship.prototype.targetHeading = null;
 
 
 /**
  * Starts thrust forward.
+ * 
+ * @param {number} power
+ *            The thrust power
  */
 
-jsteroids.Spaceship.prototype.startThrust = function(power)
+destroids.Spaceship.prototype.startThrust = function(power)
 {
-    this.game.playSound(jsteroids.SND_SPACESHIP_THRUST);
-    this.thrust = jsteroids.Spaceship.THRUST * this.hull / 100 *
+    this.game.playSound(destroids.SND_SPACESHIP_THRUST);
+    this.thrust = destroids.Spaceship.THRUST * this.hull / 100 *
         Math.max(0, power) / 100;
     if (this.thrust) this.mainThrust.enable();
 };
@@ -128,7 +196,7 @@ jsteroids.Spaceship.prototype.startThrust = function(power)
  * Stops thrust forward.
  */
 
-jsteroids.Spaceship.prototype.stopThrust = function()
+destroids.Spaceship.prototype.stopThrust = function()
 {
     this.thrust = 0;
     this.mainThrust.disable();
@@ -138,13 +206,13 @@ jsteroids.Spaceship.prototype.stopThrust = function()
 /**
  * Yaws the spaceship to the left.
  * 
- * @param {Number} power
+ * @param {number} power
  *            The thrust power in percent
  */
 
-jsteroids.Spaceship.prototype.yawLeft = function(power)
+destroids.Spaceship.prototype.yawLeft = function(power)
 {
-    this.physics.setSpinAcceleration(-jsteroids.Spaceship.YAW * this.hull /
+    this.getPhysics().setSpinAcceleration(-destroids.Spaceship.YAW * this.hull /
         100 * power / 100);
     this.yawing = true;
 };
@@ -153,13 +221,13 @@ jsteroids.Spaceship.prototype.yawLeft = function(power)
 /**
  * Yaws the spaceship to the right.
  * 
- * @param {Number} power
+ * @param {number} power
  *            The thrust power in percent
  */
 
-jsteroids.Spaceship.prototype.yawRight = function(power)
+destroids.Spaceship.prototype.yawRight = function(power)
 {
-    this.physics.setSpinAcceleration(jsteroids.Spaceship.YAW * this.hull /
+    this.getPhysics().setSpinAcceleration(destroids.Spaceship.YAW * this.hull /
         100 * power / 100);
     this.yawing = true;
 };
@@ -169,9 +237,9 @@ jsteroids.Spaceship.prototype.yawRight = function(power)
  * Stops yaw.
  */
 
-jsteroids.Spaceship.prototype.stopYaw = function()
+destroids.Spaceship.prototype.stopYaw = function()
 {
-    this.physics.setSpinAcceleration(0);
+    this.getPhysics().setSpinAcceleration(0);
     this.yawing = false;
 };
 
@@ -180,7 +248,7 @@ jsteroids.Spaceship.prototype.stopYaw = function()
  * Starts firing the laser cannon.
  */
 
-jsteroids.Spaceship.prototype.startFireLaser = function()
+destroids.Spaceship.prototype.startFireLaser = function()
 {
     this.laserFiring = true;
 };
@@ -190,7 +258,7 @@ jsteroids.Spaceship.prototype.startFireLaser = function()
  * Stops firing the laser cannon.
  */
 
-jsteroids.Spaceship.prototype.stopFireLaser = function()
+destroids.Spaceship.prototype.stopFireLaser = function()
 {
     this.laserFiring = false;
 };
@@ -202,34 +270,35 @@ jsteroids.Spaceship.prototype.stopFireLaser = function()
  * @private
  */
 
-jsteroids.Spaceship.prototype.fireLaser = function()
+destroids.Spaceship.prototype.fireLaser = function()
 {
     var laser, transform, speed, bbox;
     
-    this.game.playSound(jsteroids.SND_SPACESHIP_FIRE);
+    this.game.playSound(destroids.SND_SPACESHIP_FIRE);
 
-    speed = jsteroids.Spaceship.THRUST * 1.2;
+    speed = destroids.Spaceship.THRUST * 1.2;
     bbox = this.getBounds().getBoundingBox();
-    laser = new jsteroids.Laser(this.game);
+    laser = new destroids.Laser(this.game);
     transform = this.getTransform();
     laser.getTransform().setTransform(transform).translate(0, -24);
     laser.getPhysics().getVelocity().set(0, -speed).
-        rotate(transform.getRotationAngle()).add(this.physics.getVelocity());
-    this.parentNode.appendChild(laser);
+        rotate(transform.getRotationAngle()).add(this.getPhysics().getVelocity());
+    this.getParentNode().appendChild(laser);
 };
 
 
 /**
  * @see twodee.PolygonNode#update
  * 
- * @param {Number} delta
+ * @param {number} delta
  *            The time delta in milliseconds
+ * @override
  */
 
-jsteroids.Spaceship.prototype.update = function(delta)
+destroids.Spaceship.prototype.update = function(delta)
 {
     var x, y, transform, acceleration, xRadius, yRadius, bbox, game, now,
-        physics, spinAcceleration, targetHeading;
+        physics, spinAcceleration, targetHeading, spin;
     
     twodee.PolygonNode.prototype.update.call(this, delta);
     
@@ -244,17 +313,17 @@ jsteroids.Spaceship.prototype.update = function(delta)
         }
     }
     
-    physics = this.physics;
+    physics = this.getPhysics();
     spin = physics.getSpin();
         
     // Auto-pilot
-    if (!this.yawing && jsteroids.ctrlRotationCompensator)
+    if (!this.yawing && destroids.ctrlRotationCompensator)
     {
         if (spin)
         {
             if (Math.abs(spin) * 180 / Math.PI > 1)
                 physics.setSpinAcceleration(Math.min(
-                    jsteroids.Spaceship.YAW * this.hull / 100, Math.abs(spin) * 5) *
+                    destroids.Spaceship.YAW * this.hull / 100, Math.abs(spin) * 5) *
                     (spin < 0 ? 1 : -1));
             else
             {
@@ -268,10 +337,13 @@ jsteroids.Spaceship.prototype.update = function(delta)
     if (!this.thrust) physics.getVelocity().scale(0.99);
 
     targetHeading = this.targetHeading;
+    
+    /*
     if (targetHeading !== null)
     {
         // TODO Implement me
-    }
+    
+    }*/
     
     // Animate left and right thrust
     spinAcceleration = physics.getSpinAcceleration();
@@ -290,8 +362,8 @@ jsteroids.Spaceship.prototype.update = function(delta)
     // Calculate the maximum x and y radius of the position
     bbox = this.getBounds().getBoundingBox();
     game = this.game;
-    xRadius = (game.width + bbox.getWidth()) / 2;
-    yRadius = (game.height + bbox.getHeight()) / 2;
+    xRadius = (game.getWidth() + bbox.getWidth()) / 2;
+    yRadius = (game.getHeight() + bbox.getHeight()) / 2;
     
     // Correct the position if out of screen
     x = transform.m02;
@@ -309,12 +381,12 @@ jsteroids.Spaceship.prototype.update = function(delta)
  * @private
  */
 
-jsteroids.Spaceship.prototype.animateMainThrust = function()
+destroids.Spaceship.prototype.animateMainThrust = function()
 {
     var orig, xDelta, yDelta;
    
-    this.mainThrust.setOpacity(this.thrust / jsteroids.Spaceship.THRUST);
-    orig = jsteroids.MAIN_THRUST.getVertex(0);
+    this.mainThrust.setOpacity(this.thrust / destroids.Spaceship.THRUST);
+    orig = destroids.MAIN_THRUST.getVertex(0);
     xDelta = 1 - Math.random() * 2; 
     yDelta = 2 - Math.random() * 4;
     this.mainThrust.getPolygon().getVertex(0).set(
@@ -324,18 +396,20 @@ jsteroids.Spaceship.prototype.animateMainThrust = function()
 
 /**
  * Animates the right thrust polygon.
- * 
+ *
+ * @param {number} acceleration
+ *            The acceleration value
  * @private
  */
 
-jsteroids.Spaceship.prototype.animateRightThrust = function(acceleration)
+destroids.Spaceship.prototype.animateRightThrust = function(acceleration)
 {
     var orig, xDelta, yDelta;
    
     if (acceleration > 0)
     {
-        this.rightThrust.setOpacity(acceleration / jsteroids.Spaceship.YAW);
-        orig = jsteroids.RIGHT_THRUST.getVertex(0);
+        this.rightThrust.setOpacity(acceleration / destroids.Spaceship.YAW);
+        orig = destroids.RIGHT_THRUST.getVertex(0);
         xDelta = 2 - Math.random() * 4; 
         yDelta = 1 - Math.random() * 2;
         this.rightThrust.getPolygon().getVertex(0).set(
@@ -348,17 +422,19 @@ jsteroids.Spaceship.prototype.animateRightThrust = function(acceleration)
 /**
  * Animates the right thrust polygon.
  * 
+ * @param {number} acceleration
+ *            The acceleration value
  * @private
  */
 
-jsteroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
+destroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
 {
     var orig, xDelta, yDelta;
    
     if (acceleration < 0)
     {
-        this.leftThrust.setOpacity(-acceleration / jsteroids.Spaceship.YAW);
-        orig = jsteroids.LEFT_THRUST.getVertex(0);
+        this.leftThrust.setOpacity(-acceleration / destroids.Spaceship.YAW);
+        orig = destroids.LEFT_THRUST.getVertex(0);
         xDelta = 2 - Math.random() * 4; 
         yDelta = 1 - Math.random() * 2;
         this.leftThrust.getPolygon().getVertex(0).set(
@@ -371,37 +447,37 @@ jsteroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
 /**
  * Handles collision.
  * 
- * @param {jsteroids.Spaceship} spaceship
+ * @param {destroids.Spaceship} spaceship
  *            The spaceship
  * @param {twodee.SceneNode} collider
  *            The node the spaceship collided with
  */
 
-jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
+destroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
 {
-    if (collider instanceof jsteroids.Asteroid)
+    if (collider instanceof destroids.Asteroid)
     {
         collider.destroy(true);
         this.addDamage(100 / (collider.isSmall() ? 4 : 1));
     }
 
-    else if (collider instanceof jsteroids.Ufo)
+    else if (collider instanceof destroids.Ufo)
     {
         collider.destroy();
         this.addDamage(100);
     }
     
-    else if (collider instanceof jsteroids.Energy)
+    else if (collider instanceof destroids.Energy)
     {
-        this.game.playSound(jsteroids.SND_COLLECT_DROP);
+        this.game.playSound(destroids.SND_COLLECT_DROP);
         collider.remove();
         this.addShieldEnergy(25);
         this.game.addScore(25);
     }
 
-    else if (collider instanceof jsteroids.RepairKit)
+    else if (collider instanceof destroids.RepairKit)
     {
-        this.game.playSound(jsteroids.SND_COLLECT_DROP);
+        this.game.playSound(destroids.SND_COLLECT_DROP);
         collider.remove();
         this.repair(25);
         this.game.addScore(25);
@@ -411,9 +487,12 @@ jsteroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
 
 /**
  * Adds shield energy.
+ * 
+ * @param {number} energy
+ *            The energy amount
  */
 
-jsteroids.Spaceship.prototype.addShieldEnergy = function(energy)
+destroids.Spaceship.prototype.addShieldEnergy = function(energy)
 {
     this.shield += Math.max(0, Math.ceil(energy * (150 - this.shield) / 150));
     this.game.updateShipState();
@@ -421,10 +500,13 @@ jsteroids.Spaceship.prototype.addShieldEnergy = function(energy)
 
 
 /**
- * Repairs the hull
+ * Repairs the hull.
+ * 
+ * @param {number} repair
+ *            The repair amount
  */
 
-jsteroids.Spaceship.prototype.repair = function(repair)
+destroids.Spaceship.prototype.repair = function(repair)
 {
     this.hull += Math.max(0, Math.ceil(repair * (100 - this.hull) / 100));
     this.game.updateShipState();
@@ -434,20 +516,20 @@ jsteroids.Spaceship.prototype.repair = function(repair)
 /**
  * Adds damage to the ship.
  * 
- * @param {Number} damage
+ * @param {number} damage
  *            The damage to add
  */
 
-jsteroids.Spaceship.prototype.addDamage = function(damage)
+destroids.Spaceship.prototype.addDamage = function(damage)
 {
     var restDamage;
     
-    damage = parseInt(damage);
-    restDamage = parseInt(Math.max(0, damage - this.shield) / 2);
+    damage = parseInt(damage, 10);
+    restDamage = parseInt(Math.max(0, damage - this.shield) / 2, 10);
     if (restDamage)
-        this.game.playSound(jsteroids.SND_SPACESHIP_HULL_DAMAGE);
+        this.game.playSound(destroids.SND_SPACESHIP_HULL_DAMAGE);
     else
-        this.game.playSound(jsteroids.SND_SPACESHIP_SHIELD_DAMAGE);        
+        this.game.playSound(destroids.SND_SPACESHIP_SHIELD_DAMAGE);        
     this.shield = Math.max(0, this.shield - damage);
     this.hull = Math.max(0, this.hull - restDamage);
     this.game.updateShipState();
@@ -458,10 +540,10 @@ jsteroids.Spaceship.prototype.addDamage = function(damage)
 /**
  * Returns the current shield strength.
  * 
- * @return {Number} The current shield strength
+ * @return {number} The current shield strength
  */
 
-jsteroids.Spaceship.prototype.getShield = function()
+destroids.Spaceship.prototype.getShield = function()
 {
     return this.shield;
 };
@@ -470,10 +552,10 @@ jsteroids.Spaceship.prototype.getShield = function()
 /**
  * Returns the current hull strength.
  * 
- * @return {Number} The current hull strength
+ * @return {number} The current hull strength
  */
 
-jsteroids.Spaceship.prototype.getHull = function()
+destroids.Spaceship.prototype.getHull = function()
 {
     return this.hull;
 };
@@ -483,9 +565,9 @@ jsteroids.Spaceship.prototype.getHull = function()
  * Destroys the spaceship. 
  */
 
-jsteroids.Spaceship.prototype.destroy = function()
+destroids.Spaceship.prototype.destroy = function()
 {
-    this.game.playSound(jsteroids.SND_SPACESHIP_DESTROYED);
+    this.game.playSound(destroids.SND_SPACESHIP_DESTROYED);
             
     // Trigger an explosion at the location of the asteroid
     this.game.explode(this, 1);
@@ -504,10 +586,10 @@ jsteroids.Spaceship.prototype.destroy = function()
 /**
  * Returns the current heading of the spaceship in clock-wise RAD.
  * 
- * @return {Number} The current heading of the spaceship
+ * @return {number} The current heading of the spaceship
  */
 
-jsteroids.Spaceship.prototype.getHeading = function()
+destroids.Spaceship.prototype.getHeading = function()
 {
     return this.getTransform().getRotationAngle();    
 };
@@ -516,11 +598,11 @@ jsteroids.Spaceship.prototype.getHeading = function()
 /**
  * Sets the current heading of the spaceship in clock-wise RAD.
  * 
- * @param {Number} heading
+ * @param {number} heading
  *            The heading to set
  */
 
-jsteroids.Spaceship.prototype.setHeading = function(heading)
+destroids.Spaceship.prototype.setHeading = function(heading)
 {
     this.getTransform().rotate(heading - this.getHeading());
 };
@@ -530,11 +612,11 @@ jsteroids.Spaceship.prototype.setHeading = function(heading)
  * Sets the target heading in clock-wise RAD. The auto-pilot then
  * tries to reach this heading as fast as possible.
  * 
- * @param {Number} targetHeading
+ * @param {number} targetHeading
  *            The target heading to set
  */
 
-jsteroids.Spaceship.prototype.setTargetHeading = function(targetHeading)
+destroids.Spaceship.prototype.setTargetHeading = function(targetHeading)
 {
     var heading;
     

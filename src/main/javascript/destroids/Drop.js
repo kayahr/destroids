@@ -1,6 +1,5 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2010 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
  * @fileoverview
@@ -14,28 +13,29 @@
 /**
  * Constructs a new drop.
  * 
- * @param {jsteroids.Game} game
+ * @param {destroids.Game} game
  *            The game
- * @param {String} imageName
+ * @param {string} imageName
  *            The image name (without directory and extension)
  * 
  * @constructor
+ * @extends twodee.ImageNode
  * @class Base class for all drops
  */
 
-jsteroids.Drop = function(game, imageName)
+destroids.Drop = function(game, imageName)
 {
-    var image;
+    var image, physics;
     
     this.game = game;
     
     // Load the image and setup the image node with it
     image = new Image();
-    image.src = jsteroids.imagesDir + "/" + imageName + ".png";
+    image.src = destroids.imagesDir + "/" + imageName + ".png";
     twodee.ImageNode.call(this, image);
 
     // Set the bounds
-    this.setBounds(jsteroids.DROP_BOUNDS);
+    this.setBounds(destroids.DROP_BOUNDS);
     
     // Set the physics model
     physics = new twodee.Physics();
@@ -45,25 +45,27 @@ jsteroids.Drop = function(game, imageName)
     this.setPhysics(physics);
     
     // Enable collision detection
-    this.setCollisionType(jsteroids.TYPE_DROP);
+    this.setCollisionType(destroids.TYPE_DROP);
 };
-twodee.inherit(jsteroids.Drop, twodee.ImageNode);
+twodee.inherit(destroids.Drop, twodee.ImageNode);
 
-/** The class name. @private @type {String} */
-jsteroids.Drop.prototype.jsonClassName = "jsteroid.Drop";
-
-/** The game. @private @type {jsteroids.Game} */
-jsteroids.Drop.prototype.game = null;
+/** 
+ * The game. 
+ * @private 
+ * @type {destroids.Game} 
+ */
+destroids.Drop.prototype.game = null;
 
 
 /**
  * @see twodee.PolygonNode#update
  * 
- * @param {Number} delta
+ * @param {number} delta
  *            The time delta in milliseconds
+ * @override
  */
 
-jsteroids.Drop.prototype.update = function(delta)
+destroids.Drop.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, bbox, game;
     
@@ -74,8 +76,8 @@ jsteroids.Drop.prototype.update = function(delta)
     // Calculate the maximum x and y radius of the position
     bbox = this.getBounds().getBoundingBox();
     game = this.game;
-    xRadius = (game.width + bbox.getWidth()) / 2;
-    yRadius = (game.height + bbox.getHeight()) / 2;
+    xRadius = (game.getWidth() + bbox.getWidth()) / 2;
+    yRadius = (game.getHeight() + bbox.getHeight()) / 2;
     
     // Correct the position if out of screen
     x = transform.m02;
@@ -91,9 +93,9 @@ jsteroids.Drop.prototype.update = function(delta)
  * Destroys the drop. 
  */
 
-jsteroids.Drop.prototype.destroy = function()
+destroids.Drop.prototype.destroy = function()
 {
-    this.game.playSound(jsteroids.SND_DROP_DESTROYED);
+    this.game.playSound(destroids.SND_DROP_DESTROYED);
     
     // Trigger an explosion at the location of the UFO
     this.game.explode(this);

@@ -288,3 +288,11 @@
 {
     color: rgba(96, 255, 96, 0.66);
 }
+
+#mainMenu #title
+{
+	height: 0px;
+	overflow: hidden;
+	padding-top: 34px;
+	background: url(../images/destroids.png) no-repeat center center;
+}

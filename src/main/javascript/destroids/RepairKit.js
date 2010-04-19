@@ -14,19 +14,18 @@
 /**
  * Constructs a new repair drop.
  * 
- * @param {jsteroids.Game} game
+ * @param {destroids.Game} game
  *            The game
  * 
  * @constructor
+ * @extends destroids.Drop
  * @class An repair drop
  */
 
-jsteroids.RepairKit = function(game)
+destroids.RepairKit = function(game)
 {
-    jsteroids.Drop.call(this, game, "repairkit");
+    destroids.Drop.call(this, game, "repairkit");
 };
-twodee.inherit(jsteroids.RepairKit, jsteroids.Drop);
+twodee.inherit(destroids.RepairKit, destroids.Drop);
 
-/** The class name. @private @type {String} */
-jsteroids.RepairKit.prototype.jsonClassName = "jsteroid.RepairKit";
 

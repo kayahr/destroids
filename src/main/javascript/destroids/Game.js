@@ -4,7 +4,7 @@
  * See LICENSE.TXT for licensing information
  * 
  * @fileoverview
- * Provides jsteroids.Game class
+ * Provides destroids.Game class
  * 
  * @author Klaus Reimer (k@ailis.de)
  * @version $Revision: 910 $
@@ -14,11 +14,11 @@
 /**
  * Constructs the game.
  * 
- * @param {String} containerId
+ * @param {string} containerId
  *            The ID of the container element (Typically a DIV element).
  *            In this element the game constructs the canvas element and
  *            other elements needed for the game.
- * @param {Boolean} autoStart
+ * @param {boolean} autoStart
  *            If game should start automatically after initialization.
  *            This parameter is optional and defaults to true
  * 
@@ -26,87 +26,210 @@
  * @class The game
  */
 
-jsteroids.Game = function(containerId, autoStart)
+destroids.Game = function(containerId, autoStart)
 {
     this.containerId = containerId;
     if (autoStart === false) this.autoStart = false;
     this.init();
 };
 
-/** If game has been initialized. @private @type {Boolean} */
-jsteroids.Game.prototype.initialized = false;
+/** 
+ * If game has been initialized. 
+ * @private 
+ * @type {boolean} 
+ */
+destroids.Game.prototype.initialized = false;
 
-/** If game should start automatically after init. @private @type {Boolean} */
-jsteroids.Game.prototype.autoStart = true;
+/** 
+ * If game should start automatically after init. 
+ * @private 
+ * @type {boolean} 
+ */
+destroids.Game.prototype.autoStart = true;
 
-/** The container id. @private @type {String} */
-jsteroids.Game.prototype.containerId = null;
+/** 
+ * The container id. 
+ * @private 
+ * @type {string} 
+ */
+destroids.Game.prototype.containerId;
 
-/** The container HTML element. @private @type {HTMLElement} */
-jsteroids.Game.prototype.container = null;
+/** 
+ * The container HTML element. 
+ * @private 
+ * @type {Element} 
+ */
+destroids.Game.prototype.container = null;
 
-/** The canvas element. @private @type {HTMLCanvasElement} */
-jsteroids.Game.prototype.canvas = null;
+/** 
+ * The canvas element. 
+ * @private 
+ * @type {HTMLCanvasElement} 
+ */
+destroids.Game.prototype.canvas = null;
 
-/** The game canvas width. @private @type {Number} */
-jsteroids.Game.prototype.width = null;
+/** 
+ * The game canvas width. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Game.prototype.width = 0;
 
-/** The game canvas height. @private @type {Number} */
-jsteroids.Game.prototype.height = null;
+/** 
+ * The game canvas height. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Game.prototype.height = 0;
 
-/** The graphics context. @private @type {CanvasRenderingContext2D} */
-jsteroids.Game.prototype.ctx = null;
+/** 
+ * The graphics context. 
+ * @private 
+ * @type {CanvasRenderingContext2D} 
+ */
+destroids.Game.prototype.ctx = null;
 
-/** The game timer. @private @type {Number} */
-jsteroids.Game.prototype.timer = null;
+/** 
+ * The game timer. 
+ * @private 
+ * @type {?number} 
+ */
+destroids.Game.prototype.timer = null;
 
-/** The game scene. @private @type {twodee.Scene} */
-jsteroids.Game.prototype.scene = null;
+/** 
+ * The game scene. 
+ * @private 
+ * @type {twodee.Scene} 
+ */
+destroids.Game.prototype.scene = null;
 
-/** The root node. @private @type {twodee.SceneNode} */
-jsteroids.Game.prototype.rootNode = null;
+/** 
+ * The root node. 
+ * @private 
+ * @type {twodee.SceneNode} 
+ */
+destroids.Game.prototype.rootNode = null;
 
-/** The current level. @private @type {Number} */
-jsteroids.Game.prototype.level = null;
+/** 
+ * The current level. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Game.prototype.level = 0;
 
-/** The space ship. @private @type {jsteroids.Spaceship} */
-jsteroids.Game.prototype.spaceship = null;
+/** 
+ * The space ship. 
+ * @private 
+ * @type {destroids.Spaceship} 
+ */
+destroids.Game.prototype.spaceship = null;
 
-/** The score. @private @type {Number} */
-jsteroids.Game.prototype.score = 0;
+/** 
+ * The score. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Game.prototype.score = 0;
 
-/** The game-state label. @private @type {HTMLElement} */
-jsteroids.Game.prototype.stateLabel = null;
+/** 
+ * The game-state label. 
+ * @private 
+ * @type {Element} 
+ */
+destroids.Game.prototype.stateLabel = null;
 
-/** The number of remaining asteroids. @private @type {Number} */
-jsteroids.Game.prototype.asteroids = 0;
+/** 
+ * The number of remaining asteroids. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Game.prototype.asteroids = 0;
 
-/** If game is over. @private @type {Boolean} */
-jsteroids.Game.prototype.gameOver = true;
+/** 
+ * If game is over. 
+ * @private 
+ * @type {boolean} 
+ */
+destroids.Game.prototype.gameOver = true;
 
-/** The menu. @private @type {jsteroids.Menu} */
-jsteroids.Game.prototype.menu = null;
+/** 
+ * The menu. 
+ * @private 
+ * @type {destroids.Menu} 
+ */
+destroids.Game.prototype.menu = null;
 
-/** The hud. @private @type {jsteroids.Hud} */
-jsteroids.Game.prototype.hud = null;
+/** 
+ * The hud. 
+ * @private 
+ * @type {destroids.Hud} 
+ */
+destroids.Game.prototype.hud = null;
 
-/** The last screen orientation (Accelerometer support) @private @type {Number} */
-jsteroids.Game.prototype.lastOrientation = 2;
+/** 
+ * The last screen orientation (Accelerometer support) 
+ * @private 
+ * @type {number} 
+ */
+destroids.Game.prototype.lastOrientation = 2;
 
-/** If game has been paused. @private @type {Boolean} */
-jsteroids.Game.prototype.paused = false;
+/** 
+ * If game has been paused. 
+ * @private 
+ * @type {boolean} 
+ */
+destroids.Game.prototype.paused = false;
 
-/** The last level which has seen an UFO. @private @type {Number} */
-jsteroids.Game.prototype.lastUfoLevel = 0;
+/** 
+ * The last level which has seen an UFO. 
+ * @private 
+ * @type {number} 
+ */
+destroids.Game.prototype.lastUfoLevel = 0;
+
+/**
+ * The mouse up handler function.
+ * @private
+ * @type {Function}
+ */
+destroids.Game.prototype.mouseUpHandler = null;
+
+/**
+ * The mouse down handler function.
+ * @private
+ * @type {Function}
+ */
+destroids.Game.prototype.mouseDownHandler = null;
+
+/**
+ * The key up handler function.
+ * @private
+ * @type {Function}
+ */
+destroids.Game.prototype.keyUpHandler = null;
+
+/**
+ * The key down handler function.
+ * @private
+ * @type {Function}
+ */
+destroids.Game.prototype.keyDownHandler = null;
+
+/**
+ * The orientation change handler function.
+ * @private
+ * @type {Function}
+ */
+destroids.Game.prototype.orientationChangeHandler = null;
 
 
 /**
  * Initializes the game.
  */
 
-jsteroids.Game.prototype.init = function()
+destroids.Game.prototype.init = function()
 {
-    var container, canvas, scene, rootNode, menu, hud;
+    var container, canvas, scene, rootNode, menu, hud, stateLabel;
     
     // Try to get container reference
     this.container = container = document.getElementById(this.containerId);
@@ -119,7 +242,7 @@ jsteroids.Game.prototype.init = function()
     }
     
     // Create the canvas
-    this.canvas = canvas = document.createElement("canvas");
+    this.canvas = canvas = (/** @type {HTMLCanvasElement} */ document.createElement("canvas"));
     container.appendChild(canvas);
     canvas.id = "gameCanvas";
 
@@ -129,11 +252,11 @@ jsteroids.Game.prototype.init = function()
     stateLabel.id = "stateLabel";
     
     // Create the menu
-    menu = this.menu = new jsteroids.Menu(this);
+    menu = this.menu = new destroids.Menu(this);
     container.appendChild(menu.getElement());
     
     // Create the HUD
-    hud = this.hud = new jsteroids.Hud(this);
+    hud = this.hud = new destroids.Hud(this);
     container.appendChild(hud.getElement());
     
     // Correct container positioning if needed
@@ -141,7 +264,7 @@ jsteroids.Game.prototype.init = function()
         container.style.position = "relative";
     
     // Create the graphics context
-    this.ctx = canvas.getContext("2d");
+    this.ctx = (/** @type {CanvasRenderingContext2D} */ canvas.getContext("2d"));
     
     // Create the scene
     this.scene = scene = new twodee.Scene();
@@ -176,7 +299,7 @@ jsteroids.Game.prototype.init = function()
  * Resets the game.
  */
 
-jsteroids.Game.prototype.reset = function()
+destroids.Game.prototype.reset = function()
 {
     var rootNode, spaceship;
     
@@ -186,7 +309,7 @@ jsteroids.Game.prototype.reset = function()
     rootNode.removeChildren();
     
     // Create the spaceship
-    spaceship = this.spaceship = new jsteroids.Spaceship(this);
+    spaceship = this.spaceship = new destroids.Spaceship(this);
     rootNode.appendChild(spaceship);
     this.updateShipState();
 
@@ -211,7 +334,7 @@ jsteroids.Game.prototype.reset = function()
  * output container.
  */
 
-jsteroids.Game.prototype.resize = function()
+destroids.Game.prototype.resize = function()
 {
     var container, width, height, canvas;
     
@@ -227,10 +350,10 @@ jsteroids.Game.prototype.resize = function()
 /**
  * Checks if game is initialized.
  * 
- * @return {Boolean} True if game is initialized, false if not
+ * @return {boolean} True if game is initialized, false if not
  */
 
-jsteroids.Game.prototype.isInitialized = function()
+destroids.Game.prototype.isInitialized = function()
 {
     return this.initialized;
 };
@@ -240,7 +363,7 @@ jsteroids.Game.prototype.isInitialized = function()
  * Starts the game.
  */
 
-jsteroids.Game.prototype.start = function()
+destroids.Game.prototype.start = function()
 {
     // Do nothing if game is not initialized yet
     if (!this.initialized) return;
@@ -250,7 +373,7 @@ jsteroids.Game.prototype.start = function()
 
     // Start the game thread
     if (!this.timer)
-        this.timer = window.setInterval(this.run.bind(this), jsteroids.GAME_INTERVAL);
+        this.timer = window.setInterval(this.run.bind(this), destroids.GAME_INTERVAL);
 
     // Install keyboard handlers
     document.addEventListener("orientationchange", this.orientationChangeHandler, false);
@@ -263,9 +386,11 @@ jsteroids.Game.prototype.start = function()
 
 /**
  * Checks if game has been stopped or is running
+ * 
+ * @return {boolean} True if game is paused, false if not
  */
 
-jsteroids.Game.prototype.isPaused = function()
+destroids.Game.prototype.isPaused = function()
 {
     return this.paused;
 };
@@ -275,7 +400,7 @@ jsteroids.Game.prototype.isPaused = function()
  * Pauses the game
  */
 
-jsteroids.Game.prototype.pause = function()
+destroids.Game.prototype.pause = function()
 {
     if (!this.paused)
     {
@@ -296,13 +421,13 @@ jsteroids.Game.prototype.pause = function()
  * Resumes the game
  */
 
-jsteroids.Game.prototype.resume = function()
+destroids.Game.prototype.resume = function()
 {
     if (this.paused && (this.gameOver || !this.menu.isOpen()))
     {
         // Start the game thread
         if (!this.timer)
-            this.timer = window.setInterval(this.run.bind(this), jsteroids.GAME_INTERVAL);
+            this.timer = window.setInterval(this.run.bind(this), destroids.GAME_INTERVAL);
 
         this.paused = false;
         this.scene.resume();
@@ -314,7 +439,7 @@ jsteroids.Game.prototype.resume = function()
  * Stops the game.
  */
 
-jsteroids.Game.prototype.stop = function()
+destroids.Game.prototype.stop = function()
 {
     // Uninstall keyboard handlers
     document.removeEventListener("orientationchange", this.orientationChangeHandler, false);
@@ -339,7 +464,7 @@ jsteroids.Game.prototype.stop = function()
  * The game thread run method.
  */
 
-jsteroids.Game.prototype.run = function()
+destroids.Game.prototype.run = function()
 {
     var ctx, width, height;
     
@@ -349,7 +474,7 @@ jsteroids.Game.prototype.run = function()
     
     ctx.save();
     ctx.clearRect(0, 0, width, height);
-    this.scene.update(-jsteroids.GAME_INTERVAL * 5);
+    this.scene.update(-destroids.GAME_INTERVAL * 5);
     this.scene.render(ctx, width, height);
     ctx.restore();
 };
@@ -358,11 +483,11 @@ jsteroids.Game.prototype.run = function()
 /**
  * Sets the level.
  * 
- * @param {Number} level
+ * @param {number} level
  *            The level to set
  */
 
-jsteroids.Game.prototype.setLevel = function(level)
+destroids.Game.prototype.setLevel = function(level)
 {
     var rootNode, asteroids;
     
@@ -377,13 +502,13 @@ jsteroids.Game.prototype.setLevel = function(level)
         
     // Create the asteroids
     this.asteroids = 0;
-    asteroids = 1 + parseInt(level / 3);
+    asteroids = 1 + parseInt(level / 3, 10);
     while (asteroids--)
-        this.rootNode.appendChild(new jsteroids.Asteroid(this));
+        this.rootNode.appendChild(new destroids.Asteroid(this));
     asteroids = level % 3;
     while (asteroids)
     {
-        this.rootNode.appendChild(new jsteroids.Asteroid(this, true));
+        this.rootNode.appendChild(new destroids.Asteroid(this, true));
         asteroids--;
     }
 };
@@ -392,10 +517,10 @@ jsteroids.Game.prototype.setLevel = function(level)
 /**
  * Returns the current level.
  * 
- * @return {Number} The current level
+ * @return {number} The current level
  */
 
-jsteroids.Game.prototype.getLevel = function()
+destroids.Game.prototype.getLevel = function()
 {
     return this.level;
 };
@@ -404,15 +529,15 @@ jsteroids.Game.prototype.getLevel = function()
 /**
  * Checks if control is in the specified controls array.
  * 
- * @param {Number} control
+ * @param {number} control
  *            The control to check
  * @param {Array} controls
  *            Controls array
- * @return {Boolean} True if control is in the array, false if not
+ * @return {boolean} True if control is in the array, false if not
  * @private
  */
 
-jsteroids.Game.prototype.isControl = function(control, controls)
+destroids.Game.prototype.isControl = function(control, controls)
 {
     var i;
     
@@ -425,16 +550,16 @@ jsteroids.Game.prototype.isControl = function(control, controls)
 /**
  * Handles the control down event.
  * 
- * @param {Number} control
+ * @param {number} control
  *            The control id
- * @param {Number} power
+ * @param {number=} power
  *            Optional power (percent) for analog controls. Defaults to 100
- * @return {Boolean} True if event was handles, false if not
+ * @return {boolean} True if event was handles, false if not
  * 
  * @private
  */
  
-jsteroids.Game.prototype.handleControlDown = function(control, power)
+destroids.Game.prototype.handleControlDown = function(control, power)
 {
     if (power === undefined) power = 100;
     
@@ -447,17 +572,17 @@ jsteroids.Game.prototype.handleControlDown = function(control, power)
     // Controls when playing
     else if (!this.gameOver && !this.isPaused())
     {
-        if (this.isControl(control, jsteroids.ctrlThrust))
+        if (this.isControl(control, destroids.ctrlThrust))
             this.spaceship.startThrust(power);
-        else if (this.isControl(control, jsteroids.ctrlRight))
+        else if (this.isControl(control, destroids.ctrlRight))
             this.spaceship.yawRight(power);
-        else if (this.isControl(control, jsteroids.ctrlLeft))
+        else if (this.isControl(control, destroids.ctrlLeft))
             this.spaceship.yawLeft(power);
-        else if (this.isControl(control, jsteroids.ctrlFire))
-            this.spaceship.startFireLaser(power);
-        else if (this.isControl(control, jsteroids.ctrlMenu))
+        else if (this.isControl(control, destroids.ctrlFire))
+            this.spaceship.startFireLaser();
+        else if (this.isControl(control, destroids.ctrlMenu))
             this.gotoMenu();
-        else if (jsteroids.ctrlGravity)
+        else if (destroids.ctrlGravity)
         {
             switch (control)
             {
@@ -490,25 +615,25 @@ jsteroids.Game.prototype.handleControlDown = function(control, power)
 /**
  * Handles the control up event.
  * 
- * @param {Number} control
+ * @param {number} control
  *            The control id
- * @return {Boolean} True if event was handles, false if not
+ * @return {boolean} True if event was handles, false if not
  * 
  * @private
  */
  
-jsteroids.Game.prototype.handleControlUp = function(control)
+destroids.Game.prototype.handleControlUp = function(control)
 {
     // Controls when playing
     if (!this.menu.isOpen() && !this.gameOver && !this.isPaused())
     {
-        if (this.isControl(control, jsteroids.ctrlThrust))
+        if (this.isControl(control, destroids.ctrlThrust))
             this.spaceship.stopThrust();
-        else if (this.isControl(control, jsteroids.ctrlRight))
+        else if (this.isControl(control, destroids.ctrlRight))
             this.spaceship.stopYaw();
-        else if (this.isControl(control, jsteroids.ctrlLeft))
+        else if (this.isControl(control, destroids.ctrlLeft))
             this.spaceship.stopYaw();
-        else if (this.isControl(control, jsteroids.ctrlFire))
+        else if (this.isControl(control, destroids.ctrlFire))
             this.spaceship.stopFireLaser();
         else
             return false;
@@ -529,7 +654,7 @@ jsteroids.Game.prototype.handleControlUp = function(control)
  * @private
  */
  
-jsteroids.Game.prototype.handleKeyDown = function(event)
+destroids.Game.prototype.handleKeyDown = function(event)
 {
     if (this.handleControlDown(event.keyCode) ||
         this.handleControlDown(0)) event.preventDefault();
@@ -544,7 +669,7 @@ jsteroids.Game.prototype.handleKeyDown = function(event)
  * @private
  */
  
-jsteroids.Game.prototype.handleKeyUp = function(event)
+destroids.Game.prototype.handleKeyUp = function(event)
 {
     if (this.handleControlUp(event.keyCode) ||
         this.handleControlUp(0)) event.preventDefault();
@@ -559,9 +684,8 @@ jsteroids.Game.prototype.handleKeyUp = function(event)
  * @private
  */
  
-jsteroids.Game.prototype.handleMouseDown = function(event)
-{
-    
+destroids.Game.prototype.handleMouseDown = function(event)
+{    
     if (this.handleControlDown(-1)) event.preventDefault();
 };
 
@@ -574,7 +698,7 @@ jsteroids.Game.prototype.handleMouseDown = function(event)
  * @private
  */
  
-jsteroids.Game.prototype.handleMouseUp = function(event)
+destroids.Game.prototype.handleMouseUp = function(event)
 {
     if (this.handleControlUp(-1)) event.preventDefault();
 };
@@ -583,14 +707,15 @@ jsteroids.Game.prototype.handleMouseUp = function(event)
 /**
  * Handles the orientation change event.
  * 
- * @param {Event} event
+ * @param {Mojo.OrientationChangeEvent} event
  *            The orientation change event
  * @private
  */
  
-jsteroids.Game.prototype.handleOrientationChange = function(event)
+destroids.Game.prototype.handleOrientationChange = function(event)
 {
-    var roll, pitch, pitchPower, rollPower;
+    var roll, pitch, pitchPower, rollPower, pitchRange, rollRange,
+        pitchDeadZone, rollDeadZone, angle;
 
     // If position is not 0 or 1 then a orientation change was performed.
     // Remember this orientation change because this is the base for
@@ -628,25 +753,25 @@ jsteroids.Game.prototype.handleOrientationChange = function(event)
             pitch = 0;            
     }
     
-    if (jsteroids.ctrlGravity)
+    if (destroids.ctrlGravity)
     {
         angle = new twodee.Vector(0, 1).getAngle(new twodee.Vector(roll,
             -pitch));
         this.spaceship.setTargetHeading(angle);
     }
     
-    roll -= jsteroids.ctrlRollCenter;
-    pitch -= jsteroids.ctrlPitchCenter;
+    roll -= destroids.ctrlRollCenter;
+    pitch -= destroids.ctrlPitchCenter;
     
     // Dead zone
-    rollDeadZone = jsteroids.ctrlRollDeadZone / 2;
-    pitchDeadZone = jsteroids.ctrlPitchDeadZone / 2;
+    rollDeadZone = destroids.ctrlRollDeadZone / 2;
+    pitchDeadZone = destroids.ctrlPitchDeadZone / 2;
     if (Math.abs(roll) < rollDeadZone) roll = 0;
     if (Math.abs(pitch) < pitchDeadZone) pitch = 0;
     
     // Calculate power
-    rollRange = jsteroids.ctrlRollRange / 2;
-    pitchRange = jsteroids.ctrlPitchRange / 2;
+    rollRange = destroids.ctrlRollRange / 2;
+    pitchRange = destroids.ctrlPitchRange / 2;
     rollPower = Math.min(100, (Math.abs(roll) - rollDeadZone) * 100 / (rollRange - rollDeadZone));    
     pitchPower = Math.min(100, (Math.abs(pitch) - pitchDeadZone) * 100 / (pitchRange - pitchDeadZone));    
     
@@ -689,19 +814,19 @@ jsteroids.Game.prototype.handleOrientationChange = function(event)
  * 
  * @param {twodee.SceneNode} node
  *            The node at which position an explosion should be triggered
- * @param {Number} type
+ * @param {number=} type
  *            The explosion type. 0 is normal, 1 is player ship, 2 is alien
- *            ship, 3 is a small hit explosion
+ *            ship, 3 is a small hit explosion. Optional. Defaults to 0
  */
 
-jsteroids.Game.prototype.explode = function(node, type)
+destroids.Game.prototype.explode = function(node, type)
 {
-    var i, particle, transform, heading, velocity, partTransform;
+    var i, particle, transform, heading, velocity, partTransform, physics;
     
     for (i = (type == 1 ? 50 : 10); i >= 0; i--)
     {
         heading = Math.random() * Math.PI * 2;
-        particle = new twodee.PolygonNode(jsteroids.PARTICLE);
+        particle = new twodee.PolygonNode(destroids.PARTICLE);
         transform = node.getTransform();
         partTransform = particle.getTransform();
         partTransform.translate(transform.m02, transform.m12).
@@ -754,11 +879,11 @@ jsteroids.Game.prototype.explode = function(node, type)
 /**
  * Adds score points.
  * 
- * @param {Number} points
+ * @param {number} points
  *            The points to add per level
  */
 
-jsteroids.Game.prototype.addScore = function(points)
+destroids.Game.prototype.addScore = function(points)
 {
     if (!this.gameOver) this.setScore(this.score + points* this.level);
 };
@@ -767,11 +892,11 @@ jsteroids.Game.prototype.addScore = function(points)
 /**
  * Sets the score.
  * 
- * @param {Number} score
+ * @param {number} score
  *            The score to set
  */
 
-jsteroids.Game.prototype.setScore = function(score)
+destroids.Game.prototype.setScore = function(score)
 {
     this.score = score;
     this.hud.setScore(score);
@@ -782,7 +907,7 @@ jsteroids.Game.prototype.setScore = function(score)
  * Adds a new asteroid.
  */
 
-jsteroids.Game.prototype.addAsteroid = function()
+destroids.Game.prototype.addAsteroid = function()
 {
     if (this.gameOver) return;
     
@@ -795,7 +920,7 @@ jsteroids.Game.prototype.addAsteroid = function()
  * complete.
  */
 
-jsteroids.Game.prototype.removeAsteroid = function()
+destroids.Game.prototype.removeAsteroid = function()
 {
     if (this.gameOver) return;
     
@@ -803,7 +928,7 @@ jsteroids.Game.prototype.removeAsteroid = function()
     if (!this.asteroids)
         this.completeLevel();
     else
-        if (!parseInt(Math.random() * 25 - Math.max(20, this.level)))
+        if (!parseInt(Math.random() * 25 - Math.max(20, this.level),10))
             this.newUFO();
 };
 
@@ -812,15 +937,15 @@ jsteroids.Game.prototype.removeAsteroid = function()
  * Completes the current level.
  */
 
-jsteroids.Game.prototype.completeLevel = function()
+destroids.Game.prototype.completeLevel = function()
 {
     var nextLevel;
     
-    this.playSound(jsteroids.SND_LEVEL_UP);
+    this.playSound(destroids.SND_LEVEL_UP);
     
     nextLevel = this.level + 1;
-    this.stateLabel.innerHTML = jsteroids.msgRightOn +
-        jsteroids.msgNextLevel.replace("%LEVEL%", nextLevel);
+    this.stateLabel.innerHTML = destroids.msgRightOn +
+        destroids.msgNextLevel.replace("%LEVEL%", String(nextLevel));
     this.showStateLabel();
     this.setLevel.bind(this, nextLevel).delay(5);
 };
@@ -830,15 +955,15 @@ jsteroids.Game.prototype.completeLevel = function()
  * Ends the game.
  */
 
-jsteroids.Game.prototype.endGame = function()
+destroids.Game.prototype.endGame = function()
 {
     if (!this.gameOver)
     {
         this.gameOver = true;
-        this.stateLabel.innerHTML = jsteroids.msgGameOver.replace("%SCORE%",
-            jsteroids.formatNumber(this.score));
+        this.stateLabel.innerHTML = destroids.msgGameOver.replace("%SCORE%",
+            destroids.formatNumber(this.score));
         this.showStateLabel();
-        if (jsteroids.HighScores.getInstance().determineRank(this.score))
+        if (destroids.HighScores.getInstance().determineRank(this.score))
             this.newHighScore.bind(this).delay(5);
         else
             this.startIntro.bind(this).delay(5);
@@ -851,15 +976,15 @@ jsteroids.Game.prototype.endGame = function()
  * Starts a new game.
  */
 
-jsteroids.Game.prototype.newGame = function()
+destroids.Game.prototype.newGame = function()
 {
-    this.playSound(jsteroids.SND_LEVEL_UP);
+    this.playSound(destroids.SND_LEVEL_UP);
 
     this.gameOver = true;
     this.menu.close();
     this.resume();
     this.destroyAll();
-    this.stateLabel.innerHTML = jsteroids.msgNextLevel.replace("%LEVEL%", 1);
+    this.stateLabel.innerHTML = destroids.msgNextLevel.replace("%LEVEL%", String(1));
     this.showStateLabel();
     this.reset.bind(this).delay(2);
 };
@@ -869,22 +994,22 @@ jsteroids.Game.prototype.newGame = function()
  * Creates a new UFO if this level hasn't seen an UFO yet.
  */
 
-jsteroids.Game.prototype.newUFO = function()
+destroids.Game.prototype.newUFO = function()
 {
     if (this.gameOver || this.lastUfoLevel <
-        this.level && !jsteroids.Ufo.count())
+        this.level && !destroids.Ufo.count())
     {
-        this.rootNode.appendChild(new jsteroids.Ufo(this));
+        this.rootNode.appendChild(new destroids.Ufo(this));
         this.lastUfoLevel = this.level
     }
 };
 
 
 /**
- * Destroys all destroyable items.
+ * Destroys all destructible items.
  */
 
-jsteroids.Game.prototype.destroyAll = function()
+destroids.Game.prototype.destroyAll = function()
 {
     var node, next;
     
@@ -892,7 +1017,7 @@ jsteroids.Game.prototype.destroyAll = function()
     while (node)
     {
         next = node.getNextSibling();
-        if (node.destroy) node.destroy();
+        if ("destroy" in node) node["destroy"](); // TODO Cleaner interface
         node = next;
     }
 };
@@ -902,7 +1027,7 @@ jsteroids.Game.prototype.destroyAll = function()
  * Plays a simple intro which is used as a background for the main menu.
  */
 
-jsteroids.Game.prototype.startIntro = function()
+destroids.Game.prototype.startIntro = function()
 {
     var i;
     
@@ -911,7 +1036,7 @@ jsteroids.Game.prototype.startIntro = function()
     // Create some asteroids
     for (i = this.asteroids; i < 5; i++)
     {
-        this.rootNode.appendChild(new jsteroids.Asteroid(this));
+        this.rootNode.appendChild(new destroids.Asteroid(this));
     }
     
     // Create a new UFO
@@ -928,7 +1053,7 @@ jsteroids.Game.prototype.startIntro = function()
  * @private
  */
 
-jsteroids.Game.prototype.showStateLabel = function()
+destroids.Game.prototype.showStateLabel = function()
 {
     this.stateLabel.className = "visible"; 
 };
@@ -940,7 +1065,7 @@ jsteroids.Game.prototype.showStateLabel = function()
  * @private
  */
 
-jsteroids.Game.prototype.hideStateLabel = function()
+destroids.Game.prototype.hideStateLabel = function()
 {
     this.stateLabel.className = "hidden"; 
 };
@@ -950,7 +1075,7 @@ jsteroids.Game.prototype.hideStateLabel = function()
  * Updates the space ship state displays.
  */
 
-jsteroids.Game.prototype.updateShipState = function()
+destroids.Game.prototype.updateShipState = function()
 {    
     this.hud.setShield(this.spaceship.getShield());
     this.hud.setHull(this.spaceship.getHull());
@@ -961,7 +1086,7 @@ jsteroids.Game.prototype.updateShipState = function()
  * Pauses the game and opens the menu.
  */
 
-jsteroids.Game.prototype.gotoMenu = function()
+destroids.Game.prototype.gotoMenu = function()
 {
     this.pause();
     this.hud.close();
@@ -973,7 +1098,7 @@ jsteroids.Game.prototype.gotoMenu = function()
  * Closes the menu and continues the game.
  */
 
-jsteroids.Game.prototype.continueGame = function()
+destroids.Game.prototype.continueGame = function()
 {
     this.menu.close();
     this.hud.open();
@@ -984,10 +1109,10 @@ jsteroids.Game.prototype.continueGame = function()
 /**
  * Checks if game is over or not.
  * 
- * @return {Boolean} True if game is over, false if not
+ * @return {boolean} True if game is over, false if not
  */
 
-jsteroids.Game.prototype.isGameOver = function()
+destroids.Game.prototype.isGameOver = function()
 {
     return this.gameOver;
 };
@@ -996,22 +1121,23 @@ jsteroids.Game.prototype.isGameOver = function()
 /**
  * Records a new high score.
  * 
- * @param {Number} place
+ * @param {number} place
  *            The achieved place
  * @private 
  */
 
-jsteroids.Game.prototype.newHighScore = function(place)
+destroids.Game.prototype.newHighScore = function(place)
 {
     var message, rank, highScores;
 
-    highScores = jsteroids.HighScores.getInstance();
+    highScores = destroids.HighScores.getInstance();
     rank = highScores.determineRank(this.score);
-    message = jsteroids.msgNewHighScore.replace("%SCORE%",
-        jsteroids.formatNumber(this.score)).
-        replace("%RANK%", rank)
-    jsteroids.onPrompt(jsteroids.msgNewHighScoreTitle, message,
-        this.saveHighScore, this);
+    message = destroids.msgNewHighScore.replace("%SCORE%",
+        destroids.formatNumber(this.score)).
+        replace("%RANK%", String(rank))
+    destroids.onPrompt(destroids.msgNewHighScoreTitle, message,
+        (/** @type {function(?string)} */
+        destroids.Game.prototype.saveHighScore), this);
 };
 
 
@@ -1019,16 +1145,18 @@ jsteroids.Game.prototype.newHighScore = function(place)
  * Submits the high score name. This method must be called by the external
  * newHighScore
  * 
- * @param {String} name
+ * @param {string} name
  *            The high score name
  * @private
  */
 
-jsteroids.Game.prototype.saveHighScore = function(name)
+destroids.Game.prototype.saveHighScore = function(name)
 {
+	var rank, highScores;
+	
     if (name)
     {
-        highScores = jsteroids.HighScores.getInstance();
+        highScores = destroids.HighScores.getInstance();
         rank = highScores.determineRank(this.score);
         highScores.add(name, this.level, this.score);
     }
@@ -1039,10 +1167,10 @@ jsteroids.Game.prototype.saveHighScore = function(name)
 /**
  * Checks if menu is currently open.
  * 
- * @return {Boolean} True if menu is open, false if not
+ * @return {boolean} True if menu is open, false if not
  */
 
-jsteroids.Game.prototype.isMenuOpen = function()
+destroids.Game.prototype.isMenuOpen = function()
 {
     return this.menu.isOpen();
 };
@@ -1051,13 +1179,13 @@ jsteroids.Game.prototype.isMenuOpen = function()
 /**
  * Plays a sound.
  * 
- * @param {Number} sound
+ * @param {number} sound
  *            The sound ID
  */
 
-jsteroids.Game.prototype.playSound = function(sound)
+destroids.Game.prototype.playSound = function(sound)
 {
-    if (jsteroids.onSound) jsteroids.onSound(sound);
+    if (destroids.onSound) destroids.onSound(sound);
 };
 
 
@@ -1065,11 +1193,11 @@ jsteroids.Game.prototype.playSound = function(sound)
  * Resets the high scores.
  */
 
-jsteroids.Game.prototype.resetHighScores = function()
+destroids.Game.prototype.resetHighScores = function()
 {
     var highScores;
     
-    highScores = jsteroids.HighScores.getInstance();
+    highScores = destroids.HighScores.getInstance();
     highScores.reset();
     highScores.save();
     this.menu.updateHighScores();
@@ -1079,10 +1207,36 @@ jsteroids.Game.prototype.resetHighScores = function()
 /**
  * Returns the spaceship.
  * 
- * @return {jsteroids.Spaceship} The spaceship  
+ * @return {destroids.Spaceship} The spaceship  
  */
 
-jsteroids.Game.prototype.getSpaceship = function()
+destroids.Game.prototype.getSpaceship = function()
 {
     return this.spaceship;
+};
+
+
+/**
+ * Returns the game canvas width.
+ * 
+ * @return {number}
+ *             The game canvas width
+ */
+
+destroids.Game.prototype.getWidth = function()
+{
+    return this.width;
+};
+
+
+/**
+ * Returns the game canvas height.
+ * 
+ * @return {number}
+ *             The game canvas height
+ */
+
+destroids.Game.prototype.getHeight = function()
+{
+    return this.height;
 };

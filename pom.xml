@@ -1,27 +1,27 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                              http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.ailis.jsteroids</groupId>
-  <artifactId>jsteroids</artifactId>
-  <packaging>javascript</packaging>
-  <name>jsteroids</name>
+
+  <parent>
+    <artifactId>maven-javascript</artifactId>
+    <groupId>de.ailis.maven</groupId>
+    <version>1-SNAPSHOT</version>
+  </parent> 
+
+  <groupId>de.ailis.destroids</groupId>
+  <artifactId>destroids</artifactId>
+  <packaging>jar</packaging>
+  <name>Destroids</name>
   <version>1.0.0-SNAPSHOT</version>
-  <url>http://www.ailis.de/~k/projects/jsteroids/</url>
-  <description>JavaScript 2D scene graph</description>
+  <url>http://www.ailis.de/~k/projects/destroids/</url>
+  <description>Asteroids-like game written in JavaScript</description>
   <inceptionYear>2010</inceptionYear>
   <organization>
     <name>Klaus Reimer</name>
     <url>http://www.ailis.de/~k/</url>
   </organization>
 
-  <scm>
-    <url>https://scm.ailis.de/viewvc/svn/javascript/jsteroids/trunk/</url>
-    <connection>scm:svn:http://scm.ailis.de/svn/javascript/jsteroids/trunk/</connection>
-    <developerConnection>scm:svn:https://scm.ailis.de/svn/javascript/jsteroids/trunk</developerConnection>
-  </scm>
-  
   <licenses>
     <license>
       <name>LGPL</name>
@@ -30,109 +30,63 @@
     </license>
   </licenses>
   
-  <ciManagement>
-    <system>Hudson</system>
-    <url>https://www.ailis.de/hudson/</url>
-  </ciManagement>
-
-  <properties> 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-  </properties>
-
   <build>
-    <plugins>      
+    <plugins>
       <plugin>
         <groupId>de.ailis.maven</groupId>
-        <artifactId>maven-javascript-plugin</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <extensions>true</extensions>
+        <artifactId>maven-closurecompiler-plugin</artifactId>
         <configuration>
           <order>
-            <file>jsteroids.js</file>
-            <file>jsteroids/Drop.js</file>
-            <file>jsteroids/Laser.js</file>
-            <file>jsteroids/RepairKit.js</file>
-            <file>jsteroids/Asteroid.js</file>
-            <file>jsteroids/Energy.js</file>
-            <file>jsteroids/Spaceship.js</file>
-            <file>jsteroids/Ufo.js</file>
-            <file>jsteroids/Menu.js</file>
-            <file>jsteroids/Hud.js</file>
-            <file>jsteroids/Game.js</file>
+            <file>destroids.js</file>
+            <file>destroids/Asteroid.js</file>
+            <file>destroids/Drop.js</file>
+            <file>destroids/Energy.js</file>
+            <file>destroids/HighScores.js</file>
+            <file>destroids/Hud.js</file>
+            <file>destroids/Laser.js</file>
+            <file>destroids/Menu.js</file>
+            <file>destroids/RepairKit.js</file>
+            <file>destroids/Spaceship.js</file>
+            <file>destroids/Game.js</file>
           </order>
-        </configuration>
+        </configuration>      
       </plugin>
     </plugins>
   </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-         <reportSets>
-           <reportSet>
-             <reports>
-               <report>index</report>
-               <report>dependencies</report>
-               <report>project-team</report>
-               <report>license</report>
-               <report>scm</report>
-             </reports>
-           </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <distributionManagement>
-    <repository>
-      <id>ailis-releases</id>
-      <name>Ailis Maven Releases</name>
-      <url>https://www.ailis.de/nexus/content/repositories/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>ailis-snapshots</id>
-      <name>Ailis Maven Snapshots</name>
-      <url>https://www.ailis.de/nexus/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <site>
-      <id>k-website</id>
-      <url>scpexe://k@ailis.de/home/k/public_html/projects/wlandsuite</url>
-    </site>
-  </distributionManagement>
-
+  
   <repositories>
     <repository>
       <id>ailis-releases</id>
       <name>Ailis Maven Releases</name>
-      <url>https://www.ailis.de/nexus/content/repositories/releases</url>
+      <url>http://www.ailis.de/nexus/content/groups/public/</url>
     </repository>
     <repository>
       <id>ailis-snapshots</id>
       <name>Ailis Maven Snapshots</name>
-      <url>https://www.ailis.de/nexus/content/repositories/snapshots</url>
+      <url>http://www.ailis.de/nexus/content/groups/public-snapshots/</url>
       <snapshots />
     </repository>
-  </repositories>
-    
+  </repositories>  
+
   <dependencies>
-    <dependency>
-      <groupId>org.prototypejs</groupId>
-      <artifactId>prototype</artifactId>
-      <version>1.6.1</version>
-    </dependency>
     <dependency>
       <groupId>de.ailis.twodee</groupId>
       <artifactId>twodee</artifactId>
       <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.palm</groupId>
+      <artifactId>mojo</artifactId>
+      <version>1.4.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.prototypejs</groupId>
+      <artifactId>prototype</artifactId>
+      <version>1.6.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
 </project>
-
-

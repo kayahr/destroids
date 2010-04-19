@@ -16,35 +16,46 @@
  * 
  * @constructor
  * @class The highscores.
- * 
  */
 
-jsteroids.HighScores = function()
+destroids.HighScores = function()
 {
     this.scores = [];
     this.load();
 };
 
-/** The singleton instance. @private @type {jsteroids.HighScores} */
-jsteroids.HighScores.instance = null;
+/** 
+ * The singleton instance. 
+ * @private 
+ * @type {destroids.HighScores} 
+ */
+destroids.HighScores.instance = null;
 
-/** If array with the scores (Entries:name,level,score). @private @type {Array} */
-jsteroids.HighScores.prototype.scores = null;
+/** 
+ * If array with the scores. 
+ * @private 
+ * @type {Array.<{name: string, level: number, score: number}>} 
+ */
+destroids.HighScores.prototype.scores = null;
 
-/** The maximum number of entries in the high score list. @type {String} */
-jsteroids.HighScores.prototype.entries = 5;
+/** 
+ * The maximum number of entries in the high score list. 
+ * @type {number} 
+ */
+destroids.HighScores.prototype.entries = 5;
 
 
 /**
  * Returns the singleton instance of the high scores list.
  * 
- * @return {jsteroids.HighScores} The high scores
+ * @return {destroids.HighScores} The high scores
  */
 
-jsteroids.HighScores.getInstance = function()
+destroids.HighScores.getInstance = function()
 {
-    if (!this.instance) this.instance = new jsteroids.HighScores();
-    return this.instance;
+    if (!destroids.HighScores.instance)
+        destroids.HighScores.instance = new destroids.HighScores();
+    return destroids.HighScores.instance;
 };
 
 
@@ -54,17 +65,16 @@ jsteroids.HighScores.getInstance = function()
  * @private
  */
 
-jsteroids.HighScores.prototype.load = function()
+destroids.HighScores.prototype.load = function()
 {
     var cookie, name, level, score, i;
     
     // Read high scores from mojo cookies if possible
-    if (window.Mojo && Mojo.Model && Mojo.Model.Cookie)
+    if ("Mojo" in window && Mojo.Model && Mojo.Model.Cookie)
         cookie = new Mojo.Model.Cookie("highscores").get();
 
     if (cookie)
-    {
-        
+    {        
         for (i = 0; i < this.entries; i++)
         {
             level = cookie["level" + i];
@@ -85,7 +95,7 @@ jsteroids.HighScores.prototype.load = function()
  * Saves the high scores.
  */
 
-jsteroids.HighScores.prototype.save = function()
+destroids.HighScores.prototype.save = function()
 {
     var data, max, entry, i;
     
@@ -99,7 +109,7 @@ jsteroids.HighScores.prototype.save = function()
     }
 
     // Write to Mojo cookie if available
-    if (window.Mojo && Mojo.Model && Mojo.Model.Cookie)
+    if ("Mojo" in window && Mojo.Model && Mojo.Model.Cookie)
         new Mojo.Model.Cookie("highscores").put(data);
 };
 
@@ -108,14 +118,14 @@ jsteroids.HighScores.prototype.save = function()
  * Resets the high scores.
  */
 
-jsteroids.HighScores.prototype.reset = function()
+destroids.HighScores.prototype.reset = function()
 {
     this.scores = [
         { "name": "Scott Safran", "level": 5, "score": 5000 },
         { "name": "Leo Daniels", "level": 4, "score": 4000 },
         { "name": "Lyle Rains", "level": 3, "score": 3000 },
         { "name": "Ed Logg", "level": 2, "score": 2000 },
-        { "name": "Atari", "level": 1, "score": 1000 },
+        { "name": "Atari", "level": 1, "score": 1000 }
     ];
 };
 
@@ -125,14 +135,14 @@ jsteroids.HighScores.prototype.reset = function()
  * Returns 0 if this score is not good enough to be recorded in the list at
  * all.
  * 
- * @return {Number} score
+ * @param {number} score
  *             The score
- * @return {Number} The rank or 0 if not in the list.
+ * @return {number} The rank or 0 if not in the list.
  */
 
-jsteroids.HighScores.prototype.determineRank = function(score)
+destroids.HighScores.prototype.determineRank = function(score)
 {
-    var rank, entries;
+    var rank, entries, entry;
     
     for (rank = 0, entries = this.scores.length; rank < entries; rank++)
     {
@@ -147,15 +157,15 @@ jsteroids.HighScores.prototype.determineRank = function(score)
 /**
  * Adds a new high score entry.
  * 
- * @param {String} name
+ * @param {string} name
  *            The name to add
- * @param {Number} level
+ * @param {number} level
  *            The level to add
- * @param {Number} score
+ * @param {number} score
  *            The score to add
  */
 
-jsteroids.HighScores.prototype.add = function(name, level, score)
+destroids.HighScores.prototype.add = function(name, level, score)
 {
     var rank;
     
@@ -183,10 +193,10 @@ jsteroids.HighScores.prototype.add = function(name, level, score)
 /**
  * Returns the scores.
  * 
- * @return {Array} The scores
+ * @return {Array.<{name: string, level: number, score: number}>} The scores
  */
 
-jsteroids.HighScores.prototype.getScores = function()
+destroids.HighScores.prototype.getScores = function()
 {
     return this.scores;
 };

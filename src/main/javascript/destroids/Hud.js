@@ -14,11 +14,14 @@
 /**
  * Constructs a new hud
  * 
+ * @param {destroids.Game} game
+ *            The game
+ * 
  * @constructor
  * @class The hud
  */
 
-jsteroids.Hud = function(game)
+destroids.Hud = function(game)
 {
     var root, value, topBar, bottomBar, display;
     
@@ -39,7 +42,7 @@ jsteroids.Hud = function(game)
     topBar.appendChild(display);
     display.id = "levelDisplay";
     display.className = "display";
-    display.appendChild(document.createTextNode(jsteroids.msgLevel));
+    display.appendChild(document.createTextNode(destroids.msgLevel));
     value = this.levelElement = document.createElement("span");
     display.appendChild(value);
     value.id = "levelValue";
@@ -51,7 +54,7 @@ jsteroids.Hud = function(game)
     topBar.appendChild(display);
     display.id = "scoreDisplay";
     display.className = "display";
-    display.appendChild(document.createTextNode(jsteroids.msgScore));
+    display.appendChild(document.createTextNode(destroids.msgScore));
     value = this.scoreElement = document.createElement("span");
     display.appendChild(value);
     value.id = "scoreValue";
@@ -69,7 +72,7 @@ jsteroids.Hud = function(game)
     bottomBar.appendChild(display);
     display.id = "shieldDisplay";
     display.className = "display";
-    display.appendChild(document.createTextNode(jsteroids.msgShield));
+    display.appendChild(document.createTextNode(destroids.msgShield));
     value = this.shieldElement = document.createElement("span");
     display.appendChild(value);
     value.id = "shieldValue";
@@ -82,7 +85,7 @@ jsteroids.Hud = function(game)
     bottomBar.appendChild(display);
     display.id = "hullDisplay";
     display.className = "display";
-    display.appendChild(document.createTextNode(jsteroids.msgHull));
+    display.appendChild(document.createTextNode(destroids.msgHull));
     value = this.hullElement = document.createElement("span");
     display.appendChild(value);
     value.id = "hullValue";
@@ -91,33 +94,61 @@ jsteroids.Hud = function(game)
     display.appendChild(document.createTextNode("%"));
 };
 
-/** The game reference. @private @type {jsteroids.Game} */
-jsteroids.Hud.prototype.game = null;
+/** 
+ * The game reference. 
+ * @private 
+ * @type {destroids.Game} 
+ */
+destroids.Hud.prototype.game = null;
 
-/** The HTML element. @private @type {HTMLElement} */
-jsteroids.Hud.prototype.element = null;
+/** 
+ * The HTML element.
+ * @private 
+ * @type {Element}
+ */
+destroids.Hud.prototype.element = null;
 
-/** If hud is open or not. @private @type {Boolean} */
-jsteroids.Hud.prototype.opened = false;
+/** 
+ * If hud is open or not. 
+ * @private 
+ * @type {boolean} 
+ */
+destroids.Hud.prototype.opened = false;
 
-/** The shield HTML element. @private @type {HTMLElement} */
-jsteroids.Hud.prototype.shieldElement = null;
+/** 
+ * The shield HTML element. 
+ * @private 
+ * @type {Element} 
+ */
+destroids.Hud.prototype.shieldElement = null;
 
-/** The hull HTML element. @private @type {HTMLElement} */
-jsteroids.Hud.prototype.hullElement = null;
+/** 
+ * The hull HTML element. 
+ * @private 
+ * @type {Element} 
+ */
+destroids.Hud.prototype.hullElement = null;
 
-/** The level HTML element. @private @type {HTMLElement} */
-jsteroids.Hud.prototype.levelElement = null;
+/** 
+ * The level HTML element.
+ * @private 
+ * @type {Element} 
+ */
+destroids.Hud.prototype.levelElement = null;
 
-/** The score HTML element. @private @type {HTMLElement} */
-jsteroids.Hud.prototype.scoreElement = null;
+/** 
+ * The score HTML element. 
+ * @private 
+ * @type {Element} 
+ */
+destroids.Hud.prototype.scoreElement = null;
 
 
 /**
  * Opens the hud screen.
  */
 
-jsteroids.Hud.prototype.open = function()
+destroids.Hud.prototype.open = function()
 {
     this.element.className = "visible";
     this.opened = true;
@@ -128,7 +159,7 @@ jsteroids.Hud.prototype.open = function()
  * Closes the hud screen.
  */
 
-jsteroids.Hud.prototype.close = function()
+destroids.Hud.prototype.close = function()
 {
     this.element.className = "";
     this.opened = false;
@@ -138,10 +169,10 @@ jsteroids.Hud.prototype.close = function()
 /**
  * Checks if hud is open.
  * 
- * @return {Boolean} True if hud is open, false if not
+ * @return {boolean} True if hud is open, false if not
  */
 
-jsteroids.Hud.prototype.isOpen = function()
+destroids.Hud.prototype.isOpen = function()
 {
     return this.opened;
 };
@@ -150,10 +181,10 @@ jsteroids.Hud.prototype.isOpen = function()
 /**
  * Returns the root HTML element of the hud screen.
  * 
- * @return {HTMLElement} The root HTML element
+ * @return {Element} The root HTML element
  */
 
-jsteroids.Hud.prototype.getElement = function()
+destroids.Hud.prototype.getElement = function()
 {
     return this.element;
 };
@@ -162,11 +193,11 @@ jsteroids.Hud.prototype.getElement = function()
 /**
  * Sets the shield display value.
  * 
- * @param {Number} shield
+ * @param {number} shield
  *            The shield display value to set
  */
 
-jsteroids.Hud.prototype.setShield = function(shield)
+destroids.Hud.prototype.setShield = function(shield)
 {
     var e;
     
@@ -184,11 +215,11 @@ jsteroids.Hud.prototype.setShield = function(shield)
 /**
  * Sets the hull display value.
  * 
- * @param {Number} hull
+ * @param {number} hull
  *            The hull display value to set
  */
 
-jsteroids.Hud.prototype.setHull = function(hull)
+destroids.Hud.prototype.setHull = function(hull)
 {
     var e;
     
@@ -206,11 +237,11 @@ jsteroids.Hud.prototype.setHull = function(hull)
 /**
  * Sets the level display value.
  * 
- * @param {Number} level
+ * @param {number} level
  *            The level display value to set
  */
 
-jsteroids.Hud.prototype.setLevel = function(level)
+destroids.Hud.prototype.setLevel = function(level)
 {
     this.levelElement.innerHTML = level;
 };
@@ -219,11 +250,11 @@ jsteroids.Hud.prototype.setLevel = function(level)
 /**
  * Sets the score display value.
  * 
- * @param {Number} score
+ * @param {number} score
  *            The score display value to set
  */
 
-jsteroids.Hud.prototype.setScore = function(score)
+destroids.Hud.prototype.setScore = function(score)
 {
-    this.scoreElement.innerHTML = jsteroids.formatNumber(score);
+    this.scoreElement.innerHTML = destroids.formatNumber(score);
 };
