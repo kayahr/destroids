@@ -3,13 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
     <title>JSteroids</title>
-    <link href="stylesheets/destroids.css" media="screen" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="deps/scripts-src/prototype.js"></script>
-    <script type="text/javascript" src="deps/scripts/twodee.js"></script>
-    <script type="text/javascript" src="scripts/destroids.js"></script>
+    <link href="../stylesheets/destroids.css" media="screen" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../deps/scripts/prototype.js"></script>
+    <script type="text/javascript" src="../deps/scripts/twodee.js"></script>
+    <script type="text/javascript" src="../scripts/destroids.js"></script>
     <script type="text/javascript">
     /* <![CDATA[ */
      
+    destroids.imagesDir = "../images";
     destroids.onPreferences = function() { alert("Not implemented") };
     destroids.onHelp = function() { alert("Not implemented") };
     
@@ -30,7 +31,7 @@
     </script>    
   </head>
   <body style="margin:0;padding:0;border:0">  
-    <div id="output" style="width:320px;height:400px;background:#ccc"></div>
+    <div id="output" style="width:320px;height:400px;background:#ccc;overflow:hidden"></div>
     <div>
       <br />
       <button onclick="game.start()">Start</button>
