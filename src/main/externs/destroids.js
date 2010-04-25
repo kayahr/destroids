@@ -13,6 +13,11 @@ destroids.SND_SPACESHIP_THRUST;
  */
 destroids.SND_SPACESHIP_FIRE;
 
+/**
+ * @type {number} 
+ */
+destroids.SND_EJECT;
+
 /** 
  * @type {number} 
  */
