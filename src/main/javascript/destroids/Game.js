@@ -330,7 +330,7 @@ destroids.Game.prototype.reset = function()
     this.hud.open();
 
     // Initialize the game to level 1
-    this.setLevel(0);    
+    this.setLevel(1);    
 };
 
 
@@ -1093,20 +1093,7 @@ destroids.Game.prototype.startIntro = function()
 {
     var i;
     
-    this.hideStateLabel();
-
-    // Reset level so intro does not run too fast
-    this.rootNode.setPhysics(null);
-    this.rootNode.getTransform().setIdentity();
-    this.level = 1;
-    this.asteroids = 0;
-    
-    // Destroy all old stuff
-    if (this.ejecting)
-        this.rootNode.removeChildren();
-    else
-        this.destroyAll();
-    this.ejecting = false;
+    this.destroyGame();
 
     // Create some asteroids
     for (i = this.asteroids; i < 2; i++)
@@ -1192,6 +1179,29 @@ destroids.Game.prototype.isGameOver = function()
     return this.gameOver;
 };
 
+/**
+ * Destroys the game.
+ * 
+ * @private
+ */
+
+destroids.Game.prototype.destroyGame = function()
+{
+    this.hideStateLabel();
+
+    // Reset level so intro does not run too fast
+    this.rootNode.setPhysics(null);
+    this.rootNode.getTransform().setIdentity();
+    this.asteroids = 0;
+    
+    // Destroy all old stuff
+    if (this.ejecting)
+        this.rootNode.removeChildren();
+    else
+        this.destroyAll();
+    this.ejecting = false;
+};
+
 
 /**
  * Records a new high score.
@@ -1205,6 +1215,7 @@ destroids.Game.prototype.newHighScore = function(place)
 {
     var message, rank, highScores;
 
+    this.destroyGame();
     highScores = destroids.HighScores.getInstance();
     rank = highScores.determineRank(this.score);
     message = destroids.msgNewHighScore.replace("%SCORE%",
