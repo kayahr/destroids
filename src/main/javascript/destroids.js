@@ -307,6 +307,12 @@ destroids.msgNextLevel = "Prepare for Level <span class=\"level\">%LEVEL%</span>
 destroids.msgGameOver = "Game Over<br /><span class=\"detail\">End Score: <span class=\"score\">%SCORE%</span></span>";
 
 /** 
+ * The game over message. 
+ * 
+ * @type {string} */
+destroids.msgEjected = "Ejected<br /><span class=\"ejectBonus\">Eject Bonus: + %BONUS%</span><br />End Score: <span class=\"score\">%SCORE%</span></span>";
+
+/** 
  * The shield display label. 
  * 
  * @type {string} 
@@ -430,11 +436,19 @@ destroids.ctrlPitchDeadZone = 10;
  */
 destroids.ctrlRollDeadZone = 10;
 
-/** Keycodes for thrust. 
+/**
+ * Keycodes for thrust. 
  * 
  * @type {Array.<number>} 
  */
 destroids.ctrlThrust = [ 65, 38 ];
+
+/**
+ * Keycodes for thrust. 
+ * 
+ * @type {Array.<number>} 
+ */
+destroids.ctrlEject = [ 69 ];
 
 /**
  * Keycodes for yaw right. 

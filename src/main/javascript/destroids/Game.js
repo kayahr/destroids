@@ -153,6 +153,13 @@ destroids.Game.prototype.asteroids = 0;
 destroids.Game.prototype.gameOver = true;
 
 /** 
+ * If player is ejecting. 
+ * @private 
+ * @type {boolean} 
+ */
+destroids.Game.prototype.ejecting = true;
+
+/** 
  * The menu. 
  * @private 
  * @type {destroids.Menu} 
@@ -491,6 +498,9 @@ destroids.Game.prototype.setLevel = function(level)
 {
     var rootNode, asteroids;
     
+    // Do nothing if game is over
+    if (this.gameOver) return;
+    
     this.hideStateLabel();
 
     this.hud.setLevel(level);
@@ -582,6 +592,8 @@ destroids.Game.prototype.handleControlDown = function(control, power)
             this.spaceship.startFireLaser();
         else if (this.isControl(control, destroids.ctrlMenu))
             this.gotoMenu();
+        else if (this.isControl(control, destroids.ctrlEject))
+            this.eject();
         else if (destroids.ctrlGravity)
         {
             switch (control)
@@ -955,6 +967,51 @@ destroids.Game.prototype.completeLevel = function()
 
 
 /**
+ * Checks if player is currently ejecting.
+ * 
+ * @return {boolean} True if player is ejecting, false if not
+ */
+
+destroids.Game.prototype.isEjecting = function()
+{
+    return this.ejecting;
+};
+
+
+/**
+ * Ejects from the spaceship. This ends the game but gives some extra
+ * points for not dying in the asteroid field.
+ * 
+ * @private
+ */
+
+destroids.Game.prototype.eject = function()
+{
+    var bonus, physics;
+    
+    if (!this.gameOver)
+    {
+        this.ejecting = true;
+        physics = new twodee.Physics();
+        physics.setScaling(0.7);
+        physics.setSpin(45 * Math.PI / 180);
+        this.rootNode.setPhysics(physics);
+        bonus = parseInt(this.score / 1000, 10) * 100;
+        this.addScore(bonus);
+        this.gameOver = true;
+        this.stateLabel.innerHTML = destroids.msgEjected.replace("%SCORE%",
+            destroids.formatNumber(this.score)).replace("%BONUS%", destroids.formatNumber(bonus));
+        this.showStateLabel();
+        if (destroids.HighScores.getInstance().determineRank(this.score))
+            this.newHighScore.bind(this).delay(5);
+        else
+            this.startIntro.bind(this).delay(5);
+        this.hud.close();
+    }
+};
+
+
+/**
  * Ends the game.
  */
 
@@ -1035,6 +1092,16 @@ destroids.Game.prototype.startIntro = function()
     var i;
     
     this.hideStateLabel();
+
+    // Reset level so intro does not run too fast
+    this.ejecting = false;
+    this.rootNode.setPhysics(null);
+    this.rootNode.getTransform().setIdentity();
+    this.level = 1;
+    this.asteroids = 0;
+    
+    // Destroy all old stuff
+    this.destroyAll();
 
     // Create some asteroids
     for (i = this.asteroids; i < 5; i++)

@@ -163,6 +163,10 @@ destroids.Asteroid.prototype.update = function(delta)
     yRadius = game.getHeight() / 2 + this.yRadius;
     x = transform.m02;
     y = transform.m12;
+    
+    // Don't wrap stuff around if player is ejecting 
+    if (game.isEjecting()) return;
+    
     if (x > xRadius) transform.m02 = -xRadius;
     if (x < -xRadius) transform.m02 = xRadius;
     if (y > yRadius) transform.m12 = -yRadius;

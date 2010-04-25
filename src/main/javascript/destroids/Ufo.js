@@ -181,7 +181,10 @@ destroids.Ufo.prototype.update = function(delta)
     game = this.game;
     xRadius = (game.getWidth() + bbox.getWidth()) / 2;
     yRadius = (game.getHeight() + bbox.getHeight()) / 2;
-    
+
+    // Don't wrap stuff around if player is ejecting 
+    if (game.isEjecting()) return;
+        
     // Correct the position if out of screen
     x = transform.m02;
     y = transform.m12;

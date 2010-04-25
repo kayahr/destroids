@@ -272,6 +272,13 @@
     margin-top: 1em;
 }
 
+#stateLabel .ejectBonus
+{
+	font-size: 13px;
+	display: block;
+	marghin-bottom: 1em;
+}
+
 #stateLabel .level
 {
 	display: block;
