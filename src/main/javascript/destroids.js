@@ -310,7 +310,7 @@ destroids.msgGameOver = "Game Over<br /><span class=\"detail\">End Score: <span 
  * The eject warning message.
  * @type {string}
  */
-destroids.msgEject = "!!! EJECT !!!";
+destroids.msgEject = "EJECT !";
 
 /** 
  * The game over message. 
