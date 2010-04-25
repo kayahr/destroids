@@ -991,6 +991,8 @@ destroids.Game.prototype.eject = function()
     
     if (!this.gameOver)
     {
+        this.playSound(destroids.SND_EJECT);
+        
         this.ejecting = true;
         physics = new twodee.Physics();
         physics.setScaling(0.7);
@@ -1094,17 +1096,20 @@ destroids.Game.prototype.startIntro = function()
     this.hideStateLabel();
 
     // Reset level so intro does not run too fast
-    this.ejecting = false;
     this.rootNode.setPhysics(null);
     this.rootNode.getTransform().setIdentity();
     this.level = 1;
     this.asteroids = 0;
     
     // Destroy all old stuff
-    this.destroyAll();
+    if (this.ejecting)
+        this.rootNode.removeChildren();
+    else
+        this.destroyAll();
+    this.ejecting = false;
 
     // Create some asteroids
-    for (i = this.asteroids; i < 5; i++)
+    for (i = this.asteroids; i < 2; i++)
     {
         this.rootNode.appendChild(new destroids.Asteroid(this));
     }

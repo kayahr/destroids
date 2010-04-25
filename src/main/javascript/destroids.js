@@ -598,6 +598,12 @@ destroids.SND_COLLECT_DROP = 11;
 destroids.SND_LEVEL_UP = 12;
 
 /**
+ * Sound constant for ejection. 
+ * @type {number} 
+ */
+destroids.SND_EJECT = 13;
+
+/**
  * Constant for laser type. @final 
  * 
  * @type {number} 
