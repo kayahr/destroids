@@ -321,7 +321,7 @@ destroids.Game.prototype.reset = function()
     this.updateShipState();
 
     // Reset score to 0
-    this.setScore(0);
+    this.setScore(200000);
     
     this.lastUfoLevel = 0;
 
@@ -330,7 +330,7 @@ destroids.Game.prototype.reset = function()
     this.hud.open();
 
     // Initialize the game to level 1
-    this.setLevel(1);    
+    this.setLevel(16);    
 };
 
 
@@ -897,7 +897,7 @@ destroids.Game.prototype.explode = function(node, type)
 
 destroids.Game.prototype.addScore = function(points)
 {
-    if (!this.gameOver) this.setScore(this.score + points* this.level);
+    if (!this.gameOver) this.setScore(this.score + points * this.level);
 };
 
 
@@ -999,7 +999,7 @@ destroids.Game.prototype.eject = function()
         physics.setSpin(45 * Math.PI / 180);
         this.rootNode.setPhysics(physics);
         bonus = parseInt(this.score / 1000, 10) * 100;
-        this.addScore(bonus);
+        this.score += bonus;
         this.gameOver = true;
         this.stateLabel.innerHTML = destroids.msgEjected.replace("%SCORE%",
             destroids.formatNumber(this.score)).replace("%BONUS%", destroids.formatNumber(bonus));
