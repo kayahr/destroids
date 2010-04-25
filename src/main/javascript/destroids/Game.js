@@ -928,8 +928,11 @@ destroids.Game.prototype.removeAsteroid = function()
     if (!this.asteroids)
         this.completeLevel();
     else
-        if (!parseInt(Math.random() * 25 - Math.max(20, this.level),10))
+    {
+        // Spawn a new UFO if probability check succeeds.
+        if (!parseInt(Math.random() * this.asteroids, 10))
             this.newUFO();
+    }
 };
 
 
