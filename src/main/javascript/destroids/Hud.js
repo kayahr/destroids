@@ -23,7 +23,7 @@
 
 destroids.Hud = function(game)
 {
-    var root, value, topBar, bottomBar, display;
+    var root, value, topBar, bottomBar, display, ejectLabel;
     
     this.game = game;
     
@@ -92,6 +92,12 @@ destroids.Hud = function(game)
     value.className = "value";
     value.appendChild(document.createTextNode("100"));
     display.appendChild(document.createTextNode("%"));
+
+    // Create the eject label
+    this.ejectLabel = ejectLabel = document.createElement("span");
+    root.appendChild(ejectLabel);
+    ejectLabel.innerHTML = destroids.msgEject;
+    ejectLabel.id = "ejectLabel";    
 };
 
 /** 
@@ -143,6 +149,20 @@ destroids.Hud.prototype.levelElement = null;
  */
 destroids.Hud.prototype.scoreElement = null;
 
+/** 
+ * The eject label. 
+ * @private 
+ * @type {Element} 
+ */
+destroids.Hud.prototype.ejectLabel = null;
+
+/**
+ * The eject blinker timer id
+ * @private
+ * @type {?number}
+ */
+destroids.Hud.prototype.ejectBlinker = null;
+
 
 /**
  * Opens the hud screen.
@@ -162,7 +182,7 @@ destroids.Hud.prototype.open = function()
 destroids.Hud.prototype.close = function()
 {
     this.element.className = "";
-    this.opened = false;
+    this.opened = false;    
 };
 
 
@@ -231,6 +251,17 @@ destroids.Hud.prototype.setHull = function(hull)
         e.className = "value value-warning";
     else
         e.className = "value value-critical";
+    
+    if (hull > 25)
+    {
+        this.ejectLabel.removeClassName("warn");
+        this.stopEjectBlink();
+    }
+    else
+    {
+        this.ejectLabel.addClassName("warn");
+        this.startEjectBlink();
+    }
 };
 
 
@@ -257,4 +288,42 @@ destroids.Hud.prototype.setLevel = function(level)
 destroids.Hud.prototype.setScore = function(score)
 {
     this.scoreElement.innerHTML = destroids.formatNumber(score);
+};
+
+
+/**
+ * Blinks the eject label.
+ * 
+ * @private
+ */
+
+destroids.Hud.prototype.blinkEjectLabel = function()
+{
+    this.ejectLabel.toggleClassName("blink");
+};
+
+
+/**
+ * Starts blinking the eject label.
+ * 
+ * @private
+ */
+
+destroids.Hud.prototype.startEjectBlink = function()
+{
+    if (this.ejectBlinker == null)
+        this.ejectBlinker = setInterval(this.blinkEjectLabel.bind(this), 500);
+};
+
+
+/**
+ * Stops blinking the eject label.
+ * 
+ * @private
+ */
+
+destroids.Hud.prototype.stopEjectBlink = function()
+{
+    if (this.ejectBlinker != null) clearInterval(this.ejectBlinker);
+    this.ejectBlinker = null;
 };

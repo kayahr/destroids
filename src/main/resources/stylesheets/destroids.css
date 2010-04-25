@@ -240,6 +240,35 @@
     background-image: url(../images/background1.jpeg);    
 }
 
+#ejectLabel
+{
+    position: absolute;
+    display: none;
+    left: 16px;
+    right: 16px;
+    bottom: 40px;
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    color: rgba(255, 64, 64, 1.0);
+    text-align: center;	
+    transition: color .5s ease-in-out;
+    -o-transition: color .5s ease-in-out;
+    -webkit-transition: color .5s ease-in-out;
+    -moz-transition: color .5s ease-in-out;
+    display: none;
+}
+
+#hud.visible #ejectLabel.warn
+{
+    display: block;
+}
+
+#ejectLabel.blink
+{
+	color: rgba(255, 64, 64, 0.25);
+}
+
 #stateLabel
 {
     position: absolute;

@@ -306,6 +306,12 @@ destroids.msgNextLevel = "Prepare for Level <span class=\"level\">%LEVEL%</span>
  * @type {string} */
 destroids.msgGameOver = "Game Over<br /><span class=\"detail\">End Score: <span class=\"score\">%SCORE%</span></span>";
 
+/**
+ * The eject warning message.
+ * @type {string}
+ */
+destroids.msgEject = "!!! EJECT !!!";
+
 /** 
  * The game over message. 
  * 
