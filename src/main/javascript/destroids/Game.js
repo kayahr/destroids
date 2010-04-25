@@ -321,7 +321,7 @@ destroids.Game.prototype.reset = function()
     this.updateShipState();
 
     // Reset score to 0
-    this.setScore(200000);
+    this.setScore(0);
     
     this.lastUfoLevel = 0;
 
@@ -330,7 +330,7 @@ destroids.Game.prototype.reset = function()
     this.hud.open();
 
     // Initialize the game to level 1
-    this.setLevel(16);    
+    this.setLevel(0);    
 };
 
 
