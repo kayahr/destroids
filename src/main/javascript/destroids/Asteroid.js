@@ -119,16 +119,32 @@ destroids.Asteroid = function(game, small, parentAsteroid, subId)
 };
 twodee.inherit(destroids.Asteroid, twodee.ImageNode);
 
-/** The game. @private @type {destroids.Game} */
+/** 
+ * The game.
+ * @private
+ * @type {destroids.Game} 
+ */
 destroids.Asteroid.prototype.game = null; 
     
-/** The x radius of the asteroid. @private @type {number} */
-destroids.Asteroid.prototype.xRadius = null;
+/** 
+ * The x radius of the asteroid.
+ * @private
+ * @type {number}
+ */
+destroids.Asteroid.prototype.xRadius;
 
-/** The y radius of the asteroid. @private @type {number} */
-destroids.Asteroid.prototype.yRadius = null;
+/** 
+ * The y radius of the asteroid.
+ * @private
+ * @type {number}
+ */
+destroids.Asteroid.prototype.yRadius;
 
-/** If this is a small asteroid. @private @type {number} */
+/** 
+ * If this is a small asteroid.
+ * @private
+ * @type {boolean}
+ */
 destroids.Asteroid.prototype.small = false;
 
 

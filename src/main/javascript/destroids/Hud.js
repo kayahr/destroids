@@ -26,6 +26,7 @@ destroids.Hud = function(game)
     var root, value, topBar, bottomBar, display, ejectLabel;
     
     this.game = game;
+    game.getScore().onScore = this.handleScore.bind(this);
     
     // Create the root element
     root = this.element = document.createElement("div");
@@ -326,4 +327,23 @@ destroids.Hud.prototype.stopEjectBlink = function()
 {
     if (this.ejectBlinker != null) clearInterval(this.ejectBlinker);
     this.ejectBlinker = null;
+};
+
+
+/**
+ * Handles a score change.
+ * 
+ * @param {destroids.Score} score
+ *            The score counter
+ * @private
+ */
+
+destroids.Hud.prototype.handleScore = function(score)
+{
+	this.setScore(score.getScore());	
+	if (score.isDebug())
+		this.scoreElement.className = score.isValid() ? "value valid" :
+			"value invalid";
+	else
+		this.scoreElement.className = "value";
 };

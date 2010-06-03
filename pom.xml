@@ -65,12 +65,15 @@
       <id>ailis-releases</id>
       <name>Ailis Maven Releases</name>
       <url>http://www.ailis.de/nexus/content/groups/public/</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>false</enabled></snapshots>
     </repository>
     <repository>
       <id>ailis-snapshots</id>
       <name>Ailis Maven Snapshots</name>
       <url>http://www.ailis.de/nexus/content/groups/public-snapshots/</url>
-      <snapshots />
+      <releases><enabled>false</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
     </repository>
   </repositories>  
 

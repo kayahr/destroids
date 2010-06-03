@@ -462,12 +462,17 @@ destroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
     {
         collider.destroy(true);
         this.addDamage(100 / (collider.isSmall() ? 4 : 1));
+        if (collider.isSmall())
+    		this.game.getScore().register(50 * this.game.getLevel(), 7);
+    	else
+    		this.game.getScore().register(20 * this.game.getLevel(), 8);
     }
 
     else if (collider instanceof destroids.Ufo)
     {
         collider.destroy();
         this.addDamage(100);
+        this.game.getScore().register(100 * this.game.getLevel(), 9);
     }
     
     else if (collider instanceof destroids.Energy)
@@ -475,7 +480,7 @@ destroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
         this.game.playSound(destroids.SND_COLLECT_DROP);
         collider.remove();
         this.addShieldEnergy(25);
-        this.game.addScore(25);
+        this.game.getScore().register(25 * this.game.getLevel(), 4);
     }
 
     else if (collider instanceof destroids.RepairKit)
@@ -483,7 +488,7 @@ destroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
         this.game.playSound(destroids.SND_COLLECT_DROP);
         collider.remove();
         this.repair(25);
-        this.game.addScore(25);
+        this.game.getScore().register(25 * this.game.getLevel(), 3);
     }
 };
 

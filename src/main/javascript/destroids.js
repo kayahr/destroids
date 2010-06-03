@@ -9,7 +9,7 @@ window["destroids"] = destroids;
 
 /**
  * Formats a number
- * 
+ *
  * @param {number} number
  *            The number to format
  * @return {string} The formatted number
@@ -599,41 +599,48 @@ destroids.SND_LEVEL_UP = 12;
 
 /**
  * Sound constant for ejection. 
+ * @final
  * @type {number} 
  */
 destroids.SND_EJECT = 13;
 
 /**
- * Constant for laser type. @final 
- * 
+ * Constant for laser type.
+ * @final 
  * @type {number} 
  */
 destroids.TYPE_LASER = 1;
 
 /**
- * Constant for laser type. @final 
- * 
+ * Constant for laser type.
+ * @final 
  * @type {number}
  */
 destroids.TYPE_ASTEROID = 2;
 
 /**
- * Constant for laser type. @final 
- * 
+ * Constant for laser type.
+ * @final 
  * @type {number} 
  */
 destroids.TYPE_SPACESHIP = 4;
 
 /**
- * Constant for laser type. @final 
- * 
+ * Constant for laser type.
+ * @final 
  * @type {number} 
  */
 destroids.TYPE_UFO = 8;
 
 /**
- * Constant for laser type. @final 
- * 
+ * Constant for laser type.
+ * @final 
  * @type {number}
  */
 destroids.TYPE_DROP = 16;
+
+/**
+ * The URL to which scores are submitted.
+ * @type {?string}
+ */
+destroids.scoreReceiveUrl = null;

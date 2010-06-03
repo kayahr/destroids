@@ -127,9 +127,9 @@ destroids.Game.prototype.spaceship = null;
 /** 
  * The score. 
  * @private 
- * @type {number} 
+ * @type {destroids.Score} 
  */
-destroids.Game.prototype.score = 0;
+destroids.Game.prototype.score = null;
 
 /** 
  * The game-state label. 
@@ -262,6 +262,9 @@ destroids.Game.prototype.init = function()
     menu = this.menu = new destroids.Menu(this);
     container.appendChild(menu.getElement());
     
+    // Create the score counter
+    this.score = new destroids.Score();
+
     // Create the HUD
     hud = this.hud = new destroids.Hud(this);
     container.appendChild(hud.getElement());
@@ -320,8 +323,9 @@ destroids.Game.prototype.reset = function()
     rootNode.appendChild(spaceship);
     this.updateShipState();
 
-    // Reset score to 0
-    this.setScore(0);
+    // Reset score
+    this.score.reset();
+    this.hud.setScore(this.score.getScore());
     
     this.lastUfoLevel = 0;
 
@@ -889,33 +893,6 @@ destroids.Game.prototype.explode = function(node, type)
 
 
 /**
- * Adds score points.
- * 
- * @param {number} points
- *            The points to add per level
- */
-
-destroids.Game.prototype.addScore = function(points)
-{
-    if (!this.gameOver) this.setScore(this.score + points * this.level);
-};
-
-
-/**
- * Sets the score.
- * 
- * @param {number} score
- *            The score to set
- */
-
-destroids.Game.prototype.setScore = function(score)
-{
-    this.score = score;
-    this.hud.setScore(score);
-};
-
-
-/**
  * Adds a new asteroid.
  */
 
@@ -962,7 +939,20 @@ destroids.Game.prototype.completeLevel = function()
     this.stateLabel.innerHTML = destroids.msgRightOn +
         destroids.msgNextLevel.replace("%LEVEL%", String(nextLevel));
     this.showStateLabel();
-    this.setLevel.bind(this, nextLevel).delay(5);
+    this.goNextLevel.bind(this).delay(5);
+};
+
+
+/**
+ * Goes to next level.
+ * 
+ * @private
+ */
+
+destroids.Game.prototype.goNextLevel = function()
+{
+	this.score.register(0, 10);
+	this.setLevel(this.level + 1);
 };
 
 
@@ -998,13 +988,13 @@ destroids.Game.prototype.eject = function()
         physics.setScaling(0.7);
         physics.setSpin(45 * Math.PI / 180);
         this.rootNode.setPhysics(physics);
-        bonus = parseInt(this.score / 1000, 10) * 100;
-        this.score += bonus;
+        bonus = parseInt(this.score.getScore() / 1000, 10) * 100;
+        this.score.register(bonus, 1);
         this.gameOver = true;
         this.stateLabel.innerHTML = destroids.msgEjected.replace("%SCORE%",
-            destroids.formatNumber(this.score)).replace("%BONUS%", destroids.formatNumber(bonus));
+            destroids.formatNumber(this.score.getScore())).replace("%BONUS%", destroids.formatNumber(bonus));
         this.showStateLabel();
-        if (destroids.HighScores.getInstance().determineRank(this.score))
+        if (destroids.HighScores.getInstance().determineRank(this.score.getScore()))
             this.newHighScore.bind(this).delay(5);
         else
             this.startIntro.bind(this).delay(5);
@@ -1021,11 +1011,12 @@ destroids.Game.prototype.endGame = function()
 {
     if (!this.gameOver)
     {
+    	this.score.register(0, 11);
         this.gameOver = true;
         this.stateLabel.innerHTML = destroids.msgGameOver.replace("%SCORE%",
-            destroids.formatNumber(this.score));
+            destroids.formatNumber(this.score.getScore()));
         this.showStateLabel();
-        if (destroids.HighScores.getInstance().determineRank(this.score))
+        if (destroids.HighScores.getInstance().determineRank(this.score.getScore()))
             this.newHighScore.bind(this).delay(5);
         else
             this.startIntro.bind(this).delay(5);
@@ -1217,9 +1208,9 @@ destroids.Game.prototype.newHighScore = function(place)
 
     this.destroyGame();
     highScores = destroids.HighScores.getInstance();
-    rank = highScores.determineRank(this.score);
+    rank = highScores.determineRank(this.score.getScore());
     message = destroids.msgNewHighScore.replace("%SCORE%",
-        destroids.formatNumber(this.score)).
+        destroids.formatNumber(this.score.getScore())).
         replace("%RANK%", String(rank))
     destroids.onPrompt(destroids.msgNewHighScoreTitle, message,
         (/** @type {function(?string)} */
@@ -1243,8 +1234,8 @@ destroids.Game.prototype.saveHighScore = function(name)
     if (name)
     {
         highScores = destroids.HighScores.getInstance();
-        rank = highScores.determineRank(this.score);
-        highScores.add(name, this.level, this.score);
+        rank = highScores.determineRank(this.score.getScore());
+        highScores.add(name, this.level, this.score.getScore());
     }
     this.startIntro();
 };
@@ -1325,4 +1316,16 @@ destroids.Game.prototype.getWidth = function()
 destroids.Game.prototype.getHeight = function()
 {
     return this.height;
+};
+
+
+/**
+ * Returns the score counter.
+ * 
+ * @return {destroids.Score} The score counter
+ */
+ 
+destroids.Game.prototype.getScore = function()
+{
+	return this.score;
 };

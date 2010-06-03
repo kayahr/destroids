@@ -207,7 +207,7 @@ destroids.Ufo.prototype.destroy = function()
     this.game.explode(this, 2);
     
     // Score points for the UFO
-    this.game.addScore(100);
+    this.game.getScore().register(100 * this.game.getLevel(), 2);
 
     // Drop some energy
     if (!this.game.isGameOver()) this.dropStuff();
