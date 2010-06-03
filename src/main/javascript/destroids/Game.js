@@ -223,6 +223,13 @@ destroids.Game.prototype.keyUpHandler = null;
 destroids.Game.prototype.keyDownHandler = null;
 
 /**
+ * The key press handler function.
+ * @private
+ * @type {Function}
+ */
+destroids.Game.prototype.keyPressHandler = null;
+
+/**
  * The orientation change handler function.
  * @private
  * @type {Function}
@@ -286,6 +293,7 @@ destroids.Game.prototype.init = function()
 
     // Create keyboard listeners
     this.keyDownHandler = this.handleKeyDown.bindAsEventListener(this);
+    this.keyPressHandler = this.handleKeyPress.bindAsEventListener(this);
     this.keyUpHandler = this.handleKeyUp.bindAsEventListener(this);
     this.mouseDownHandler = this.handleMouseDown.bindAsEventListener(this);
     this.mouseUpHandler = this.handleMouseUp.bindAsEventListener(this);
@@ -388,6 +396,7 @@ destroids.Game.prototype.start = function()
 
     // Install keyboard handlers
     document.addEventListener("orientationchange", this.orientationChangeHandler, false);
+    window.addEventListener("keypress", this.keyPressHandler, false);     
     window.addEventListener("keydown", this.keyDownHandler, false);     
     window.addEventListener("keyup", this.keyUpHandler, false);     
     this.container.addEventListener("mousedown", this.mouseDownHandler, false);     
@@ -629,6 +638,50 @@ destroids.Game.prototype.handleControlDown = function(control, power)
 
 
 /**
+ * Handles the control press event. This just checks if the key press will
+ * be handled by the game so the event can be canceled to prevent strange
+ * browser behaviour with repeating keys.
+ * 
+ * @param {number} control
+ *            The control id
+ * @return {boolean} True if event is handled by game, false if not
+ * 
+ * @private
+ */
+ 
+destroids.Game.prototype.handleControlPress = function(control)
+{
+    // Controls when within menu
+    if (this.menu.isOpen())
+    {
+        return false;
+    }
+    
+    // Controls when playing
+    else if (!this.gameOver && !this.isPaused())
+    {
+        if (this.isControl(control, destroids.ctrlThrust))
+        	return true;
+        else if (this.isControl(control, destroids.ctrlRight))
+            return true;
+        else if (this.isControl(control, destroids.ctrlLeft))
+            return true;
+        else if (this.isControl(control, destroids.ctrlFire))
+            return true;
+        else if (this.isControl(control, destroids.ctrlMenu))
+            return true;
+        else if (this.isControl(control, destroids.ctrlEject))
+            return true;
+        else
+            return false;
+    }
+    
+    // Unhandled control
+    else return false;
+};
+
+
+/**
  * Handles the control up event.
  * 
  * @param {number} control
@@ -674,6 +727,21 @@ destroids.Game.prototype.handleKeyDown = function(event)
 {
     if (this.handleControlDown(event.keyCode) ||
         this.handleControlDown(0)) event.preventDefault();
+};
+
+
+/**
+ * Handles the key press event.
+ * 
+ * @param {Event} event
+ *            The key press event
+ * @private
+ */
+ 
+destroids.Game.prototype.handleKeyPress = function(event)
+{
+    if (this.handleControlPress(event.keyCode) ||
+        this.handleControlPress(0)) event.preventDefault();
 };
 
 
