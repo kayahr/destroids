@@ -1357,7 +1357,7 @@ destroids.Game.prototype.resetHighScores = function()
     highScores = destroids.HighScores.getInstance();
     highScores.reset();
     highScores.save();
-    this.menu.updateHighScores();
+    this.menu.updateLocalHighScores();
 };
 
 

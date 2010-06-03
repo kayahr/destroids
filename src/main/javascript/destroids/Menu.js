@@ -23,7 +23,7 @@
 
 destroids.Menu = function(game)
 {
-    var root, e, buttons;
+    var root, e, buttons, container, indicator, localList, globalList;
     
     // Remember the game reference
     this.game = game;
@@ -36,10 +36,41 @@ destroids.Menu = function(game)
     e = document.createElement("div");
     root.appendChild(e);
     e.id = "title";
-    e.appendChild(document.createTextNode(destroids.msgTitle));
+    e.appendChild(document.createTextNode(destroids.msgTitle));      
+
+    // Create the high scores container
+    container = this.highScoresContainer = document.createElement("div");
+    container.id = "highScoresContainer";
+    container.className = "local";
+    root.appendChild(container);
+    
+    // Create the local high score list diff
+    localList = document.createElement("div");
+    localList.id = "localHighScores";
+    container.appendChild(localList);
+    
+    // Create the high score location indiciator
+    indicator = document.createElement("span");
+    indicator.id = "highScoresLocationIndicator";
+    indicator.appendChild(document.createTextNode("LOCAL"));
+    localList.appendChild(indicator);
     
     // Create and append the high scores table
-    root.appendChild(this.createHighScores());
+    localList.appendChild(this.createLocalHighScores());
+
+    // Create the global high score list diff
+    globalList = document.createElement("div");
+    globalList.id = "globalHighScores";
+    container.appendChild(globalList);
+    
+    // Create the high score location indiciator
+    indicator = document.createElement("span");
+    indicator.id = "highScoresLocationIndicator";
+    indicator.appendChild(document.createTextNode("GLOBAL"));
+    globalList.appendChild(indicator);
+    
+    // Create and append the global high scores table
+    globalList.appendChild(this.createGlobalHighScores());
     
     // Create the buttons container
     buttons = this.buttons = document.createElement("div");
@@ -121,11 +152,39 @@ destroids.Menu.prototype.buttons = null;
 destroids.Menu.prototype.continueButton = null;
 
 /** 
- * The high scores table. 
+ * The local high scores table. 
  * @private 
  * @type {Element} 
  */
-destroids.Menu.prototype.highScoresTable = null;
+destroids.Menu.prototype.localHighScoresTable = null;
+
+/** 
+ * The global high scores table. 
+ * @private 
+ * @type {Element} 
+ */
+destroids.Menu.prototype.globalHighScoresTable = null;
+
+/**
+ * The high scores container DIV.
+ * @private
+ * @type {Element}
+ */
+destroids.Menu.prototype.highScoresContainer = null;
+
+/**
+ * If global high scores are available.
+ * @private
+ * @type {boolean}
+ */
+destroids.Menu.prototype.hasGlobalHighScores = false;
+
+/**
+ * If high score toggle timer is running.
+ * @private
+ * @ŧype {boolean}
+ */
+destroids.Menu.prototype.highScoreToggleTimer = false;
 
 
 /**
@@ -138,10 +197,17 @@ destroids.Menu.prototype.open = function()
         this.continueButton.className = "hidden-button button";
     else
         this.continueButton.className = "button";
-    this.updateHighScores();
+    this.updateLocalHighScores();
+    this.updateGlobalHighScores();
     
     this.element.className = "visible";
     this.opened = true;
+    
+    if (!this.highScoreToggleTimer)
+    {
+    	this.highScoreToggleTimer = true;
+    	this.toggleHighScoreList.bind(this).delay(3);
+    }
 };
 
 
@@ -153,7 +219,22 @@ destroids.Menu.prototype.close = function()
 {
     this.element.className = "";
     this.opened = false;
-    
+};
+
+destroids.Menu.prototype.toggleHighScoreList = function()
+{
+	var oldClassName, container, newClassName;
+	
+	if (!this.opened)
+    {
+		this.highScoreToggleTimer = false;
+		return;
+    }
+	container = this.highScoresContainer;
+	oldClassName = container.className;
+	newClassName = oldClassName == "global" ? "local" : "global";
+	container.className = newClassName;
+    this.toggleHighScoreList.bind(this).delay(3);
 };
 
 
@@ -189,15 +270,20 @@ destroids.Menu.prototype.getElement = function()
  * @private
  */
 
-destroids.Menu.prototype.createHighScores = function()
+destroids.Menu.prototype.createLocalHighScores = function()
 {
     var table, row, cell;
     
-    table = this.highScoresTable = document.createElement("table");
-    table.id = "highScores";
+    table = this.localHighScoresTable = document.createElement("table");
+    table.className = "highScores";
     
     row = document.createElement("tr");
     table.appendChild(row);
+    
+    cell = document.createElement("th")
+    row.appendChild(cell);
+    cell.className = "rank";
+    cell.appendChild(document.createTextNode(destroids.msgRank));
     
     cell = document.createElement("th");
     row.appendChild(cell);
@@ -206,8 +292,40 @@ destroids.Menu.prototype.createHighScores = function()
     
     cell = document.createElement("th");
     row.appendChild(cell);
-    cell.className = "level";
-    cell.appendChild(document.createTextNode(destroids.msgLevel));
+    cell.className = "score";
+    cell.appendChild(document.createTextNode(destroids.msgScore));
+    
+    return table;
+};
+
+
+/**
+ * Creates and returns the global high scores table.
+ * 
+ * @return {Element} The global high scores table
+ * 
+ * @private
+ */
+
+destroids.Menu.prototype.createGlobalHighScores = function()
+{
+    var table, row, cell;
+    
+    table = this.globalHighScoresTable = document.createElement("table");
+    table.className = "highScores";
+    
+    row = document.createElement("tr");
+    table.appendChild(row);
+    
+    cell = document.createElement("th")
+    row.appendChild(cell);
+    cell.className = "rank";
+    cell.appendChild(document.createTextNode(destroids.msgRank));
+    
+    cell = document.createElement("th");
+    row.appendChild(cell);
+    cell.className = "name";
+    cell.appendChild(document.createTextNode(destroids.msgName));
     
     cell = document.createElement("th");
     row.appendChild(cell);
@@ -222,11 +340,11 @@ destroids.Menu.prototype.createHighScores = function()
  * Updates the high scores table.
  */
 
-destroids.Menu.prototype.updateHighScores = function()
+destroids.Menu.prototype.updateLocalHighScores = function()
 {
     var table, row, scores, cell, entry, i, max;
     
-    table = this.highScoresTable;
+    table = this.localHighScoresTable;
     while ((row = table.lastChild))
     {
         cell = row.firstChild;
@@ -244,18 +362,85 @@ destroids.Menu.prototype.updateHighScores = function()
         
         cell = document.createElement("td");
         row.appendChild(cell);
-        cell.className = "name";
-        cell.appendChild(document.createTextNode(entry["name"]));
+        cell.className = "rank";
+        cell.appendChild(document.createTextNode("" + (i + 1)));
         
         cell = document.createElement("td");
         row.appendChild(cell);
-        cell.className = "level";
-        cell.appendChild(document.createTextNode(entry["level"]));
-
+        cell.className = "name";
+        cell.appendChild(document.createTextNode(entry["name"]));
+        
         cell = document.createElement("td");
         row.appendChild(cell);
         cell.className = "score";
         cell.appendChild(document.createTextNode(
             destroids.formatNumber(entry["score"])));
     }
+};
+
+
+/**
+ * Updates the global high scores table.
+ */
+
+destroids.Menu.prototype.updateGlobalHighScores = function()
+{
+    var data, url;
+    
+    this.hasGlobalHighScores = false;
+
+    url = destroids.scoreTop5Url;
+    if (!url) return;
+    
+    new Ajax.Request(url, {
+        method: "get",
+        onSuccess: this.fillGlobalHighScores.bind(this)
+    });
+};
+
+/**
+ * Fills the global high scores table.
+ * 
+ * @param {Ajax.Response} response
+ *            The ajax response from the server
+ */
+
+destroids.Menu.prototype.fillGlobalHighScores = function(response)
+{
+    var table, row, scores, cell, entry, i, max;
+    
+    table = this.globalHighScoresTable;
+    while ((row = table.lastChild))
+    {
+        cell = row.firstChild;
+        if (!cell || (/** @type Element */ cell).tagName != "TD") break;
+        table.removeChild(row);
+    }
+    
+    scores = (/** @type Array.<Object> */ response.responseText.evalJSON()); 
+    for (i = 0, max = scores.length; i < max; i++)
+    {
+        entry = scores[i];
+        
+        row = document.createElement("tr");
+        table.appendChild(row);
+        
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell.className = "rank";
+        cell.appendChild(document.createTextNode("" + (i + 1)));
+        
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell.className = "name";
+        cell.appendChild(document.createTextNode(entry["player"]));
+        
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell.className = "score";
+        cell.appendChild(document.createTextNode(
+            destroids.formatNumber(entry["points"])));
+    }
+    
+    this.hasGlobalHighScores = true;
 };

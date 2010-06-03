@@ -333,7 +333,14 @@ destroids.msgShield = "Shield";
 destroids.msgHull = "Hull";
 
 /** 
- * The namey label. 
+ * The rank label. 
+ * 
+ * @type {string} 
+ */
+destroids.msgRank = "#";
+
+/** 
+ * The name label. 
  * 
  * @type {string} 
  */
@@ -351,7 +358,7 @@ destroids.msgScore = "Score";
  * 
  * @type {string} 
  */
-destroids.msgLevel = "Level";
+destroids.msgLevel = "Lvl";
 
 /** 
  * The new-game button label.
@@ -651,3 +658,9 @@ destroids.TYPE_DROP = 16;
  * @type {?string}
  */
 destroids.scoreSubmitUrl = null;
+
+/**
+ * The URL to retrieve the global Top 5.
+ * @type {?string}
+ */
+destroids.scoreTop5Url = null;
