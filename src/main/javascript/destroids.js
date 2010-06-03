@@ -384,14 +384,21 @@ destroids.msgHelp = "Help";
  * 
  * @type {string} 
  */
-destroids.msgNewHighScoreTitle = "Congratulations!";
+destroids.msgNewHighScoreTitle = "Well done!";
 
 /** 
  * The new high score message. 
  * 
  * @type {string} 
  */
-destroids.msgNewHighScore = "You scored %SCORE% points! This is rank %RANK% in the high score list! Please enter your name:";
+destroids.msgNewHighScore = "You scored %SCORE% points! Your score will be submitted to the online highscore list. Please enter your name:";
+
+/** 
+ * The new high score message (with local ranking). 
+ * 
+ * @type {string} 
+ */
+destroids.msgNewHighScoreWithLocal = "You scored %SCORE% points! This is rank %RANK% in your local highscore list! Your score will also be submitted to the online highscore list. Please enter your name:";
 
 /**
  * The thousand separator character.
@@ -643,4 +650,4 @@ destroids.TYPE_DROP = 16;
  * The URL to which scores are submitted.
  * @type {?string}
  */
-destroids.scoreReceiveUrl = null;
+destroids.scoreSubmitUrl = null;

@@ -207,10 +207,11 @@ destroids.Ufo.prototype.destroy = function()
     this.game.explode(this, 2);
     
     // Score points for the UFO
-    this.game.getScore().register(100 * this.game.getLevel(), 2);
-
-    // Drop some energy
-    if (!this.game.isGameOver()) this.dropStuff();
+    if (!this.game.isGameOver())
+    {
+    	this.game.getScore().register(100 * this.game.getLevel(), 2);
+    	this.dropStuff();
+    }
     
     // Remove the UFO
     this.remove();

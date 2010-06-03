@@ -332,13 +332,3 @@
 	padding-top: 34px;
 	background: url(../images/destroids.png) no-repeat center center;
 }
-
-#scoreValue.invalid
-{
-	color: #f44;
-}
-
-#scoreValue.valid
-{
-    color: #ff0;
-}

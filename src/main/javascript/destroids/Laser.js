@@ -89,10 +89,13 @@ destroids.Laser.prototype.handleCollide = function(laser, collider)
         else
         {
             // Score points for the asteroid
-        	if (collider.isSmall())
-        		this.game.getScore().register(50 * this.game.getLevel(), 5);
-        	else
-        		this.game.getScore().register(20 * this.game.getLevel(), 6);        	
+        	if (!this.game.isGameOver())
+        	{
+	        	if (collider.isSmall())
+	        		this.game.getScore().register(50 * this.game.getLevel(), 5);
+	        	else
+	        		this.game.getScore().register(20 * this.game.getLevel(), 6);
+        	}
             collider.destroy();
         }
     }

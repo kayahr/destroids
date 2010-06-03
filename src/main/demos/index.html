@@ -13,7 +13,7 @@
     destroids.imagesDir = "../images";
     destroids.onPreferences = function() { alert("Not implemented") };
     destroids.onHelp = function() { alert("Not implemented") };
-    destroids.scoreReceiveUrl = "http://localhost/~k/receive.php";
+    destroids.scoreSubmitUrl = "http://localhost/~k/projects/php/scority/index.php/submit/destroids";
     
     game = new destroids.Game("output");
 
@@ -38,7 +38,6 @@
       <button onclick="game.start()">Start</button>
       <button onclick="game.stop()">Stop</button>
       <button onclick="switchOrientation()">Switch orientation</button>
-      <button onclick="game.score.setDebug(!game.score.isDebug())">Toggle score debug</button>
     </div>
   </body>
 </html>

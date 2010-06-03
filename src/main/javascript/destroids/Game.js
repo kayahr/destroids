@@ -1019,8 +1019,11 @@ destroids.Game.prototype.completeLevel = function()
 
 destroids.Game.prototype.goNextLevel = function()
 {
-	this.score.register(0, 10);
-	this.setLevel(this.level + 1);
+	if (!this.gameOver)
+	{
+		this.score.register(0, 10);
+		this.setLevel(this.level + 1);
+	}
 };
 
 
@@ -1045,7 +1048,7 @@ destroids.Game.prototype.isEjecting = function()
 
 destroids.Game.prototype.eject = function()
 {
-    var bonus, physics;
+    var bonus, physics, localRank;
     
     if (!this.gameOver)
     {
@@ -1062,10 +1065,13 @@ destroids.Game.prototype.eject = function()
         this.stateLabel.innerHTML = destroids.msgEjected.replace("%SCORE%",
             destroids.formatNumber(this.score.getScore())).replace("%BONUS%", destroids.formatNumber(bonus));
         this.showStateLabel();
-        if (destroids.HighScores.getInstance().determineRank(this.score.getScore()))
-            this.newHighScore.bind(this).delay(5);
+
+        // Open the new high score message box in 5 seconds
+        if (this.score.getScore())
+        	this.newHighScore.bind(this).delay(5);
         else
-            this.startIntro.bind(this).delay(5);
+        	this.startIntro.bind(this).delay(5);
+   		
         this.hud.close();
     }
 };
@@ -1084,10 +1090,13 @@ destroids.Game.prototype.endGame = function()
         this.stateLabel.innerHTML = destroids.msgGameOver.replace("%SCORE%",
             destroids.formatNumber(this.score.getScore()));
         this.showStateLabel();
-        if (destroids.HighScores.getInstance().determineRank(this.score.getScore()))
-            this.newHighScore.bind(this).delay(5);
+
+        // Open the new high score message box in 5 seconds
+        if (this.score.getScore())
+        	this.newHighScore.bind(this).delay(5);
         else
-            this.startIntro.bind(this).delay(5);
+        	this.startIntro.bind(this).delay(5);
+   		
         this.hud.close();
     }
 };
@@ -1275,9 +1284,11 @@ destroids.Game.prototype.newHighScore = function(place)
     var message, rank, highScores;
 
     this.destroyGame();
+
     highScores = destroids.HighScores.getInstance();
     rank = highScores.determineRank(this.score.getScore());
-    message = destroids.msgNewHighScore.replace("%SCORE%",
+    message = rank ? destroids.msgNewHighScoreWithLocal : destroids.msgNewHighScore;
+    message = message.replace("%SCORE%",
         destroids.formatNumber(this.score.getScore())).
         replace("%RANK%", String(rank))
     destroids.onPrompt(destroids.msgNewHighScoreTitle, message,
@@ -1304,6 +1315,7 @@ destroids.Game.prototype.saveHighScore = function(name)
         highScores = destroids.HighScores.getInstance();
         rank = highScores.determineRank(this.score.getScore());
         highScores.add(name, this.level, this.score.getScore());
+        this.score.submit(name);
     }
     this.startIntro();
 };

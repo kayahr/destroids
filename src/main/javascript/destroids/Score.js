@@ -57,18 +57,6 @@ destroids.Score.prototype.last = 0;
  */
 destroids.Score.prototype.onScore = null;
 
-/**
- * If we are currently in debug mode.
- * @type {boolean}
- */
-destroids.Score.prototype.debug = false;
-
-/**
- * If score is valid.
- * @type {boolean}
- */
-destroids.Score.prototype.valid = true;
-
 
 /**
  * Reset the score.
@@ -132,7 +120,7 @@ destroids.Score.prototype.submit = function(name)
 {
     var data, url;
     
-    url = destroids.scoreReceiveUrl;
+    url = destroids.scoreSubmitUrl;
     if (!url) return;
     data = this.score.toString(36) + "?" + this.journal + "@" + name;
     data = data.length + ":" + data;
@@ -155,11 +143,10 @@ destroids.Score.prototype.submit = function(name)
 
 destroids.Score.prototype.handleResponse = function(response)
 {
-	if (this.debug)
-	{
-		this.valid = (response.responseText | 0) == this.score;
-		if (this.onScore) this.onScore(this);
-	}
+	var rank;
+	
+	rank = response.responseText.evalJSON();
+	alert("You are rank " + rank);
 };
 
 
@@ -172,45 +159,4 @@ destroids.Score.prototype.handleResponse = function(response)
 destroids.Score.prototype.scoreChanged = function()
 {
 	if (this.onScore) this.onScore(this);
-	
-	// In debug mode we immediately submit the code to the server
-	if (this.debug) this.submit("me");
-};
-
-
-/**
- * Enables or disabled the debug mode.
- * 
- * @param {boolean} debug
- *            True to enable debugging, false to disable it
- */
-
-destroids.Score.prototype.setDebug = function(debug)
-{
-	this.debug = debug;
-	this.scoreChanged();
-};
-
-
-/**
- * Checks if code is valid. This only makes sense in debug mode. In non-debug
- * mode the score is not validated.
- * 
- * @return {boolean} True if score is valid, false if not
- */
-destroids.Score.prototype.isValid = function()
-{
-	return this.valid;
-};
-
-
-/**
- * Checks if score system is currently in debug mode.
- * 
- * @return {boolean} True if debug mode, false if not
- */
-
-destroids.Score.prototype.isDebug = function()
-{
-	return this.debug;
 };

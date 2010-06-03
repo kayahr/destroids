@@ -341,9 +341,4 @@ destroids.Hud.prototype.stopEjectBlink = function()
 destroids.Hud.prototype.handleScore = function(score)
 {
 	this.setScore(score.getScore());	
-	if (score.isDebug())
-		this.scoreElement.className = score.isValid() ? "value valid" :
-			"value invalid";
-	else
-		this.scoreElement.className = "value";
 };
