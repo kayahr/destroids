@@ -465,22 +465,22 @@ destroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
     if (collider instanceof destroids.Asteroid)
     {
         collider.destroy(true);
-        this.addDamage(100 / (collider.isSmall() ? 4 : 1));
         if (!gameOver)
         {
-        	if (collider.isSmall())
-        		this.game.getScore().register(50 * this.game.getLevel(), 7);
-        	else
-        		this.game.getScore().register(20 * this.game.getLevel(), 8);
+            if (collider.isSmall())
+                this.game.getScore().register(50 * this.game.getLevel(), 7);
+            else
+                this.game.getScore().register(20 * this.game.getLevel(), 8);
         }
+        this.addDamage(100 / (collider.isSmall() ? 4 : 1));
     }
 
     else if (collider instanceof destroids.Ufo)
     {
         collider.destroy();
-        this.addDamage(100);
         if (!gameOver)
-        	this.game.getScore().register(100 * this.game.getLevel(), 9);
+            this.game.getScore().register(100 * this.game.getLevel(), 9);
+        this.addDamage(100);
     }
     
     else if (collider instanceof destroids.Energy)

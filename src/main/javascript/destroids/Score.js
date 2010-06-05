@@ -20,7 +20,7 @@
 
 destroids.Score = function()
 {
-	this.reset();
+    this.reset();
 };
 
 /**
@@ -38,11 +38,11 @@ destroids.Score.prototype.game = null;
 destroids.Score.prototype.journal;
 
 /**
- * The current score.
+ * The current points.
  * @private
  * @type {number}
  */
-destroids.Score.prototype.score = 0;
+destroids.Score.prototype.points = 0;
 
 /**
  * The last time stamp.
@@ -57,6 +57,12 @@ destroids.Score.prototype.last = 0;
  */
 destroids.Score.prototype.onScore = null;
 
+/**
+ * The onSubmit event
+ * @type {Function}
+ */
+destroids.Score.prototype.onSubmit = null;
+
 
 /**
  * Reset the score.
@@ -64,14 +70,14 @@ destroids.Score.prototype.onScore = null;
 
 destroids.Score.prototype.reset = function()
 {
-	var now;
-	
-	this.score = 0;
-	now = new Date().getTime() / 1000 | 0;
-	this.last = now;
-	this.valid = true;
-	this.journal = now.toString(36);
-	this.scoreChanged();
+    var now;
+    
+    this.points = 0;
+    now = new Date().getTime() / 1000 | 0;
+    this.last = now;
+    this.valid = true;
+    this.journal = now.toString(36);
+    this.scoreChanged();
 };
 
 
@@ -86,7 +92,7 @@ destroids.Score.prototype.register = function(points, data)
 {
     var now, ts, i, max;
     
-    this.score += points;
+    this.points += points;
     now = new Date().getTime() / 1000 | 0;
     ts = now - this.last;
     this.last = now;
@@ -103,9 +109,9 @@ destroids.Score.prototype.register = function(points, data)
  * @return {number} The current score 
  */
 
-destroids.Score.prototype.getScore = function()
+destroids.Score.prototype.getPoints = function()
 {
-    return this.score;
+    return this.points;
 };
 
 
@@ -114,21 +120,25 @@ destroids.Score.prototype.getScore = function()
  * 
  * @param {string} name
  *            The player name 
+ * @param {number} level
+ *            The achieved level
  */
 
-destroids.Score.prototype.submit = function(name)
+destroids.Score.prototype.submit = function(name, level)
 {
     var data, url;
     
     url = destroids.scoreSubmitUrl;
     if (!url) return;
-    data = this.score.toString(36) + "?" + this.journal + "@" + name;
+    data = this.points.toString(36) + "/" + level.toString(36) + "?" +
+        this.journal + "@" + name;
     data = data.length + ":" + data;
     
     new Ajax.Request(url, {
         method: "post",
         postBody: data,
-        onSuccess: this.handleResponse.bind(this)
+        onSuccess: this.handleSuccess.bind(this),
+        onFailure: this.handleFailure.bind(this)
     });
 };
 
@@ -141,12 +151,28 @@ destroids.Score.prototype.submit = function(name)
  *            The ajax response
  */
 
-destroids.Score.prototype.handleResponse = function(response)
+destroids.Score.prototype.handleSuccess = function(response)
 {
-	var rank;
-	
-	rank = response.responseText.evalJSON();
-	alert("You are rank " + rank);
+    var rank;
+    
+    rank = response.responseText.evalJSON();
+    if (destroids.onNotification) destroids.onNotification(
+        destroids.msgRankNotification.replace("%RANK%", rank.toString()));
+    if (this.onSubmit) this.onSubmit();
+};
+
+
+/**
+ * Handles an error response from the server.
+ * 
+ * @param {Ajax.Response} response
+ *            The ajax response
+ */
+
+destroids.Score.prototype.handleFailure = function(response)
+{
+    if (destroids.onNotification) destroids.onNotification(
+        destroids.msgRankErrorNotification);
 };
 
 
@@ -158,5 +184,5 @@ destroids.Score.prototype.handleResponse = function(response)
 
 destroids.Score.prototype.scoreChanged = function()
 {
-	if (this.onScore) this.onScore(this);
+    if (this.onScore) this.onScore(this);
 };

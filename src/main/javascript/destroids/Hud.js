@@ -340,5 +340,5 @@ destroids.Hud.prototype.stopEjectBlink = function()
 
 destroids.Hud.prototype.handleScore = function(score)
 {
-	this.setScore(score.getScore());	
+	this.setScore(score.getPoints());	
 };

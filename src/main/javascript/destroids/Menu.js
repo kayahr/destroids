@@ -292,6 +292,11 @@ destroids.Menu.prototype.createLocalHighScores = function()
     
     cell = document.createElement("th");
     row.appendChild(cell);
+    cell.className = "level";
+    cell.appendChild(document.createTextNode(destroids.msgShortLevel));
+    
+    cell = document.createElement("th");
+    row.appendChild(cell);
     cell.className = "score";
     cell.appendChild(document.createTextNode(destroids.msgScore));
     
@@ -326,6 +331,11 @@ destroids.Menu.prototype.createGlobalHighScores = function()
     row.appendChild(cell);
     cell.className = "name";
     cell.appendChild(document.createTextNode(destroids.msgName));
+    
+    cell = document.createElement("th");
+    row.appendChild(cell);
+    cell.className = "level";
+    cell.appendChild(document.createTextNode(destroids.msgShortLevel));
     
     cell = document.createElement("th");
     row.appendChild(cell);
@@ -369,6 +379,11 @@ destroids.Menu.prototype.updateLocalHighScores = function()
         row.appendChild(cell);
         cell.className = "name";
         cell.appendChild(document.createTextNode(entry["name"]));
+        
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell.className = "level";
+        cell.appendChild(document.createTextNode(entry["level"]));
         
         cell = document.createElement("td");
         row.appendChild(cell);
@@ -434,6 +449,11 @@ destroids.Menu.prototype.fillGlobalHighScores = function(response)
         row.appendChild(cell);
         cell.className = "name";
         cell.appendChild(document.createTextNode(entry["player"]));
+        
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell.className = "level";
+        cell.appendChild(document.createTextNode(entry["level"]));
         
         cell = document.createElement("td");
         row.appendChild(cell);

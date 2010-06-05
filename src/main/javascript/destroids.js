@@ -271,6 +271,20 @@ destroids.onPrompt = function(title, message, onSubmit, context)
     onSubmit.call(context, prompt(title + " " + message));
 };
 
+
+/**
+ * Displays a notification.
+ * 
+ * @param {string} message
+ *     The message to display
+ */
+
+destroids.onNotification = function(message)
+{
+	alert(message);
+};
+
+
 /**
  * The function to call to play a sound.
  * 
@@ -354,11 +368,18 @@ destroids.msgName = "Name";
 destroids.msgScore = "Score";
 
 /** 
+ * The short level display label. 
+ * 
+ * @type {string} 
+ */
+destroids.msgShortLevel = "Lvl";
+
+/** 
  * The level display label. 
  * 
  * @type {string} 
  */
-destroids.msgLevel = "Lvl";
+destroids.msgLevel = "Level";
 
 /** 
  * The new-game button label.
@@ -406,6 +427,20 @@ destroids.msgNewHighScore = "You scored %SCORE% points! Your score will be submi
  * @type {string} 
  */
 destroids.msgNewHighScoreWithLocal = "You scored %SCORE% points! This is rank %RANK% in your local highscore list! Your score will also be submitted to the online highscore list. Please enter your name:";
+
+/**
+ * The rank notification message.
+ * 
+ * @type {string}
+ */
+destroids.msgRankNotification = "You achieved rank #%RANK% in the global highscore list!";
+
+/**
+ * The rank error notification message.
+ * 
+ * @type {string}
+ */
+destroids.msgRankErrorNotification = "Sorry, your score could not be submitted... Hey, don't get mad at me, it's just a game.";
 
 /**
  * The thousand separator character.
