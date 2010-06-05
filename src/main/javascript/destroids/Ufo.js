@@ -109,14 +109,10 @@ destroids.Ufo.prototype.hull = 300;
 
 destroids.Ufo.prototype.handleCollide = function(ufo, collider)
 {
-    var parent;
-    
     if (collider instanceof destroids.Asteroid)
     {
-        parent = collider.getParentNode();
-        if (!parent) return;
-        parent.appendChild(
-            new destroids.Asteroid(this.game, collider.isSmall()));
+        collider.getParentNode().appendChild(
+                new destroids.Asteroid(this.game, collider.isSmall()));
         collider.destroy(true);
     }
 };

@@ -199,13 +199,8 @@ destroids.Asteroid.prototype.update = function(delta)
 
 destroids.Asteroid.prototype.destroy = function(noDescendants)
 {
-    var i, parentNode;
+    var i;
     
-    parentNode = this.getParentNode();
-    
-    // If already destroyed then do nothing
-    if (!parentNode) return;
-
     if (this.small)
         this.game.playSound(destroids.SND_SMALL_ASTEROID_DESTROYED);
     else
@@ -217,7 +212,7 @@ destroids.Asteroid.prototype.destroy = function(noDescendants)
     // If its a large asteroid then spawn new asteroids.
     if (noDescendants == undefined && !this.small)
         for (i = 0; i < 4; i++)
-            parentNode.appendChild(new destroids.Asteroid(
+            this.getParentNode().appendChild(new destroids.Asteroid(
                 this.game, true, this, i));
     
     // Remove the asteroid
