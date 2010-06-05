@@ -450,6 +450,20 @@ destroids.msgRankErrorNotification = "Sorry, your score could not be submitted..
 destroids.msgThousandSep = ",";
 
 /**
+ * Indicator for local highscore list.
+ * 
+ * @type {string}
+ */
+destroids.msgLocalIndicator = "LOCAL";
+
+/**
+ * Indicator for global highscore list.
+ * 
+ * @type {string}
+ */
+destroids.msgGlobalIndicator = "GLOBAL";
+
+/**
  * The roll center.
  * 
  * @type {number} 

@@ -52,7 +52,7 @@ destroids.Menu = function(game)
     // Create the high score location indiciator
     indicator = document.createElement("span");
     indicator.id = "highScoresLocationIndicator";
-    indicator.appendChild(document.createTextNode("LOCAL"));
+    indicator.appendChild(document.createTextNode(destroids.msgLocalIndicator));
     localList.appendChild(indicator);
     
     // Create and append the high scores table
@@ -66,7 +66,7 @@ destroids.Menu = function(game)
     // Create the high score location indiciator
     indicator = document.createElement("span");
     indicator.id = "highScoresLocationIndicator";
-    indicator.appendChild(document.createTextNode("GLOBAL"));
+    indicator.appendChild(document.createTextNode(destroids.msgGlobalIndicator));
     globalList.appendChild(indicator);
     
     // Create and append the global high scores table
@@ -221,6 +221,13 @@ destroids.Menu.prototype.close = function()
     this.opened = false;
 };
 
+
+/**
+ * Toggles the high score list from local to global and vice-versa.
+ * 
+ * @private
+ */
+
 destroids.Menu.prototype.toggleHighScoreList = function()
 {
 	var oldClassName, container, newClassName;
@@ -229,11 +236,14 @@ destroids.Menu.prototype.toggleHighScoreList = function()
     {
 		this.highScoreToggleTimer = false;
 		return;
-    }
-	container = this.highScoresContainer;
-	oldClassName = container.className;
-	newClassName = oldClassName == "global" ? "local" : "global";
-	container.className = newClassName;
+    }	
+	if (!this.game.isStopped())
+	{
+    	container = this.highScoresContainer;
+    	oldClassName = container.className;
+    	newClassName = oldClassName == "global" ? "local" : "global";
+    	container.className = newClassName;
+	}
     this.toggleHighScoreList.bind(this).delay(3);
 };
 

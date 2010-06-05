@@ -69,19 +69,19 @@
 	width: 100%;
 	height: 100%;
     transition: left 0.3s ease-in-out;
-    -o-transition: left 0.3s ease-in-out;
-    -webkit-transition: left 0.3s ease-in-out;
-    -moz-transition: left 0.3s ease-in-out;
+    -o-transition: top 0.3s ease-in-out;
+    -webkit-transition: top 0.3s ease-in-out;
+    -moz-transition: top 0.3s ease-in-out;
 }
 
 #highScoresContainer.local #globalHighScores
 {
-    left: 100%;
+    top: 100%;
 }
 
 #highScoresContainer.global #localHighScores
 {
-    left: -100%;
+    top: -100%;
 }
 
 .highScores

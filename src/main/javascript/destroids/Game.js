@@ -188,6 +188,13 @@ destroids.Game.prototype.lastOrientation = 2;
 destroids.Game.prototype.paused = false;
 
 /** 
+ * If game has been stopped 
+ * @private 
+ * @type {boolean} 
+ */
+destroids.Game.prototype.stopped = false;
+
+/** 
  * The last level which has seen an UFO. 
  * @private 
  * @type {number} 
@@ -402,11 +409,13 @@ destroids.Game.prototype.start = function()
     window.addEventListener("keyup", this.keyUpHandler, false);     
     this.container.addEventListener("mousedown", this.mouseDownHandler, false);     
     this.container.addEventListener("mouseup", this.mouseUpHandler, false);     
+
+    this.stopped = false;
 };
 
 
 /**
- * Checks if game has been stopped or is running
+ * Checks if game has been paused or is running
  * 
  * @return {boolean} True if game is paused, false if not
  */
@@ -414,6 +423,18 @@ destroids.Game.prototype.start = function()
 destroids.Game.prototype.isPaused = function()
 {
     return this.paused;
+};
+
+
+/**
+ * Checks if game has been stopped or is running.
+ * 
+ * @return {boolean} True if game is stopped, false if not
+ */
+
+destroids.Game.prototype.isStopped = function()
+{
+    return this.stopped;
 };
 
 
@@ -478,6 +499,8 @@ destroids.Game.prototype.stop = function()
     
     // Pause the scene
     this.scene.pause();
+    
+    this.stopped = true;
 };
 
 
