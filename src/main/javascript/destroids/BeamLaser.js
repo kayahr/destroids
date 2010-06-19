@@ -11,15 +11,15 @@
 
 
 /**
- * Constructs a new trilaser powerup.
+ * Constructs a new beamlaser powerup.
  * 
  * @constructor
- * @class Trilaser powerup
+ * @class Beamlaser powerup
  * @extends destroids.Powerup
  */
 
-destroids.Trilaser = function()
+destroids.Beamlaser = function()
 {
-    destroids.Powerup.call(this, destroids.POWERUP_TRILASER, 30000);
+    destroids.Powerup.call(this, destroids.POWERUP_BEAMLASER, 30000);
 };
-twodee.inherit(destroids.Trilaser, destroids.Powerup);
+twodee.inherit(destroids.Beamlaser, destroids.Powerup);

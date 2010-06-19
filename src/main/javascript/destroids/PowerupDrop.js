@@ -36,7 +36,7 @@ twodee.inherit(destroids.PowerupDrop, destroids.Drop);
  * @private
  * @type {Array.<string>}
  */
-destroids.PowerupDrop.images = [ "trilaser" ];
+destroids.PowerupDrop.images = [ "trilaser", "beamlaser" ];
 
 /**
  * The powerup.

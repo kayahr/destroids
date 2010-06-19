@@ -44,6 +44,7 @@
             <file>destroids/HighScores.js</file>
             <file>destroids/Hud.js</file>
             <file>destroids/Laser.js</file>
+            <file>destroids/LaserBeam.js</file>
             <file>destroids/Menu.js</file>
             <file>destroids/RepairKit.js</file>
             <file>destroids/Powerup.js</file>

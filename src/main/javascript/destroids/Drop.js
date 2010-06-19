@@ -46,6 +46,9 @@ destroids.Drop = function(game, imageName)
     
     // Enable collision detection
     this.setCollisionType(destroids.TYPE_DROP);
+    
+    // Set invulnerability time to one second
+    this.invulnerability = 1000;
 };
 twodee.inherit(destroids.Drop, twodee.ImageNode);
 
@@ -55,6 +58,13 @@ twodee.inherit(destroids.Drop, twodee.ImageNode);
  * @type {destroids.Game} 
  */
 destroids.Drop.prototype.game = null;
+
+/**
+ * The invulnerability count down in milliseconds.
+ * @private
+ * @type {number}
+ */
+destroids.Drop.prototype.invulnerability;
 
 
 /**
@@ -88,7 +98,10 @@ destroids.Drop.prototype.update = function(delta)
     if (x > xRadius) transform.m02 = -xRadius;
     if (x < -xRadius) transform.m02 = xRadius;
     if (y > yRadius) transform.m12 = -yRadius;
-    if (y < -yRadius) transform.m12 = yRadius;   
+    if (y < -yRadius) transform.m12 = yRadius;
+    
+    // Count down the invulnerability counter
+    if (this.invulnerability > 0) this.invulnerability -= delta;
 };
 
 
@@ -105,4 +118,16 @@ destroids.Drop.prototype.destroy = function()
     
     // Remove the UFO
     this.remove();
+};
+
+
+/**
+ * Checks if drop is invulnerable.
+ * 
+ * @return {boolean} True if drop is invulnerable, false if not
+ */
+
+destroids.Drop.prototype.isInvulnerable = function()
+{
+    return this.invulnerability > 0;
 };

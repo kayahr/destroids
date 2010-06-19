@@ -318,10 +318,14 @@ destroids.Ufo.prototype.dropPowerups = function()
 {
     var powerup, drop, transform;
     
-    switch (parseInt(Math.random() * 2, 10))
-    {
-        case 1:
+    switch (parseInt(Math.random() * 3, 10))
+    {        
+        case 0:
             powerup = new destroids.Trilaser();
+            break;
+            
+        case 1:
+            powerup = new destroids.Beamlaser();
             break;
             
         default:

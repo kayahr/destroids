@@ -4,7 +4,7 @@
  * See LICENSE.TXT for licensing information
  * 
  * @fileoverview
- * Provides the Laser class.
+ * Provides the LaserBeam class.
  * 
  * @author Klaus Reimer (k@ailis.de)
  * @version $Revision: 910 $
@@ -16,30 +16,25 @@
  * 
  * @param {destroids.Game} game
  *            The game
- * @param {boolean=} alien
- *            Set to true if this is an alien laser. Optional, defaults to false
  * 
  * @constructor
  * @extends twodee.PolygonNode
- * @class A Laser
+ * @class A LaserBeam
  */
 
-destroids.Laser = function(game, alien)
+destroids.LaserBeam = function(game)
 {
 	var physics;
 	
     this.game = game;
     
-    twodee.PolygonNode.call(this, destroids.LASER);
-    this.setFillStyle(alien ? "#4f4" : "orange");
-
-    // Remember that this is an alien laser
-    if (alien) this.alien = true;
+    twodee.PolygonNode.call(this, destroids.LASERBEAM);
+    this.setFillStyle("red");
     
     // Set the Lasers physics model
     physics = new twodee.Physics();
-    physics.setLifetime(alien ? 2 : 0.75);
-    physics.setDecay(alien ? 0.5 : 0.2);
+    physics.setLifetime(0.2);
+    physics.setDecay(0.2);
     this.setPhysics(physics);
     
     // Enable cotwodee.PolygonNodellision detection
@@ -48,47 +43,34 @@ destroids.Laser = function(game, alien)
          destroids.TYPE_UFO | destroids.TYPE_SPACESHIP);
     this.connect("collisionStarted", this.handleCollide, this);
 };
-twodee.inherit(destroids.Laser, twodee.PolygonNode);
+twodee.inherit(destroids.LaserBeam, twodee.PolygonNode);
 
 /** The game. @private @type {destroids.Game} */
-destroids.Laser.prototype.game = null;
-
-/** If this is an alien laser. @private @type {boolean} */
-destroids.Laser.prototype.alien = false;
+destroids.LaserBeam.prototype.game = null;
 
 
 /**
  * Handles collision.
  * 
- * @param {destroids.Laser} laser
+ * @param {destroids.LaserBeam} laser
  *            The laser
  * @param {twodee.SceneNode} collider
  *            The node the laser collided with
  */
 
-destroids.Laser.prototype.handleCollide = function(laser, collider)
+destroids.LaserBeam.prototype.handleCollide = function(laser, collider)
 {
     if (collider instanceof destroids.Asteroid)
     {
-        laser.remove();
-        if (this.alien)
-        {
-            collider.getParentNode().appendChild(new destroids.Asteroid(this.game,
-                collider.isSmall()));
-            collider.destroy(true);
-        }
-        else
-        {
-            // Score points for the asteroid
-        	if (!this.game.isGameOver())
-        	{
-	        	if (collider.isSmall())
-	        		this.game.getScore().register(50 * this.game.getLevel(), 5);
-	        	else
-	        		this.game.getScore().register(20 * this.game.getLevel(), 6);
-        	}
-            collider.destroy();
-        }
+        // Score points for the asteroid
+    	if (!this.game.isGameOver())
+    	{
+        	if (collider.isSmall())
+        		this.game.getScore().register(50 * this.game.getLevel(), 5);
+        	else
+        		this.game.getScore().register(20 * this.game.getLevel(), 6);
+    	}
+        collider.destroy();
     }
     
     else if (collider instanceof destroids.Drop)
@@ -96,22 +78,13 @@ destroids.Laser.prototype.handleCollide = function(laser, collider)
         if (!collider.isInvulnerable())
         {
             collider.destroy();
-            laser.remove();
         }
     }
     
-    else if (collider instanceof destroids.Ufo && !this.alien)
+    else if (collider instanceof destroids.Ufo)
     {
         this.game.explode(collider, 3);
-        laser.remove();
         collider.addDamage(100);
-    }
-
-    else if (collider instanceof destroids.Spaceship && this.alien)
-    {
-        this.game.explode(collider, 3);
-        laser.remove();
-        collider.addDamage(75);
     }
 };
 
@@ -124,7 +97,7 @@ destroids.Laser.prototype.handleCollide = function(laser, collider)
  * @override
  */
 
-destroids.Laser.prototype.update = function(delta)
+destroids.LaserBeam.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, bbox, game;
     

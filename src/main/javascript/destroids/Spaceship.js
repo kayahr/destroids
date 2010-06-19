@@ -297,7 +297,11 @@ destroids.Spaceship.prototype.fireLaser = function()
             case destroids.POWERUP_TRILASER:
                 laserType = 1;
                 break;
-                
+            
+            case destroids.POWERUP_BEAMLASER:
+                laserType = 2;
+                break;
+            
             default:
                 laserType = 0;
         }
@@ -319,6 +323,13 @@ destroids.Spaceship.prototype.fireLaser = function()
                 this.getParentNode().appendChild(laser);
             }
             break;
+
+        // Beam laser
+        case 2:
+            laser = new destroids.LaserBeam(this.game);
+            laser.getTransform().translate(0, -24);
+            this.appendChild(laser);
+            break;            
             
         // Normal laser
         default:

@@ -187,6 +187,19 @@ destroids.LASER = new twodee.Polygon([
     new twodee.Vector(-1.5, -10)
 ]);    
 
+
+/**
+ * The laser beam polygon. 
+ * 
+ * @type {twodee.Polygon} 
+ */
+destroids.LASERBEAM = new twodee.Polygon([
+    new twodee.Vector(0, -300),
+    new twodee.Vector(1.5, -10),
+    new twodee.Vector(0, 15),
+    new twodee.Vector(-1.5, -10)
+]);    
+
 /** 
  * The particle polygon. 
  * 
@@ -719,3 +732,9 @@ destroids.scoreTop5Url = null;
  * @type {number}
  */
 destroids.POWERUP_TRILASER = 0;
+
+/**
+ * The beamlaser powerup ID.
+ * @type {number}
+ */
+destroids.POWERUP_BEAMLASER = 1;
