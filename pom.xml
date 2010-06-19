@@ -13,7 +13,7 @@
   <artifactId>destroids</artifactId>
   <packaging>jar</packaging>
   <name>Destroids</name>
-  <version>1.3.0-SNAPSHOT</version>
+  <version>1.4.0-SNAPSHOT</version>
   <url>http://www.ailis.de/~k/projects/destroids/</url>
   <description>Asteroids-like game written in JavaScript</description>
   <inceptionYear>2010</inceptionYear>
