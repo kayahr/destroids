@@ -391,3 +391,32 @@
 	padding-top: 34px;
 	background: url(../images/destroids.png) no-repeat center center;
 }
+
+#powerupGauge
+{
+	position: absolute;
+	border: solid rgba(0, 255, 0, 0.3) 1px;
+	width: 64px;
+	height: 8px;
+	margin-left: -32px;
+	left: 50%;
+	bottom: -10px; 
+    transition: bottom 0.5s ease-in-out;
+    -o-transition: bottom 0.5s ease-in-out;
+    -webkit-transition: bottom 0.5s ease-in-out;
+    -moz-transition: bottom 0.5s ease-in-out;
+}
+
+#hud.visible #powerupGauge
+{
+	bottom: 40px;
+}
+
+#powerupGaugeFill
+{
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	background: rgba(0, 255, 0, 0.15);
+}

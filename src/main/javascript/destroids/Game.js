@@ -1231,8 +1231,32 @@ destroids.Game.prototype.hideStateLabel = function()
 
 destroids.Game.prototype.updateShipState = function()
 {    
-    this.hud.setShield(this.spaceship.getShield());
-    this.hud.setHull(this.spaceship.getHull());
+    var spaceship, hud;
+    
+    spaceship = this.spaceship;
+    hud = this.hud;
+    hud.setShield(spaceship.getShield());
+    hud.setHull(spaceship.getHull());
+}
+
+
+/**
+ * Updates the powerup state displays.
+ */
+
+destroids.Game.prototype.updatePowerupState = function()
+{
+    var powerup, hud, spaceship;
+    
+    spaceship = this.spaceship;
+    hud = this.hud;
+    powerup = spaceship.getPowerup();    
+    if (powerup)
+    {
+        hud.setMaxPowerupTimeout(powerup.getTimeout());
+        hud.setPowerupTimeout(spaceship.getPowerupTimeout());
+    }
+    else hud.setPowerupTimeout(0);
 };
 
 

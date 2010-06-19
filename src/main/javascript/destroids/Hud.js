@@ -23,7 +23,8 @@
 
 destroids.Hud = function(game)
 {
-    var root, value, topBar, bottomBar, display, ejectLabel;
+    var root, value, topBar, bottomBar, display, ejectLabel, powerupGauge,
+        powerupGaugeFill;
     
     this.game = game;
     game.getScore().onScore = this.handleScore.bind(this);
@@ -98,7 +99,16 @@ destroids.Hud = function(game)
     this.ejectLabel = ejectLabel = document.createElement("span");
     root.appendChild(ejectLabel);
     ejectLabel.innerHTML = destroids.msgEject;
-    ejectLabel.id = "ejectLabel";    
+    ejectLabel.id = "ejectLabel";
+    
+    this.powerupGauge = powerupGauge = document.createElement("div");
+    powerupGauge.id = "powerupGauge";
+    powerupGauge.style.display = "none";
+    this.powerupGaugeFill = powerupGaugeFill = document.createElement("div");
+    powerupGauge.appendChild(powerupGaugeFill);
+    powerupGaugeFill.id = "powerupGaugeFill";
+    powerupGaugeFill.style.width = 0;
+    root.appendChild(powerupGauge);
 };
 
 /** 
@@ -163,6 +173,41 @@ destroids.Hud.prototype.ejectLabel = null;
  * @type {?number}
  */
 destroids.Hud.prototype.ejectBlinker = null;
+
+/**
+ * The powerup gauge element.
+ * @private
+ * @type {Element}
+ */
+destroids.Hud.prototype.powerupGauge;
+
+/**
+ * The powerup gauge fill element.
+ * @private
+ * @type {Element}
+ */
+destroids.Hud.prototype.powerupGaugeFill;
+
+/**
+ * The current powerup timeout in milliseconds.
+ * @private
+ * @type {number}
+ */
+destroids.Hud.prototype.powerupTimeout = 0;
+
+/**
+ * The current maximum powerup timeout in milliseconds.
+ * @private
+ * @type {number}
+ */
+destroids.Hud.prototype.maxPowerupTimeout = 0;
+
+/**
+ * The current powerup timeout in percent.
+ * @private
+ * @type {number}
+ */
+destroids.Hud.prototype.powerupPercent = 0;
 
 
 /**
@@ -277,6 +322,62 @@ destroids.Hud.prototype.setLevel = function(level)
 {
     this.levelElement.innerHTML = level;
 };
+
+
+/**
+ * Sets the powerup timeout in milliseconds.
+ * 
+ * @param {number} powerupTimeout
+ *            The powerup timeout in milliseconds
+ */
+
+destroids.Hud.prototype.setPowerupTimeout = function(powerupTimeout)
+{
+    if (powerupTimeout != this.powerupTimeout)
+    {
+        this.powerupTimeout = powerupTimeout;
+        this.updatePowerupGauge();
+    }
+}
+
+
+/**
+ * Sets the maximum powerup timeout in milliseconds.
+ * 
+ * @param {number} maxPowerupTimeout
+ *            The maxmimum powerup timeout in milliseconds
+ */
+
+destroids.Hud.prototype.setMaxPowerupTimeout = function(maxPowerupTimeout)
+{
+    if (maxPowerupTimeout != this.maxPowerupTimeout)
+    {
+        this.maxPowerupTimeout = maxPowerupTimeout;
+        this.updatePowerupGauge();
+    }
+}
+
+
+/**
+ * Updates the powerup gauge.
+ * 
+ * @private
+ */
+
+destroids.Hud.prototype.updatePowerupGauge = function()
+{
+    var percent;
+    
+    percent = Math.max(0, 0|(100 * this.powerupTimeout / this.maxPowerupTimeout));
+    if (percent != this.powerupPercent)
+    {
+        if (!percent) this.powerupGauge.style.display = "none";
+        if (!this.powerupPercent) this.powerupGauge.style.display = "block";
+        if (percent)
+            this.powerupGaugeFill.style.width = percent + "%";        
+        this.powerupPercent = percent;
+    }    
+}
 
 
 /**

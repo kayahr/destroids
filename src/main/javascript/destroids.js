@@ -713,3 +713,9 @@ destroids.scoreSubmitUrl = null;
  * @type {?string}
  */
 destroids.scoreTop5Url = null;
+
+/**
+ * The trilaser powerup ID.
+ * @type {number}
+ */
+destroids.POWERUP_TRILASER = 0;

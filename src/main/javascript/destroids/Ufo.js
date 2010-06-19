@@ -206,7 +206,8 @@ destroids.Ufo.prototype.destroy = function()
     if (!this.game.isGameOver())
     {
     	this.game.getScore().register(100 * this.game.getLevel(), 2);
-    	this.dropStuff();
+    	this.dropKits();
+    	this.dropPowerups();
     }
     
     // Remove the UFO
@@ -269,12 +270,12 @@ destroids.Ufo.prototype.addDamage = function(damage)
 
 
 /**
- * Drops some stuff.
+ * Drops energy and repair kits.
  * 
  * @private 
  */
 
-destroids.Ufo.prototype.dropStuff = function()
+destroids.Ufo.prototype.dropKits = function()
 {
     var spaceship, hull, shield, drop, transform, dropClass,
         drops;
@@ -302,6 +303,33 @@ destroids.Ufo.prototype.dropStuff = function()
     }
     transform = this.getTransform();
     drop.getTransform().setTransform(transform);
-    this.getPhysics().getVelocity().copy(drop.getPhysics().getVelocity());
+    this.getPhysics().getVelocity().copy(drop.getPhysics().getVelocity()).rotate(-15 * Math.PI / 180);
+    this.getParentNode().appendChild(drop);       
+};
+
+
+/**
+ * Drops powerups.
+ * 
+ * @private 
+ */
+
+destroids.Ufo.prototype.dropPowerups = function()
+{
+    var powerup, drop, transform;
+    
+    switch (parseInt(Math.random() * 2, 10))
+    {
+        case 1:
+            powerup = new destroids.Trilaser();
+            break;
+            
+        default:
+            return
+    }
+    drop = new destroids.PowerupDrop(this.game, powerup);
+    transform = this.getTransform();
+    drop.getTransform().setTransform(transform);
+    this.getPhysics().getVelocity().copy(drop.getPhysics().getVelocity()).rotate(15 * Math.PI / 180);
     this.getParentNode().appendChild(drop);       
 };

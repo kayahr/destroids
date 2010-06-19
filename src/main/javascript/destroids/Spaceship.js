@@ -175,6 +175,20 @@ destroids.Spaceship.prototype.hull = 100;
  */
 destroids.Spaceship.prototype.targetHeading = null;
 
+/**
+ * The currently installed powerup.
+ * @private
+ * @type {destroids.Powerup}
+ */
+destroids.Spaceship.prototype.powerup = null;
+
+/**
+ * The powerup timeout.
+ * @private
+ * @type {number}
+ */
+destroids.Spaceship.prototype.powerupTimeout = 0;
+
 
 /**
  * Starts thrust forward.
@@ -272,18 +286,49 @@ destroids.Spaceship.prototype.stopFireLaser = function()
 
 destroids.Spaceship.prototype.fireLaser = function()
 {
-    var laser, transform, speed, bbox;
+    var laser, transform, speed, laserType, i, a;
     
     this.game.playSound(destroids.SND_SPACESHIP_FIRE);
-
     speed = destroids.Spaceship.THRUST * 1.2;
-    bbox = this.getBounds().getBoundingBox();
-    laser = new destroids.Laser(this.game);
-    transform = this.getTransform();
-    laser.getTransform().setTransform(transform).translate(0, -24);
-    laser.getPhysics().getVelocity().set(0, -speed).
-        rotate(transform.getRotationAngle()).add(this.getPhysics().getVelocity());
-    this.getParentNode().appendChild(laser);
+    if (this.powerup)
+    {
+        switch (this.powerup.getType())
+        {
+            case destroids.POWERUP_TRILASER:
+                laserType = 1;
+                break;
+                
+            default:
+                laserType = 0;
+        }
+    }
+    else laserType = 0;
+    
+    switch (laserType)
+    {
+        // Trilaser
+        case 1:
+            for (i = -1; i < 2; i++)
+            {
+                a = i * 5 * Math.PI / 180;
+                laser = new destroids.Laser(this.game);
+                transform = this.getTransform();
+                laser.getTransform().setTransform(transform).rotate(a).translate(0, -24);
+                laser.getPhysics().getVelocity().set(0, -speed).
+                    rotate(transform.getRotationAngle() + a).add(this.getPhysics().getVelocity());
+                this.getParentNode().appendChild(laser);
+            }
+            break;
+            
+        // Normal laser
+        default:
+            laser = new destroids.Laser(this.game);
+            transform = this.getTransform();
+            laser.getTransform().setTransform(transform).translate(0, -24);
+            laser.getPhysics().getVelocity().set(0, -speed).
+                rotate(transform.getRotationAngle()).add(this.getPhysics().getVelocity());
+            this.getParentNode().appendChild(laser);
+    }
 };
 
 
@@ -374,7 +419,15 @@ destroids.Spaceship.prototype.update = function(delta)
     if (x > xRadius) transform.m02 = -xRadius;
     if (x < -xRadius) transform.m02 = xRadius;
     if (y > yRadius) transform.m12 = -yRadius;
-    if (y < -yRadius) transform.m12 = yRadius;   
+    if (y < -yRadius) transform.m12 = yRadius;
+    
+    // Update the powerup
+    if (this.powerup)
+    {
+        this.powerupTimeout -= delta;
+        if (this.powerupTimeout <= 0) this.removePowerup(this.powerup);
+        this.game.updatePowerupState();
+    }
 };
 
 
@@ -483,22 +536,40 @@ destroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
         this.addDamage(100);
     }
     
-    else if (collider instanceof destroids.Energy)
+    else if (collider instanceof destroids.Drop)
     {
-        this.game.playSound(destroids.SND_COLLECT_DROP);
-        collider.remove();
-        this.addShieldEnergy(25);
-        if (!gameOver)
-        	this.game.getScore().register(25 * this.game.getLevel(), 4);
-    }
+        if (collider instanceof destroids.Energy)
+        {
+            this.game.playSound(destroids.SND_COLLECT_DROP);
+            collider.remove();
+            if (!gameOver)
+            {
+                this.addShieldEnergy(25);
+            	this.game.getScore().register(25 * this.game.getLevel(), 4);
+            }
+        }
+    
+        else if (collider instanceof destroids.RepairKit)
+        {
+            this.game.playSound(destroids.SND_COLLECT_DROP);
+            collider.remove();
+            if (!gameOver)
+            {
+                this.repair(25);
+            	this.game.getScore().register(25 * this.game.getLevel(), 3);
+            }
+        }
 
-    else if (collider instanceof destroids.RepairKit)
-    {
-        this.game.playSound(destroids.SND_COLLECT_DROP);
-        collider.remove();
-        this.repair(25);
-        if (!gameOver)
-        	this.game.getScore().register(25 * this.game.getLevel(), 3);
+        else if (collider instanceof destroids.PowerupDrop)
+        {
+            this.game.playSound(destroids.SND_COLLECT_DROP);
+            collider.remove();
+            if (!gameOver)
+            {
+                this.game.getScore().register(25 * this.game.getLevel(), 12);
+                this.installPowerup(collider.getPowerup());
+            }
+        }
     }
 };
 
@@ -643,4 +714,61 @@ destroids.Spaceship.prototype.setTargetHeading = function(targetHeading)
     {
         this.targetHeading = targetHeading;
     }
+};
+
+
+/**
+ * Installs a powerup. If there is already a powerup installed then the old
+ * one is removed first.
+ * 
+ * @param {destroids.Powerup} powerup
+ *            The powerup to install
+ */
+
+destroids.Spaceship.prototype.installPowerup = function(powerup)
+{
+    if (this.powerup) this.removePowerup(this.powerup);
+    this.powerup = powerup;
+    this.powerupTimeout = powerup.getTimeout();
+    this.game.updatePowerupState();
+};
+
+
+/**
+ * Removes a powerup.
+ * 
+ * @param {destroids.Powerup} powerup
+ *            The powerup to remove
+ */
+
+destroids.Spaceship.prototype.removePowerup = function(powerup)
+{
+    if (!this.powerup) return;
+    this.powerupTimeout = 0;
+    this.powerup = null;
+    this.game.updatePowerupState();
+};
+
+
+/**
+ * Returns the powerup timeout in milliseconds.
+ * 
+ * @return {number} The powerup timeout in milliseconds
+ */
+
+destroids.Spaceship.prototype.getPowerupTimeout = function()
+{
+    return this.powerupTimeout;
+};
+
+
+/**
+ * Returns the installed powerup.
+ * 
+ * @return {destroids.Powerup} The powerup or null if none installed
+ */
+
+destroids.Spaceship.prototype.getPowerup = function()
+{
+    return this.powerup;
 };

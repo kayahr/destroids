@@ -46,6 +46,9 @@
             <file>destroids/Laser.js</file>
             <file>destroids/Menu.js</file>
             <file>destroids/RepairKit.js</file>
+            <file>destroids/Powerup.js</file>
+            <file>destroids/PowerupDrop.js</file>
+            <file>destroids/Trilaser.js</file>
             <file>destroids/Spaceship.js</file>
             <file>destroids/Game.js</file>
           </order>
