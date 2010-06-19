@@ -95,6 +95,12 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>com.palm</groupId>
+      <artifactId>mojo</artifactId>
+      <version>1.4.1-1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.prototypejs</groupId>
       <artifactId>prototype</artifactId>
       <version>1.6.1-1</version>
