@@ -4,7 +4,7 @@
   <parent>
     <artifactId>maven-javascript</artifactId>
     <groupId>de.ailis.maven</groupId>
-    <version>1</version>
+    <version>4</version>
   </parent> 
 
   <groupId>de.ailis.destroids</groupId>
@@ -38,7 +38,7 @@
     <plugins>
       <plugin>
         <groupId>de.ailis.maven</groupId>
-        <artifactId>maven-closurecompiler-plugin</artifactId>
+        <artifactId>maven-javascript-plugin</artifactId>
         <configuration>
           <order>
             <file>destroids.js</file>
@@ -58,11 +58,6 @@
             <file>destroids/Game.js</file>
           </order>
         </configuration>      
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
       
     </plugins>
@@ -89,19 +84,19 @@
     <dependency>
       <groupId>de.ailis.twodee</groupId>
       <artifactId>twodee</artifactId>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.palm</groupId>
       <artifactId>mojo</artifactId>
-      <version>1.4.1-1</version>
+      <version>1.4.1-2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.prototypejs</groupId>
       <artifactId>prototype</artifactId>
-      <version>1.6.1-1</version>
+      <version>1.6.1-2</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

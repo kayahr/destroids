@@ -182,7 +182,7 @@ destroids.Menu.prototype.hasGlobalHighScores = false;
 /**
  * If high score toggle timer is running.
  * @private
- * @ŧype {boolean}
+ * @type {boolean}
  */
 destroids.Menu.prototype.highScoreToggleTimer = false;
 
