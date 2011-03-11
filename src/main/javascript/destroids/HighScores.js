@@ -10,6 +10,10 @@
  * @version $Revision: 906 $
  */
 
+/*
+ * @require destroids.js
+ */
+
 
 /**
  * Constructs a new instance of the highscores.

@@ -10,6 +10,10 @@
  * @version $Revision: 910 $
  */
 
+/*
+ * @require destroids.js
+ */
+
 
 /**
  * Constructs a score counter.

@@ -4,7 +4,7 @@
   <parent>
     <artifactId>maven-javascript</artifactId>
     <groupId>de.ailis.maven</groupId>
-    <version>4</version>
+    <version>7</version>
   </parent> 
 
   <groupId>de.ailis.destroids</groupId>
@@ -39,25 +39,6 @@
       <plugin>
         <groupId>de.ailis.maven</groupId>
         <artifactId>maven-javascript-plugin</artifactId>
-        <configuration>
-          <order>
-            <file>destroids.js</file>
-            <file>destroids/Asteroid.js</file>
-            <file>destroids/Drop.js</file>
-            <file>destroids/Energy.js</file>
-            <file>destroids/HighScores.js</file>
-            <file>destroids/Hud.js</file>
-            <file>destroids/Laser.js</file>
-            <file>destroids/LaserBeam.js</file>
-            <file>destroids/Menu.js</file>
-            <file>destroids/RepairKit.js</file>
-            <file>destroids/Powerup.js</file>
-            <file>destroids/PowerupDrop.js</file>
-            <file>destroids/Trilaser.js</file>
-            <file>destroids/Spaceship.js</file>
-            <file>destroids/Game.js</file>
-          </order>
-        </configuration>      
       </plugin>
       
     </plugins>
@@ -84,8 +65,7 @@
     <dependency>
       <groupId>de.ailis.twodee</groupId>
       <artifactId>twodee</artifactId>
-      <version>1.0.1</version>
-      <scope>compile</scope>
+      <version>1.0.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.palm</groupId>
@@ -97,7 +77,6 @@
       <groupId>org.prototypejs</groupId>
       <artifactId>prototype</artifactId>
       <version>1.6.1-2</version>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
 
