@@ -1,11 +1,17 @@
 /**
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
+ * See LICENSE.TXT for licensing information
+ * 
+ * @require twodee/Polygon.js
+ */
+
+/**
  * The namespace for Destroids classes.
  * 
  * @type {Object} 
  */
 var destroids = {};
 window["destroids"] = destroids;
-
 
 /**
  * Formats a number
@@ -14,7 +20,6 @@ window["destroids"] = destroids;
  *            The number to format
  * @return {string} The formatted number
  */
-
 destroids.formatNumber = function(number)
 {
     var rest;
@@ -25,7 +30,6 @@ destroids.formatNumber = function(number)
     return "" + number;
 };
 
-
 /**
  * Sanitizes the specified angle (RAD) so the returned angle
  * is between 0 and 2*PI.
@@ -34,7 +38,6 @@ destroids.formatNumber = function(number)
  *            The angle to sanitize
  * @return {number} The sanitized angle
  */
-
 destroids.sanitizeAngle = function(angle)
 {
     var pi2;
@@ -42,7 +45,6 @@ destroids.sanitizeAngle = function(angle)
     pi2 = Math.PI * 2;
     return ((angle % pi2) + pi2) % pi2;
 };
-
 
 /**
  * Returns the difference between the two angles (Both in RAD). The
@@ -54,7 +56,6 @@ destroids.sanitizeAngle = function(angle)
  * @param {number} endAngle
  *            The ending enagle
  */
-
 destroids.getAngleDiff = function(startAngle, endAngle)
 {
 	var diff;
@@ -65,7 +66,6 @@ destroids.getAngleDiff = function(startAngle, endAngle)
     if (diff > Math.PI) diff -= Math.PI * 2;
     return diff;
 };
-
 
 /**
  * The location of the images.

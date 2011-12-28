@@ -3,6 +3,16 @@
  * See LICENSE.TXT for licensing information
  * 
  * @require destroids.js
+ * @require twodee/ImageNode.js
+ * @use twodee/Physics.js
+ * @use destroids/Asteroid.js
+ * @use destroids/Game.js
+ * @use destroids/Laser.js
+ * @use destroids/RepairKit.js
+ * @use destroids/Energy.js
+ * @use destroids/Trilaser.js
+ * @use destroids/Beamlaser.js
+ * @use destroids/PowerupDrop.js
  */
 
 /**

@@ -1,20 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<?php require("../../target/demo/resolver.php")?>
+<!DOCTYPE html>
+<html>
   <head>
+    <meta charset="UTF-8" />    
     <title>Destroids</title>
-    <link href="../stylesheets/destroids.css" media="screen" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="../deps/scripts/prototype.js"></script>
-    <script type="text/javascript" src="../deps/scripts/twodee.js"></script>
-    <script type="text/javascript" src="../scripts/destroids.js"></script>
+    <link href="../main/resources/stylesheets/destroids.css" media="screen" rel="stylesheet" type="text/css" />
+    <?php $resolver->includeScript("destroids/Game.js")?>
     <script type="text/javascript">
     /* <![CDATA[ */
      
-    destroids.imagesDir = "../images";
+    destroids.imagesDir = "../main/resources/images";
     destroids.onPreferences = function() { alert("Not implemented") };
     destroids.onHelp = function() { alert("Not implemented") };
-    destroids.scoreSubmitUrl = "http://localhost/~k/projects/php/scority/index.php/submit/destroids";
-    destroids.scoreTop5Url = "http://localhost/~k/projects/php/scority/index.php/top5/destroids";
+    //destroids.scoreSubmitUrl = "http://localhost/~k/projects/php/scority/index.php/submit/destroids";
+    //destroids.scoreTop5Url = "http://localhost/~k/projects/php/scority/index.php/top5/destroids";
     
     game = new destroids.Game("output");
 

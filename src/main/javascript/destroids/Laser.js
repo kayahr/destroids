@@ -3,6 +3,11 @@
  * See LICENSE.TXT for licensing information
  * 
  * @require destroids.js
+ * @require twodee/PolygonNode.js
+ * @use destroids/Asteroid.js
+ * @use destroids/Drop.js
+ * @use destroids/Ufo.js
+ * @use destroids/Spaceship.js
  */
 
 /**

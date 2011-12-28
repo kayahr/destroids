@@ -3,6 +3,7 @@
  * See LICENSE.TXT for licensing information
  *
  * @require destroids.js
+ * @require destroids/Drop.js
  */
 
 /**

@@ -1,8 +1,15 @@
 /**
  * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
- * 
+ *
+ * @require prototype.js
  * @require destroids.js
+ * @require destroids/Menu.js
+ * @require destroids/Score.js
+ * @require destroids/Hud.js
+ * @require destroids/Asteroid.js
+ * @require destroids/Ufo.js
+ * @require twodee/Scene.js
  */
 
 /**
