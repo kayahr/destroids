@@ -1,24 +1,14 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides the Asteroid class.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new asteroid.
  * 
- * @param {destroids.Game} game
+ * @param {!destroids.Game} game
  *            The game
  * @param {boolean=} small
  *            If small asteroid should be created. Optional. Defaults to false.
@@ -31,10 +21,10 @@
  *            position (relative to the parent asteroid) and the heading.
  * 
  * @constructor
- * @extends twodee.ImageNode
- * @class An asteroid
+ * @extends {twodee.ImageNode}
+ * @class 
+ * An asteroid.
  */
-
 destroids.Asteroid = function(game, small, parentAsteroid, subId)
 {
     var type, image, heading, speed, xRadius, yRadius, radius, tmp,
@@ -126,9 +116,9 @@ twodee.inherit(destroids.Asteroid, twodee.ImageNode);
 /** 
  * The game.
  * @private
- * @type {destroids.Game} 
+ * @type {!destroids.Game} 
  */
-destroids.Asteroid.prototype.game = null; 
+destroids.Asteroid.prototype.game; 
     
 /** 
  * The x radius of the asteroid.
@@ -151,18 +141,15 @@ destroids.Asteroid.prototype.yRadius;
  */
 destroids.Asteroid.prototype.small = false;
 
-
 /**
  * Checks if this is a small asteroid.
  * 
  * @return {boolean} True if this is a small asteroid, false if not 
  */
-
 destroids.Asteroid.prototype.isSmall = function()
 {
     return this.small;
 };
-
 
 /**
  * @see twodee.PolygonNode#update
@@ -171,7 +158,6 @@ destroids.Asteroid.prototype.isSmall = function()
  *            Number of milliseconds since last update
  * @override 
  */
-
 destroids.Asteroid.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, game;
@@ -193,14 +179,12 @@ destroids.Asteroid.prototype.update = function(delta)
     if (y < -yRadius) transform.m12 = yRadius;
 };
 
-
 /**
  * Destroys the asteroid. 
  * 
  * @param {boolean=} noDescendants
  *            Optional. Set to true to prevent descendants
  */
-
 destroids.Asteroid.prototype.destroy = function(noDescendants)
 {
     var i;

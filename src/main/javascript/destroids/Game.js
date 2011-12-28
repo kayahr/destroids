@@ -1,19 +1,9 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009-2010 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides destroids.Game class
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs the game.
@@ -27,9 +17,9 @@
  *            This parameter is optional and defaults to true
  * 
  * @constructor
- * @class The game
+ * @class 
+ * The game.
  */
-
 destroids.Game = function(containerId, autoStart)
 {
     this.containerId = containerId;
@@ -110,9 +100,9 @@ destroids.Game.prototype.scene = null;
 /** 
  * The root node. 
  * @private 
- * @type {twodee.SceneNode} 
+ * @type {!twodee.SceneNode} 
  */
-destroids.Game.prototype.rootNode = null;
+destroids.Game.prototype.rootNode;
 
 /** 
  * The current level. 
@@ -124,9 +114,9 @@ destroids.Game.prototype.level = 0;
 /** 
  * The space ship. 
  * @private 
- * @type {destroids.Spaceship} 
+ * @type {!destroids.Spaceship} 
  */
-destroids.Game.prototype.spaceship = null;
+destroids.Game.prototype.spaceship;
 
 /** 
  * The score. 
@@ -247,11 +237,9 @@ destroids.Game.prototype.keyPressHandler = null;
  */
 destroids.Game.prototype.orientationChangeHandler = null;
 
-
 /**
  * Initializes the game.
  */
-
 destroids.Game.prototype.init = function()
 {
     var container, canvas, scene, rootNode, menu, hud, stateLabel;
@@ -324,11 +312,9 @@ destroids.Game.prototype.init = function()
     if (this.autoStart) this.start();
 };
 
-
 /**
  * Resets the game.
  */
-
 destroids.Game.prototype.reset = function()
 {
     var rootNode, spaceship;
@@ -357,14 +343,11 @@ destroids.Game.prototype.reset = function()
     this.setLevel(1);    
 };
 
-
-
 /**
  * This method must be called when the size of the output container has been
  * resized. It updates the internal HTML elements which are located in this
  * output container.
  */
-
 destroids.Game.prototype.resize = function()
 {
     var container, width, height, canvas;
@@ -377,23 +360,19 @@ destroids.Game.prototype.resize = function()
     canvas.height = height;    
 };
 
-
 /**
  * Checks if game is initialized.
  * 
  * @return {boolean} True if game is initialized, false if not
  */
-
 destroids.Game.prototype.isInitialized = function()
 {
     return this.initialized;
 };
 
-
 /**
  * Starts the game.
  */
-
 destroids.Game.prototype.start = function()
 {
     // Do nothing if game is not initialized yet
@@ -417,35 +396,29 @@ destroids.Game.prototype.start = function()
     this.stopped = false;
 };
 
-
 /**
  * Checks if game has been paused or is running
  * 
  * @return {boolean} True if game is paused, false if not
  */
-
 destroids.Game.prototype.isPaused = function()
 {
     return this.paused;
 };
-
 
 /**
  * Checks if game has been stopped or is running.
  * 
  * @return {boolean} True if game is stopped, false if not
  */
-
 destroids.Game.prototype.isStopped = function()
 {
     return this.stopped;
 };
 
-
 /**
  * Pauses the game
  */
-
 destroids.Game.prototype.pause = function()
 {
     if (!this.paused)
@@ -462,11 +435,9 @@ destroids.Game.prototype.pause = function()
     }
 };
 
-
 /**
  * Resumes the game
  */
-
 destroids.Game.prototype.resume = function()
 {
     if (this.paused && (this.gameOver || !this.menu.isOpen()))
@@ -480,11 +451,9 @@ destroids.Game.prototype.resume = function()
     }
 };
 
-
 /**
  * Stops the game.
  */
-
 destroids.Game.prototype.stop = function()
 {
     // Uninstall keyboard handlers
@@ -507,11 +476,9 @@ destroids.Game.prototype.stop = function()
     this.stopped = true;
 };
 
-
 /**
  * The game thread run method.
  */
-
 destroids.Game.prototype.run = function()
 {
     var ctx, width, height;
@@ -527,14 +494,12 @@ destroids.Game.prototype.run = function()
     ctx.restore();
 };
 
-
 /**
  * Sets the level.
  * 
  * @param {number} level
  *            The level to set
  */
-
 destroids.Game.prototype.setLevel = function(level)
 {
     var rootNode, asteroids;
@@ -564,18 +529,15 @@ destroids.Game.prototype.setLevel = function(level)
     }
 };
 
-
 /**
  * Returns the current level.
  * 
  * @return {number} The current level
  */
-
 destroids.Game.prototype.getLevel = function()
 {
     return this.level;
 };
-
 
 /**
  * Checks if control is in the specified controls array.
@@ -587,7 +549,6 @@ destroids.Game.prototype.getLevel = function()
  * @return {boolean} True if control is in the array, false if not
  * @private
  */
-
 destroids.Game.prototype.isControl = function(control, controls)
 {
     var i;
@@ -596,7 +557,6 @@ destroids.Game.prototype.isControl = function(control, controls)
         if (control == controls[i]) return true;
     return false;
 };
-
 
 /**
  * Handles the control down event.
@@ -609,7 +569,6 @@ destroids.Game.prototype.isControl = function(control, controls)
  * 
  * @private
  */
- 
 destroids.Game.prototype.handleControlDown = function(control, power)
 {
     if (power === undefined) power = 100;
@@ -664,7 +623,6 @@ destroids.Game.prototype.handleControlDown = function(control, power)
     return true;
 };
 
-
 /**
  * Handles the control press event. This just checks if the key press will
  * be handled by the game so the event can be canceled to prevent strange
@@ -676,7 +634,6 @@ destroids.Game.prototype.handleControlDown = function(control, power)
  * 
  * @private
  */
- 
 destroids.Game.prototype.handleControlPress = function(control)
 {
     // Controls when within menu
@@ -708,7 +665,6 @@ destroids.Game.prototype.handleControlPress = function(control)
     else return false;
 };
 
-
 /**
  * Handles the control up event.
  * 
@@ -718,7 +674,6 @@ destroids.Game.prototype.handleControlPress = function(control)
  * 
  * @private
  */
- 
 destroids.Game.prototype.handleControlUp = function(control)
 {
     // Controls when playing
@@ -742,7 +697,6 @@ destroids.Game.prototype.handleControlUp = function(control)
     return true;
 };
 
-
 /**
  * Handles the key down event.
  * 
@@ -750,13 +704,11 @@ destroids.Game.prototype.handleControlUp = function(control)
  *            The key down event
  * @private
  */
- 
 destroids.Game.prototype.handleKeyDown = function(event)
 {
     if (this.handleControlDown(event.keyCode) ||
         this.handleControlDown(0)) event.preventDefault();
 };
-
 
 /**
  * Handles the key press event.
@@ -765,13 +717,11 @@ destroids.Game.prototype.handleKeyDown = function(event)
  *            The key press event
  * @private
  */
- 
 destroids.Game.prototype.handleKeyPress = function(event)
 {
     if (this.handleControlPress(event.keyCode) ||
         this.handleControlPress(0)) event.preventDefault();
 };
-
 
 /**
  * Handles the key up event.
@@ -780,13 +730,11 @@ destroids.Game.prototype.handleKeyPress = function(event)
  *            The key down event
  * @private
  */
- 
 destroids.Game.prototype.handleKeyUp = function(event)
 {
     if (this.handleControlUp(event.keyCode) ||
         this.handleControlUp(0)) event.preventDefault();
 };
-
 
 /**
  * Handles the mouse down event.
@@ -795,12 +743,10 @@ destroids.Game.prototype.handleKeyUp = function(event)
  *            The mouse down event
  * @private
  */
- 
 destroids.Game.prototype.handleMouseDown = function(event)
 {    
     if (this.handleControlDown(-1)) event.preventDefault();
 };
-
 
 /**
  * Handles the mouse up event.
@@ -809,12 +755,10 @@ destroids.Game.prototype.handleMouseDown = function(event)
  *            The mouse up event
  * @private
  */
- 
 destroids.Game.prototype.handleMouseUp = function(event)
 {
     if (this.handleControlUp(-1)) event.preventDefault();
 };
-
 
 /**
  * Handles the orientation change event.
@@ -823,7 +767,6 @@ destroids.Game.prototype.handleMouseUp = function(event)
  *            The orientation change event
  * @private
  */
- 
 destroids.Game.prototype.handleOrientationChange = function(event)
 {
     var roll, pitch, pitchPower, rollPower, pitchRange, rollRange,
@@ -920,7 +863,6 @@ destroids.Game.prototype.handleOrientationChange = function(event)
     }
 };
 
-    
 /**
  * Triggers an explosion at the position of the specified node.
  * 
@@ -930,7 +872,6 @@ destroids.Game.prototype.handleOrientationChange = function(event)
  *            The explosion type. 0 is normal, 1 is player ship, 2 is alien
  *            ship, 3 is a small hit explosion. Optional. Defaults to 0
  */
-
 destroids.Game.prototype.explode = function(node, type)
 {
     var i, particle, transform, heading, velocity, partTransform, physics;
@@ -987,11 +928,9 @@ destroids.Game.prototype.explode = function(node, type)
     }
 };
 
-
 /**
  * Adds a new asteroid.
  */
-
 destroids.Game.prototype.addAsteroid = function()
 {
     if (this.gameOver) return;
@@ -999,12 +938,10 @@ destroids.Game.prototype.addAsteroid = function()
     this.asteroids++;
 };
 
-
 /**
  * Removes one asteroid. If all asteroids are removed then the level is
  * complete.
  */
-
 destroids.Game.prototype.removeAsteroid = function()
 {
     if (this.gameOver) return;
@@ -1020,11 +957,9 @@ destroids.Game.prototype.removeAsteroid = function()
     }
 };
 
-
 /**
  * Completes the current level.
  */
-
 destroids.Game.prototype.completeLevel = function()
 {
     var nextLevel;
@@ -1038,13 +973,11 @@ destroids.Game.prototype.completeLevel = function()
     this.goNextLevel.bind(this).delay(5);
 };
 
-
 /**
  * Goes to next level.
  * 
  * @private
  */
-
 destroids.Game.prototype.goNextLevel = function()
 {
 	if (!this.gameOver)
@@ -1054,18 +987,15 @@ destroids.Game.prototype.goNextLevel = function()
 	}
 };
 
-
 /**
  * Checks if player is currently ejecting.
  * 
  * @return {boolean} True if player is ejecting, false if not
  */
-
 destroids.Game.prototype.isEjecting = function()
 {
     return this.ejecting;
 };
-
 
 /**
  * Ejects from the spaceship. This ends the game but gives some extra
@@ -1073,7 +1003,6 @@ destroids.Game.prototype.isEjecting = function()
  * 
  * @private
  */
-
 destroids.Game.prototype.eject = function()
 {
     var bonus, physics, localRank;
@@ -1104,11 +1033,9 @@ destroids.Game.prototype.eject = function()
     }
 };
 
-
 /**
  * Ends the game.
  */
-
 destroids.Game.prototype.endGame = function()
 {
     if (!this.gameOver)
@@ -1129,11 +1056,9 @@ destroids.Game.prototype.endGame = function()
     }
 };
 
-
 /**
  * Starts a new game.
  */
-
 destroids.Game.prototype.newGame = function()
 {
     this.playSound(destroids.SND_LEVEL_UP);
@@ -1147,11 +1072,9 @@ destroids.Game.prototype.newGame = function()
     this.reset.bind(this).delay(2);
 };
 
-
 /**
  * Creates a new UFO if this level hasn't seen an UFO yet.
  */
-
 destroids.Game.prototype.newUFO = function()
 {
     if (this.gameOver || this.lastUfoLevel <
@@ -1162,11 +1085,9 @@ destroids.Game.prototype.newUFO = function()
     }
 };
 
-
 /**
  * Destroys all destructible items.
  */
-
 destroids.Game.prototype.destroyAll = function()
 {
     var node, next;
@@ -1180,11 +1101,9 @@ destroids.Game.prototype.destroyAll = function()
     }
 };
 
-
 /**
  * Plays a simple intro which is used as a background for the main menu.
  */
-
 destroids.Game.prototype.startIntro = function()
 {
     var i;
@@ -1204,35 +1123,29 @@ destroids.Game.prototype.startIntro = function()
     this.menu.open();
 };
 
-
 /**
  * Shows the game state label.
  * 
  * @private
  */
-
 destroids.Game.prototype.showStateLabel = function()
 {
     this.stateLabel.className = "visible"; 
 };
-
 
 /**
  * Hides the game state label.
  * 
  * @private
  */
-
 destroids.Game.prototype.hideStateLabel = function()
 {
     this.stateLabel.className = "hidden"; 
 };
 
-
 /**
  * Updates the space ship state displays.
  */
-
 destroids.Game.prototype.updateShipState = function()
 {    
     var spaceship, hud;
@@ -1243,11 +1156,9 @@ destroids.Game.prototype.updateShipState = function()
     hud.setHull(spaceship.getHull());
 }
 
-
 /**
  * Updates the powerup state displays.
  */
-
 destroids.Game.prototype.updatePowerupState = function()
 {
     var powerup, hud, spaceship;
@@ -1263,11 +1174,9 @@ destroids.Game.prototype.updatePowerupState = function()
     else hud.setPowerupTimeout(0);
 };
 
-
 /**
  * Pauses the game and opens the menu.
  */
-
 destroids.Game.prototype.gotoMenu = function()
 {
     this.pause();
@@ -1275,11 +1184,9 @@ destroids.Game.prototype.gotoMenu = function()
     this.menu.open();
 };
 
-
 /**
  * Closes the menu and continues the game.
  */
-
 destroids.Game.prototype.continueGame = function()
 {
     this.menu.close();
@@ -1287,13 +1194,11 @@ destroids.Game.prototype.continueGame = function()
     this.resume();
 };
 
-
 /**
  * Checks if game is over or not.
  * 
  * @return {boolean} True if game is over, false if not
  */
-
 destroids.Game.prototype.isGameOver = function()
 {
     return this.gameOver;
@@ -1304,7 +1209,6 @@ destroids.Game.prototype.isGameOver = function()
  * 
  * @private
  */
-
 destroids.Game.prototype.destroyGame = function()
 {
     this.hideStateLabel();
@@ -1322,7 +1226,6 @@ destroids.Game.prototype.destroyGame = function()
     this.ejecting = false;
 };
 
-
 /**
  * Records a new high score.
  * 
@@ -1330,7 +1233,6 @@ destroids.Game.prototype.destroyGame = function()
  *            The achieved place
  * @private 
  */
-
 destroids.Game.prototype.newHighScore = function(place)
 {
     var message, rank, highScores;
@@ -1348,7 +1250,6 @@ destroids.Game.prototype.newHighScore = function(place)
         destroids.Game.prototype.saveHighScore), this);
 };
 
-
 /**
  * Submits the high score name. This method must be called by the external
  * newHighScore
@@ -1357,7 +1258,6 @@ destroids.Game.prototype.newHighScore = function(place)
  *            The high score name
  * @private
  */
-
 destroids.Game.prototype.saveHighScore = function(name)
 {
 	var rank, highScores;
@@ -1372,18 +1272,15 @@ destroids.Game.prototype.saveHighScore = function(name)
     this.startIntro();
 };
 
-
 /**
  * Checks if menu is currently open.
  * 
  * @return {boolean} True if menu is open, false if not
  */
-
 destroids.Game.prototype.isMenuOpen = function()
 {
     return this.menu.isOpen();
 };
-
 
 /**
  * Plays a sound.
@@ -1391,17 +1288,14 @@ destroids.Game.prototype.isMenuOpen = function()
  * @param {number} sound
  *            The sound ID
  */
-
 destroids.Game.prototype.playSound = function(sound)
 {
     if (destroids.onSound) destroids.onSound(sound);
 };
 
-
 /**
  * Resets the high scores.
  */
-
 destroids.Game.prototype.resetHighScores = function()
 {
     var highScores;
@@ -1412,18 +1306,15 @@ destroids.Game.prototype.resetHighScores = function()
     this.menu.updateLocalHighScores();
 };
 
-
 /**
  * Returns the spaceship.
  * 
  * @return {destroids.Spaceship} The spaceship  
  */
-
 destroids.Game.prototype.getSpaceship = function()
 {
     return this.spaceship;
 };
-
 
 /**
  * Returns the game canvas width.
@@ -1431,12 +1322,10 @@ destroids.Game.prototype.getSpaceship = function()
  * @return {number}
  *             The game canvas width
  */
-
 destroids.Game.prototype.getWidth = function()
 {
     return this.width;
 };
-
 
 /**
  * Returns the game canvas height.
@@ -1444,31 +1333,26 @@ destroids.Game.prototype.getWidth = function()
  * @return {number}
  *             The game canvas height
  */
-
 destroids.Game.prototype.getHeight = function()
 {
     return this.height;
 };
-
 
 /**
  * Returns the score counter.
  * 
  * @return {destroids.Score} The score counter
  */
- 
 destroids.Game.prototype.getScore = function()
 {
 	return this.score;
 };
-
 
 /**
  * Called after score was successfully submitted to global high score list.
  * 
  * @private
  */
-
 destroids.Game.prototype.handleScoreSubmit = function()
 {
     this.menu.updateGlobalHighScores();

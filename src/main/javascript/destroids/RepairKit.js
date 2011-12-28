@@ -1,19 +1,9 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
- * 
- * @fileoverview
- * Provides the RepairKit class.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
+ *
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new repair drop.
@@ -22,10 +12,10 @@
  *            The game
  * 
  * @constructor
- * @extends destroids.Drop
- * @class An repair drop
+ * @extends {destroids.Drop}
+ * @class 
+ * A repair kit drop.
  */
-
 destroids.RepairKit = function(game)
 {
     destroids.Drop.call(this, game, "repairkit");

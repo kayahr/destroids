@@ -1,27 +1,18 @@
 /**
- * Copyright (C) 2010 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2010-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides the base class for all drops.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new beamlaser powerup.
  * 
  * @constructor
- * @class Beamlaser powerup
- * @extends destroids.Powerup
+ * @extends {destroids.Powerup}
+ * @class 
+ * Beamlaser powerup.
  */
-
 destroids.Beamlaser = function()
 {
     destroids.Powerup.call(this, destroids.POWERUP_BEAMLASER, 30000);

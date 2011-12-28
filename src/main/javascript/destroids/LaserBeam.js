@@ -1,31 +1,21 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
- * 
- * @fileoverview
- * Provides the LaserBeam class.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
+ *
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new laser shot.
  * 
- * @param {destroids.Game} game
+ * @param {!destroids.Game} game
  *            The game
  * 
  * @constructor
- * @extends twodee.PolygonNode
- * @class A LaserBeam
+ * @extends {twodee.PolygonNode}
+ * @class 
+ * A Laser beam.
  */
-
 destroids.LaserBeam = function(game)
 {
 	var physics;
@@ -49,9 +39,12 @@ destroids.LaserBeam = function(game)
 };
 twodee.inherit(destroids.LaserBeam, twodee.PolygonNode);
 
-/** The game. @private @type {destroids.Game} */
-destroids.LaserBeam.prototype.game = null;
-
+/** 
+ * The game. 
+ * @private 
+ * @type {!destroids.Game} 
+ */
+destroids.LaserBeam.prototype.game;
 
 /**
  * Handles collision.
@@ -61,7 +54,6 @@ destroids.LaserBeam.prototype.game = null;
  * @param {twodee.SceneNode} collider
  *            The node the laser collided with
  */
-
 destroids.LaserBeam.prototype.handleCollide = function(laser, collider)
 {
     if (collider instanceof destroids.Asteroid)
@@ -92,7 +84,6 @@ destroids.LaserBeam.prototype.handleCollide = function(laser, collider)
     }
 };
 
-
 /**
  * @see twodee.PolygonNode#update
  * 
@@ -100,7 +91,6 @@ destroids.LaserBeam.prototype.handleCollide = function(laser, collider)
  *            The time delta in milliseconds
  * @override
  */
-
 destroids.LaserBeam.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, bbox, game;

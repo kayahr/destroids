@@ -1,33 +1,23 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides the Laser class.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new laser shot.
  * 
- * @param {destroids.Game} game
+ * @param {!destroids.Game} game
  *            The game
  * @param {boolean=} alien
  *            Set to true if this is an alien laser. Optional, defaults to false
  * 
  * @constructor
- * @extends twodee.PolygonNode
- * @class A Laser
+ * @extends {twodee.PolygonNode}
+ * @class 
+ * A Laser.
  */
-
 destroids.Laser = function(game, alien)
 {
 	var physics;
@@ -54,12 +44,19 @@ destroids.Laser = function(game, alien)
 };
 twodee.inherit(destroids.Laser, twodee.PolygonNode);
 
-/** The game. @private @type {destroids.Game} */
-destroids.Laser.prototype.game = null;
+/** 
+ * The game. 
+ * @private 
+ * @type {!destroids.Game} 
+ */
+destroids.Laser.prototype.game;
 
-/** If this is an alien laser. @private @type {boolean} */
+/** 
+ * If this is an alien laser. 
+ * @private 
+ * @type {boolean} 
+ */
 destroids.Laser.prototype.alien = false;
-
 
 /**
  * Handles collision.
@@ -69,7 +66,6 @@ destroids.Laser.prototype.alien = false;
  * @param {twodee.SceneNode} collider
  *            The node the laser collided with
  */
-
 destroids.Laser.prototype.handleCollide = function(laser, collider)
 {
     if (collider instanceof destroids.Asteroid)
@@ -119,7 +115,6 @@ destroids.Laser.prototype.handleCollide = function(laser, collider)
     }
 };
 
-
 /**
  * @see twodee.PolygonNode#update
  * 
@@ -127,7 +122,6 @@ destroids.Laser.prototype.handleCollide = function(laser, collider)
  *            The time delta in milliseconds
  * @override
  */
-
 destroids.Laser.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, bbox, game;

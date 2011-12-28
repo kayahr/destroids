@@ -1,30 +1,20 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides the Menu class.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new menu screen
  * 
- * @param {destroids.Game} game
+ * @param {!destroids.Game} game
  *            The game
  * 
  * @constructor
- * @class The menu screen
+ * @class 
+ * The menu screen.
  */
-
 destroids.Menu = function(game)
 {
     var root, e, buttons, container, indicator, localList, globalList;
@@ -123,16 +113,16 @@ destroids.Menu = function(game)
 /** 
  * The game reference. 
  * @private 
- * @type {destroids.Game} 
+ * @type {!destroids.Game} 
  */
-destroids.Menu.prototype.game = null;
+destroids.Menu.prototype.game;
 
 /** 
  * The HTML element. 
  * @private 
- * @type {Element} 
+ * @type {!Element} 
  */
-destroids.Menu.prototype.element = null;
+destroids.Menu.prototype.element;
 
 /** 
  * If menu is open or not. 
@@ -144,37 +134,37 @@ destroids.Menu.prototype.opened = false;
 /** 
  * The buttons container. 
  * @private 
- * @type {Element} 
+ * @type {!Element} 
  */
-destroids.Menu.prototype.buttons = null;
+destroids.Menu.prototype.buttons;
 
 /** 
  * The continue button. 
  * @private 
- * @type {Element}
+ * @type {!Element}
  */
-destroids.Menu.prototype.continueButton = null;
+destroids.Menu.prototype.continueButton;
 
 /** 
  * The local high scores table. 
  * @private 
- * @type {Element} 
+ * @type {!Element} 
  */
-destroids.Menu.prototype.localHighScoresTable = null;
+destroids.Menu.prototype.localHighScoresTable;
 
 /** 
  * The global high scores table. 
  * @private 
- * @type {Element} 
+ * @type {!Element} 
  */
-destroids.Menu.prototype.globalHighScoresTable = null;
+destroids.Menu.prototype.globalHighScoresTable;
 
 /**
  * The high scores container DIV.
  * @private
- * @type {Element}
+ * @type {!Element}
  */
-destroids.Menu.prototype.highScoresContainer = null;
+destroids.Menu.prototype.highScoresContainer;
 
 /**
  * If global high scores are available.
@@ -190,11 +180,9 @@ destroids.Menu.prototype.hasGlobalHighScores = false;
  */
 destroids.Menu.prototype.highScoreToggleTimer = false;
 
-
 /**
  * Opens the menu screen.
  */
-
 destroids.Menu.prototype.open = function()
 {
     if (this.game.isGameOver())
@@ -214,24 +202,20 @@ destroids.Menu.prototype.open = function()
     }
 };
 
-
 /**
  * Closes the menu screen.
  */
-
 destroids.Menu.prototype.close = function()
 {
     this.element.className = "";
     this.opened = false;
 };
 
-
 /**
  * Toggles the high score list from local to global and vice-versa.
  * 
  * @private
  */
-
 destroids.Menu.prototype.toggleHighScoreList = function()
 {
 	var oldClassName, container, newClassName;
@@ -251,30 +235,25 @@ destroids.Menu.prototype.toggleHighScoreList = function()
     this.toggleHighScoreList.bind(this).delay(3);
 };
 
-
 /**
  * Checks if menu is open.
  * 
  * @return {boolean} True if menu is open, false if not
  */
-
 destroids.Menu.prototype.isOpen = function()
 {
     return this.opened;
 };
-
 
 /**
  * Returns the root HTML element of the menu screen.
  * 
  * @return {Element} The root HTML element
  */
-
 destroids.Menu.prototype.getElement = function()
 {
     return this.element;
 };
-
 
 /**
  * Creates and returns the high scores table.
@@ -283,7 +262,6 @@ destroids.Menu.prototype.getElement = function()
  * 
  * @private
  */
-
 destroids.Menu.prototype.createLocalHighScores = function()
 {
     var table, row, cell;
@@ -317,7 +295,6 @@ destroids.Menu.prototype.createLocalHighScores = function()
     return table;
 };
 
-
 /**
  * Creates and returns the global high scores table.
  * 
@@ -325,7 +302,6 @@ destroids.Menu.prototype.createLocalHighScores = function()
  * 
  * @private
  */
-
 destroids.Menu.prototype.createGlobalHighScores = function()
 {
     var table, row, cell;
@@ -359,11 +335,9 @@ destroids.Menu.prototype.createGlobalHighScores = function()
     return table;
 };
 
-
 /**
  * Updates the high scores table.
  */
-
 destroids.Menu.prototype.updateLocalHighScores = function()
 {
     var table, row, scores, cell, entry, i, max;
@@ -407,11 +381,9 @@ destroids.Menu.prototype.updateLocalHighScores = function()
     }
 };
 
-
 /**
  * Updates the global high scores table.
  */
-
 destroids.Menu.prototype.updateGlobalHighScores = function()
 {
     var data, url;
@@ -433,7 +405,6 @@ destroids.Menu.prototype.updateGlobalHighScores = function()
  * @param {Ajax.Response} response
  *            The ajax response from the server
  */
-
 destroids.Menu.prototype.fillGlobalHighScores = function(response)
 {
     var table, row, scores, cell, entry, i, max;

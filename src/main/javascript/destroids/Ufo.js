@@ -1,31 +1,21 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides the Ufo class.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new UFO
  * 
- * @param {destroids.Game} game
+ * @param {!destroids.Game} game
  *            The game
  * 
  * @constructor
- * @extends twodee.ImageNode
- * @class An UFO
+ * @extends {twodee.ImageNode}
+ * @class
+ * An UFO
  */
-
 destroids.Ufo = function(game)
 {
     var image, bbox, ufoXRadius, ufoYRadius, xRadius, yRadius, radius, bounds,
@@ -76,9 +66,9 @@ destroids.Ufo.counter = 0;
 /** 
  * The game. 
  * @private 
- * @type {destroids.Game} 
+ * @type {!destroids.Game} 
  */
-destroids.Ufo.prototype.game = null;
+destroids.Ufo.prototype.game;
 
 /** 
  * The timeout for the next course change. 
@@ -101,7 +91,6 @@ destroids.Ufo.prototype.nextFire = 3000;
  */
 destroids.Ufo.prototype.hull = 300;
 
-
 /**
  * Handles collision.
  * 
@@ -110,7 +99,6 @@ destroids.Ufo.prototype.hull = 300;
  * @param {twodee.SceneNode} collider
  *            The node the spaceship collided with
  */
-
 destroids.Ufo.prototype.handleCollide = function(ufo, collider)
 {
     if (collider instanceof destroids.Asteroid)
@@ -121,13 +109,11 @@ destroids.Ufo.prototype.handleCollide = function(ufo, collider)
     }
 };
 
-
 /**
  * Changes the course randomly.
  * 
  * @private
  */
-
 destroids.Ufo.prototype.changeCourse = function()
 {
     var heading, tmp, speed;
@@ -152,7 +138,6 @@ destroids.Ufo.prototype.changeCourse = function()
     this.nextCourseChange = 2500 + Math.random() * 5000;
 };
 
-
 /**
  * @see twodee.PolygonNode#update
  * 
@@ -160,7 +145,6 @@ destroids.Ufo.prototype.changeCourse = function()
  *            The time delta in milliseconds
  * @override
  */
-
 destroids.Ufo.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, bbox, game;
@@ -194,11 +178,9 @@ destroids.Ufo.prototype.update = function(delta)
     if (y < -yRadius) transform.m12 = yRadius;   
 };
 
-
 /**
  * Destroys the UFO. 
  */
-
 destroids.Ufo.prototype.destroy = function()
 {
     this.game.playSound(destroids.SND_UFO_DESTROYED);
@@ -220,25 +202,21 @@ destroids.Ufo.prototype.destroy = function()
     destroids.Ufo.counter--;
 };
 
-
 /**
  * Returns the number of active UFOs.
  * 
  * @return {number} The number of active UFOs.
  */
-
 destroids.Ufo.count = function()
 {
     return destroids.Ufo.counter;
 };
-
 
 /**
  * Fires the laser cannon.
  * 
  * @private
  */
-
 destroids.Ufo.prototype.fireLaser = function()
 {
     var laser, transform, speed, angle;
@@ -256,14 +234,12 @@ destroids.Ufo.prototype.fireLaser = function()
     this.nextFire = 2000;
 };
 
-
 /**
  * Adds damage to the ship.
  * 
  * @param {number} damage
  *            The damage to add
  */
-
 destroids.Ufo.prototype.addDamage = function(damage)
 {
     this.game.playSound(destroids.SND_UFO_HULL_DAMAGE);
@@ -272,13 +248,11 @@ destroids.Ufo.prototype.addDamage = function(damage)
     if (!this.hull) this.destroy();
 };
 
-
 /**
  * Drops energy and repair kits.
  * 
  * @private 
  */
-
 destroids.Ufo.prototype.dropKits = function()
 {
     var spaceship, hull, shield, drop, transform, dropClass,
@@ -311,13 +285,11 @@ destroids.Ufo.prototype.dropKits = function()
     this.getParentNode().appendChild(drop);       
 };
 
-
 /**
  * Drops powerups.
  * 
  * @private 
  */
-
 destroids.Ufo.prototype.dropPowerups = function()
 {
     var powerup, drop, transform;

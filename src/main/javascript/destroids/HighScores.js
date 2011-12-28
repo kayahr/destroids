@@ -1,27 +1,17 @@
 /**
- * $Id: HighScores.js 906 2009-08-05 08:35:52Z k $
- * Copyright (C) 2010 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2010-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides the highscores.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 906 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new instance of the highscores.
  * 
  * @constructor
- * @class The highscores.
+ * @class 
+ * The highscores.
  */
-
 destroids.HighScores = function()
 {
     this.scores = [];
@@ -38,9 +28,9 @@ destroids.HighScores.instance = null;
 /** 
  * If array with the scores. 
  * @private 
- * @type {Array.<{name: string, level: number, score: number}>} 
+ * @type {!Array.<{name: string, level: number, score: number}>} 
  */
-destroids.HighScores.prototype.scores = null;
+destroids.HighScores.prototype.scores;
 
 /** 
  * The maximum number of entries in the high score list. 
@@ -48,13 +38,11 @@ destroids.HighScores.prototype.scores = null;
  */
 destroids.HighScores.prototype.entries = 5;
 
-
 /**
  * Returns the singleton instance of the high scores list.
  * 
  * @return {destroids.HighScores} The high scores
  */
-
 destroids.HighScores.getInstance = function()
 {
     if (!destroids.HighScores.instance)
@@ -62,13 +50,11 @@ destroids.HighScores.getInstance = function()
     return destroids.HighScores.instance;
 };
 
-
 /**
  * Loads the high scores.
  * 
  * @private
  */
-
 destroids.HighScores.prototype.load = function()
 {
     var cookie, name, level, score, i;
@@ -94,11 +80,9 @@ destroids.HighScores.prototype.load = function()
     } else this.reset();
 };
 
-
 /**
  * Saves the high scores.
  */
-
 destroids.HighScores.prototype.save = function()
 {
     var data, max, entry, i;
@@ -117,11 +101,9 @@ destroids.HighScores.prototype.save = function()
         new Mojo.Model.Cookie("highscores").put(data);
 };
 
-
 /**
  * Resets the high scores.
  */
-
 destroids.HighScores.prototype.reset = function()
 {
     this.scores = [
@@ -133,7 +115,6 @@ destroids.HighScores.prototype.reset = function()
     ];
 };
 
-
 /**
  * Returns the rank in the high score list the specified score would get.
  * Returns 0 if this score is not good enough to be recorded in the list at
@@ -143,7 +124,6 @@ destroids.HighScores.prototype.reset = function()
  *             The score
  * @return {number} The rank or 0 if not in the list.
  */
-
 destroids.HighScores.prototype.determineRank = function(score)
 {
     var rank, entries, entry;
@@ -157,7 +137,6 @@ destroids.HighScores.prototype.determineRank = function(score)
     return 0;
 };
 
-
 /**
  * Adds a new high score entry.
  * 
@@ -168,7 +147,6 @@ destroids.HighScores.prototype.determineRank = function(score)
  * @param {number} score
  *            The score to add
  */
-
 destroids.HighScores.prototype.add = function(name, level, score)
 {
     var rank;
@@ -193,13 +171,11 @@ destroids.HighScores.prototype.add = function(name, level, score)
     this.save();
 };
 
-
 /**
  * Returns the scores.
  * 
  * @return {Array.<{name: string, level: number, score: number}>} The scores
  */
-
 destroids.HighScores.prototype.getScores = function()
 {
     return this.scores;

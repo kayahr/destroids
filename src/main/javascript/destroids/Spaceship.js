@@ -1,31 +1,21 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
- * 
- * @fileoverview
- * Provides the Spaceship class.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
+ *
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new destroids.Spaceship
  * 
- * @param {destroids.Game} game
+ * @param {!destroids.Game} game
  *            The game
  * 
  * @constructor
- * @extends twodee.ImageNode
- * @class The players destroids.Spaceship
+ * @extends {twodee.ImageNode}
+ * @class 
+ * The players space ship.
  */
-
 destroids.Spaceship = function(game)
 {
     var image, physics, mainThrust, leftThrust, rightThrust;
@@ -91,9 +81,9 @@ destroids.Spaceship.THRUST = 250;
 /** 
  * The game. 
  * @private 
- * @type {destroids.Game} 
+ * @type {!destroids.Game} 
  */
-destroids.Spaceship.prototype.game = null; 
+destroids.Spaceship.prototype.game; 
     
 /** 
  * The current thrust. 
@@ -112,23 +102,23 @@ destroids.Spaceship.prototype.yaw = 0;
 /** 
  * The main thrust node. 
  * @private 
- * @type {twodee.PolygonNode}
+ * @type {!twodee.PolygonNode}
  */
-destroids.Spaceship.prototype.mainThrust = null;
+destroids.Spaceship.prototype.mainThrust;
 
 /** 
  * The right thrust node. 
  * @private 
- * @type {twodee.PolygonNode} 
+ * @type {!twodee.PolygonNode} 
  */
-destroids.Spaceship.prototype.rightThrust = null;
+destroids.Spaceship.prototype.rightThrust;
 
 /** 
  * The left thrust node. 
  * @private 
- * @type {twodee.PolygonNode} 
+ * @type {!twodee.PolygonNode} 
  */
-destroids.Spaceship.prototype.leftThrust = null;
+destroids.Spaceship.prototype.leftThrust;
 
 /** 
  * If laser is currently firing.
@@ -193,14 +183,12 @@ destroids.Spaceship.prototype.powerup = null;
  */
 destroids.Spaceship.prototype.powerupTimeout = 0;
 
-
 /**
  * Starts thrust forward.
  * 
  * @param {number} power
  *            The thrust power
  */
-
 destroids.Spaceship.prototype.startThrust = function(power)
 {
     this.game.playSound(destroids.SND_SPACESHIP_THRUST);
@@ -209,17 +197,14 @@ destroids.Spaceship.prototype.startThrust = function(power)
     if (this.thrust) this.mainThrust.enable();
 };
 
-
 /**
  * Stops thrust forward.
  */
-
 destroids.Spaceship.prototype.stopThrust = function()
 {
     this.thrust = 0;
     this.mainThrust.disable();
 };
-
 
 /**
  * Yaws the spaceship to the left.
@@ -227,7 +212,6 @@ destroids.Spaceship.prototype.stopThrust = function()
  * @param {number} power
  *            The thrust power in percent
  */
-
 destroids.Spaceship.prototype.yawLeft = function(power)
 {
     this.getPhysics().setSpinAcceleration(-destroids.Spaceship.YAW * this.hull /
@@ -235,14 +219,12 @@ destroids.Spaceship.prototype.yawLeft = function(power)
     this.yawing = true;
 };
 
-
 /**
  * Yaws the spaceship to the right.
  * 
  * @param {number} power
  *            The thrust power in percent
  */
-
 destroids.Spaceship.prototype.yawRight = function(power)
 {
     this.getPhysics().setSpinAcceleration(destroids.Spaceship.YAW * this.hull /
@@ -250,44 +232,36 @@ destroids.Spaceship.prototype.yawRight = function(power)
     this.yawing = true;
 };
 
-
 /**
  * Stops yaw.
  */
-
 destroids.Spaceship.prototype.stopYaw = function()
 {
     this.getPhysics().setSpinAcceleration(0);
     this.yawing = false;
 };
 
-
 /**
  * Starts firing the laser cannon.
  */
-
 destroids.Spaceship.prototype.startFireLaser = function()
 {
     this.laserFiring = true;
 };
 
-
 /**
  * Stops firing the laser cannon.
  */
-
 destroids.Spaceship.prototype.stopFireLaser = function()
 {
     this.laserFiring = false;
 };
-
 
 /**
  * Fires the laser cannon.
  * 
  * @private
  */
-
 destroids.Spaceship.prototype.fireLaser = function()
 {
     var laser, transform, speed, laserType, i, a;
@@ -346,7 +320,6 @@ destroids.Spaceship.prototype.fireLaser = function()
     }
 };
 
-
 /**
  * @see twodee.PolygonNode#update
  * 
@@ -354,7 +327,6 @@ destroids.Spaceship.prototype.fireLaser = function()
  *            The time delta in milliseconds
  * @override
  */
-
 destroids.Spaceship.prototype.update = function(delta)
 {
     var x, y, transform, acceleration, xRadius, yRadius, bbox, game, now,
@@ -445,13 +417,11 @@ destroids.Spaceship.prototype.update = function(delta)
     }
 };
 
-
 /**
  * Animates the main thrust polygon.
  * 
  * @private
  */
-
 destroids.Spaceship.prototype.animateMainThrust = function()
 {
     var orig, xDelta, yDelta;
@@ -464,7 +434,6 @@ destroids.Spaceship.prototype.animateMainThrust = function()
         orig.x + xDelta, orig.y + yDelta);
 };
 
-
 /**
  * Animates the right thrust polygon.
  *
@@ -472,7 +441,6 @@ destroids.Spaceship.prototype.animateMainThrust = function()
  *            The acceleration value
  * @private
  */
-
 destroids.Spaceship.prototype.animateRightThrust = function(acceleration)
 {
     var orig, xDelta, yDelta;
@@ -489,7 +457,6 @@ destroids.Spaceship.prototype.animateRightThrust = function(acceleration)
     } else this.rightThrust.disable();
 };
 
-
 /**
  * Animates the right thrust polygon.
  * 
@@ -497,7 +464,6 @@ destroids.Spaceship.prototype.animateRightThrust = function(acceleration)
  *            The acceleration value
  * @private
  */
-
 destroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
 {
     var orig, xDelta, yDelta;
@@ -514,7 +480,6 @@ destroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
     } else this.leftThrust.disable();
 };
 
-
 /**
  * Handles collision.
  * 
@@ -523,7 +488,6 @@ destroids.Spaceship.prototype.animateLeftThrust = function(acceleration)
  * @param {twodee.SceneNode} collider
  *            The node the spaceship collided with
  */
-
 destroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
 {
 	var gameOver;
@@ -588,20 +552,17 @@ destroids.Spaceship.prototype.handleCollide = function(spaceship, collider)
     }
 };
 
-
 /**
  * Adds shield energy.
  * 
  * @param {number} energy
  *            The energy amount
  */
-
 destroids.Spaceship.prototype.addShieldEnergy = function(energy)
 {
     this.shield += Math.max(0, Math.ceil(energy * (150 - this.shield) / 150));
     this.game.updateShipState();
 };
-
 
 /**
  * Repairs the hull.
@@ -609,13 +570,11 @@ destroids.Spaceship.prototype.addShieldEnergy = function(energy)
  * @param {number} repair
  *            The repair amount
  */
-
 destroids.Spaceship.prototype.repair = function(repair)
 {
     this.hull += Math.max(0, Math.ceil(repair * (100 - this.hull) / 100));
     this.game.updateShipState();
 };
-
 
 /**
  * Adds damage to the ship.
@@ -623,7 +582,6 @@ destroids.Spaceship.prototype.repair = function(repair)
  * @param {number} damage
  *            The damage to add
  */
-
 destroids.Spaceship.prototype.addDamage = function(damage)
 {
     var restDamage;
@@ -640,35 +598,29 @@ destroids.Spaceship.prototype.addDamage = function(damage)
     if (!this.hull) this.destroy();
 };
 
-
 /**
  * Returns the current shield strength.
  * 
  * @return {number} The current shield strength
  */
-
 destroids.Spaceship.prototype.getShield = function()
 {
     return this.shield;
 };
-
 
 /**
  * Returns the current hull strength.
  * 
  * @return {number} The current hull strength
  */
-
 destroids.Spaceship.prototype.getHull = function()
 {
     return this.hull;
 };
 
-
 /**
  * Destroys the spaceship. 
  */
-
 destroids.Spaceship.prototype.destroy = function()
 {
     this.game.playSound(destroids.SND_SPACESHIP_DESTROYED);
@@ -686,18 +638,15 @@ destroids.Spaceship.prototype.destroy = function()
     this.game.endGame();
 };
 
-
 /**
  * Returns the current heading of the spaceship in clock-wise RAD.
  * 
  * @return {number} The current heading of the spaceship
  */
-
 destroids.Spaceship.prototype.getHeading = function()
 {
     return this.getTransform().getRotationAngle();    
 };
-
 
 /**
  * Sets the current heading of the spaceship in clock-wise RAD.
@@ -705,12 +654,10 @@ destroids.Spaceship.prototype.getHeading = function()
  * @param {number} heading
  *            The heading to set
  */
-
 destroids.Spaceship.prototype.setHeading = function(heading)
 {
     this.getTransform().rotate(heading - this.getHeading());
 };
-
 
 /**
  * Sets the target heading in clock-wise RAD. The auto-pilot then
@@ -719,7 +666,6 @@ destroids.Spaceship.prototype.setHeading = function(heading)
  * @param {number} targetHeading
  *            The target heading to set
  */
-
 destroids.Spaceship.prototype.setTargetHeading = function(targetHeading)
 {
     var heading;
@@ -731,7 +677,6 @@ destroids.Spaceship.prototype.setTargetHeading = function(targetHeading)
     }
 };
 
-
 /**
  * Installs a powerup. If there is already a powerup installed then the old
  * one is removed first.
@@ -739,7 +684,6 @@ destroids.Spaceship.prototype.setTargetHeading = function(targetHeading)
  * @param {destroids.Powerup} powerup
  *            The powerup to install
  */
-
 destroids.Spaceship.prototype.installPowerup = function(powerup)
 {
     if (this.powerup) this.removePowerup(this.powerup);
@@ -748,14 +692,12 @@ destroids.Spaceship.prototype.installPowerup = function(powerup)
     this.game.updatePowerupState();
 };
 
-
 /**
  * Removes a powerup.
  * 
  * @param {destroids.Powerup} powerup
  *            The powerup to remove
  */
-
 destroids.Spaceship.prototype.removePowerup = function(powerup)
 {
     if (!this.powerup) return;
@@ -764,25 +706,21 @@ destroids.Spaceship.prototype.removePowerup = function(powerup)
     this.game.updatePowerupState();
 };
 
-
 /**
  * Returns the powerup timeout in milliseconds.
  * 
  * @return {number} The powerup timeout in milliseconds
  */
-
 destroids.Spaceship.prototype.getPowerupTimeout = function()
 {
     return this.powerupTimeout;
 };
-
 
 /**
  * Returns the installed powerup.
  * 
  * @return {destroids.Powerup} The powerup or null if none installed
  */
-
 destroids.Spaceship.prototype.getPowerup = function()
 {
     return this.powerup;

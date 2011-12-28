@@ -1,18 +1,9 @@
 /**
- * Copyright (C) 2010 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2010-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides the base class for all drops.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new drop.
@@ -23,10 +14,10 @@
  *            The image name (without directory and extension)
  * 
  * @constructor
- * @extends twodee.ImageNode
- * @class Base class for all drops
+ * @extends {twodee.ImageNode}
+ * @class 
+ * Base class for all drops.
  */
-
 destroids.Drop = function(game, imageName)
 {
     var image, physics;
@@ -78,7 +69,6 @@ destroids.Drop.prototype.invulnerability;
  *            The time delta in milliseconds
  * @override
  */
-
 destroids.Drop.prototype.update = function(delta)
 {
     var x, y, transform, xRadius, yRadius, bbox, game;
@@ -108,11 +98,9 @@ destroids.Drop.prototype.update = function(delta)
     if (this.invulnerability > 0) this.invulnerability -= delta;
 };
 
-
 /**
  * Destroys the drop. 
  */
-
 destroids.Drop.prototype.destroy = function()
 {
     this.game.playSound(destroids.SND_DROP_DESTROYED);
@@ -124,13 +112,11 @@ destroids.Drop.prototype.destroy = function()
     this.remove();
 };
 
-
 /**
  * Checks if drop is invulnerable.
  * 
  * @return {boolean} True if drop is invulnerable, false if not
  */
-
 destroids.Drop.prototype.isInvulnerable = function()
 {
     return this.invulnerability > 0;

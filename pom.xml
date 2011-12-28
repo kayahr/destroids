@@ -209,6 +209,17 @@
       <artifactId>twodee</artifactId>
       <version>1.0.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.prototypejs</groupId>
+      <artifactId>prototype</artifactId>
+      <version>1.6.1-2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.palm</groupId>
+      <artifactId>mojo</artifactId>
+      <version>1.4.1-2</version>
+      <scope>provided</scope>
+    </dependency>       
   </dependencies>
 
 </project>

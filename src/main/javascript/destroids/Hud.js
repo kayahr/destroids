@@ -1,19 +1,9 @@
 /**
- * $Id: game-assistant.js 910 2009-08-05 12:26:08Z k $
- * Copyright (C) 2009 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2009-2011 Klaus Reimer <k@ailis.de>
  * See LICENSE.TXT for licensing information
  * 
- * @fileoverview
- * Provides the Hud class.
- * 
- * @author Klaus Reimer (k@ailis.de)
- * @version $Revision: 910 $
- */
-
-/*
  * @require destroids.js
  */
-
 
 /**
  * Constructs a new hud
@@ -22,9 +12,9 @@
  *            The game
  * 
  * @constructor
- * @class The hud
+ * @class 
+ * The hud.
  */
-
 destroids.Hud = function(game)
 {
     var root, value, topBar, bottomBar, display, ejectLabel, powerupGauge,
@@ -167,9 +157,9 @@ destroids.Hud.prototype.scoreElement = null;
 /** 
  * The eject label. 
  * @private 
- * @type {Element} 
+ * @type {!Element} 
  */
-destroids.Hud.prototype.ejectLabel = null;
+destroids.Hud.prototype.ejectLabel;
 
 /**
  * The eject blinker timer id
@@ -181,14 +171,14 @@ destroids.Hud.prototype.ejectBlinker = null;
 /**
  * The powerup gauge element.
  * @private
- * @type {Element}
+ * @type {!Element}
  */
 destroids.Hud.prototype.powerupGauge;
 
 /**
  * The powerup gauge fill element.
  * @private
- * @type {Element}
+ * @type {!Element}
  */
 destroids.Hud.prototype.powerupGaugeFill;
 
@@ -213,52 +203,43 @@ destroids.Hud.prototype.maxPowerupTimeout = 0;
  */
 destroids.Hud.prototype.powerupPercent = 0;
 
-
 /**
  * Opens the hud screen.
  */
-
 destroids.Hud.prototype.open = function()
 {
     this.element.className = "visible";
     this.opened = true;
 };
 
-
 /**
  * Closes the hud screen.
  */
-
 destroids.Hud.prototype.close = function()
 {
     this.element.className = "";
     this.opened = false;    
 };
 
-
 /**
  * Checks if hud is open.
  * 
  * @return {boolean} True if hud is open, false if not
  */
-
 destroids.Hud.prototype.isOpen = function()
 {
     return this.opened;
 };
-
 
 /**
  * Returns the root HTML element of the hud screen.
  * 
  * @return {Element} The root HTML element
  */
-
 destroids.Hud.prototype.getElement = function()
 {
     return this.element;
 };
-
 
 /**
  * Sets the shield display value.
@@ -266,7 +247,6 @@ destroids.Hud.prototype.getElement = function()
  * @param {number} shield
  *            The shield display value to set
  */
-
 destroids.Hud.prototype.setShield = function(shield)
 {
     var e;
@@ -281,14 +261,12 @@ destroids.Hud.prototype.setShield = function(shield)
         e.className = "value value-critical";
 };
 
-
 /**
  * Sets the hull display value.
  * 
  * @param {number} hull
  *            The hull display value to set
  */
-
 destroids.Hud.prototype.setHull = function(hull)
 {
     var e;
@@ -314,19 +292,16 @@ destroids.Hud.prototype.setHull = function(hull)
     }
 };
 
-
 /**
  * Sets the level display value.
  * 
  * @param {number} level
  *            The level display value to set
  */
-
 destroids.Hud.prototype.setLevel = function(level)
 {
     this.levelElement.innerHTML = level;
 };
-
 
 /**
  * Sets the powerup timeout in milliseconds.
@@ -334,7 +309,6 @@ destroids.Hud.prototype.setLevel = function(level)
  * @param {number} powerupTimeout
  *            The powerup timeout in milliseconds
  */
-
 destroids.Hud.prototype.setPowerupTimeout = function(powerupTimeout)
 {
     if (powerupTimeout != this.powerupTimeout)
@@ -344,14 +318,12 @@ destroids.Hud.prototype.setPowerupTimeout = function(powerupTimeout)
     }
 }
 
-
 /**
  * Sets the maximum powerup timeout in milliseconds.
  * 
  * @param {number} maxPowerupTimeout
  *            The maxmimum powerup timeout in milliseconds
  */
-
 destroids.Hud.prototype.setMaxPowerupTimeout = function(maxPowerupTimeout)
 {
     if (maxPowerupTimeout != this.maxPowerupTimeout)
@@ -361,28 +333,26 @@ destroids.Hud.prototype.setMaxPowerupTimeout = function(maxPowerupTimeout)
     }
 }
 
-
 /**
  * Updates the powerup gauge.
  * 
  * @private
  */
-
 destroids.Hud.prototype.updatePowerupGauge = function()
 {
-    var percent;
+    var percent, s;
     
     percent = Math.max(0, 0|(100 * this.powerupTimeout / this.maxPowerupTimeout));
     if (percent != this.powerupPercent)
     {
-        if (!percent) this.powerupGauge.style.display = "none";
-        if (!this.powerupPercent) this.powerupGauge.style.display = "block";
+        s = this.powerupGauge.style;
+        if (!this.powerupPercent) s.display = "block";
+        if (!percent) s.display = "none";
         if (percent)
             this.powerupGaugeFill.style.width = percent + "%";        
         this.powerupPercent = percent;
     }    
 }
-
 
 /**
  * Sets the score display value.
@@ -390,50 +360,42 @@ destroids.Hud.prototype.updatePowerupGauge = function()
  * @param {number} score
  *            The score display value to set
  */
-
 destroids.Hud.prototype.setScore = function(score)
 {
     this.scoreElement.innerHTML = destroids.formatNumber(score);
 };
-
 
 /**
  * Blinks the eject label.
  * 
  * @private
  */
-
 destroids.Hud.prototype.blinkEjectLabel = function()
 {
     this.ejectLabel.toggleClassName("blink");
 };
-
 
 /**
  * Starts blinking the eject label.
  * 
  * @private
  */
-
 destroids.Hud.prototype.startEjectBlink = function()
 {
     if (this.ejectBlinker == null)
         this.ejectBlinker = setInterval(this.blinkEjectLabel.bind(this), 500);
 };
 
-
 /**
  * Stops blinking the eject label.
  * 
  * @private
  */
-
 destroids.Hud.prototype.stopEjectBlink = function()
 {
     if (this.ejectBlinker != null) clearInterval(this.ejectBlinker);
     this.ejectBlinker = null;
 };
-
 
 /**
  * Handles a score change.
@@ -442,7 +404,6 @@ destroids.Hud.prototype.stopEjectBlink = function()
  *            The score counter
  * @private
  */
-
 destroids.Hud.prototype.handleScore = function(score)
 {
 	this.setScore(score.getPoints());	
