@@ -4,6 +4,10 @@
  *
  * @require destroids.js
  * @require twodee/ImageNode.js
+ * @use twodee/PolygonNode.js
+ * @use twodee/Physics.js
+ * @use destroids/LaserBeam.js
+ * @use destroids/Laser.js
  */
 
 /**

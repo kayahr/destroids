@@ -4,12 +4,16 @@
  *
  * @require prototype.js
  * @require destroids.js
- * @require destroids/Menu.js
- * @require destroids/Score.js
- * @require destroids/Hud.js
- * @require destroids/Asteroid.js
- * @require destroids/Ufo.js
- * @require twodee/Scene.js
+ * @use destroids/Menu.js
+ * @use destroids/Score.js
+ * @use destroids/Hud.js
+ * @use destroids/Asteroid.js
+ * @use destroids/Spaceship.js
+ * @use destroids/Ufo.js
+ * @use twodee/Scene.js
+ * @use twodee/Vector.js
+ * @use twodee/SceneNode.js
+ * @use twodee/PolygonNode.js
  */
 
 /**

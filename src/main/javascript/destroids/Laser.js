@@ -4,6 +4,7 @@
  * 
  * @require destroids.js
  * @require twodee/PolygonNode.js
+ * @use twodee/Physics.js
  * @use destroids/Asteroid.js
  * @use destroids/Drop.js
  * @use destroids/Ufo.js

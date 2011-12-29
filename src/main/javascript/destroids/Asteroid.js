@@ -4,6 +4,8 @@
  * 
  * @require destroids.js
  * @require twodee/ImageNode.js
+ * @use twodee/Physics.js
+ * @use twodee/Vector.js
  */
 
 /**
