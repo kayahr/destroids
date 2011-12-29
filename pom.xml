@@ -118,28 +118,6 @@
           </reportPlugins>
         </configuration>
       </plugin>
-      <plugin> 
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/dist.xml</descriptor>
-          </descriptors>
-          <archiverConfig>
-            <fileMode>420</fileMode>
-            <directoryMode>493</directoryMode>
-            <defaultDirectoryMode>493</defaultDirectoryMode>
-          </archiverConfig>
-        </configuration>
-        <executions>
-          <execution>
-            <id>package-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>attached</goal>
-            </goals>
-          </execution>
-        </executions> 
-      </plugin>
       <plugin>
         <groupId>de.ailis.maven.plugins</groupId>
         <artifactId>maven-javascript-plugin</artifactId>
@@ -207,7 +185,7 @@
     <dependency>
       <groupId>de.ailis.twodee</groupId>
       <artifactId>twodee</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>org.prototypejs</groupId>
